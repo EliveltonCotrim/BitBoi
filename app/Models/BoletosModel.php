@@ -14,7 +14,7 @@ class BoletosModel extends Model {
     // const UPDATED_AT = 'last_update';
 
     protected $fillable = [
-        'user_id', 'plan_id', 'tipo', 'valor', 'meioPagamento', 'ticket', 'status',
+        'user_id', 'purchase_id', 'tipo', 'valor', 'meioPagamento', 'ticket', 'status',
         'dataConfirmacao', 'obs', 'json', 'transaction_id', 'forwardingTransaction_id',
         'quantity',
     ];
@@ -27,4 +27,5 @@ class BoletosModel extends Model {
     public function plan() {
         return $this->hasOne(PlansModel::class, 'id', 'plan_id');
     }
+
 }

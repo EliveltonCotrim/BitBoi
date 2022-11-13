@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('boletos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('plan_id')->nullable()->constrained('plans');
+            $table->foreignId('purchase_id')->nullable()->constrained('purchases');
             $table->string('tipo')->comment('pagamento|renovacao');
             $table->double('valor');
             $table->string('meioPagamento')->nullable();
@@ -37,6 +37,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('boletos');
     }
 };

@@ -70,6 +70,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         // return Storage::response('comprovantes/' . $ticket);
         // });
 
+        Route::post('last/pays/search', [AdminController::class, 'lastPaysSearch'])->name('las.pays.search');
+
+
         Route::resource('notifications', NotificationsController::class);
         Route::post('notifications/search', [NotificationsController::class, 'search'])->name('notifications.search');
 

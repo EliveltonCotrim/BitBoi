@@ -13,7 +13,7 @@ class PlansModel extends Model {
     // const CREATED_AT = 'creation_date';
     // const UPDATED_AT = 'last_update';
 
-    protected $fillable = ['name', 'value', 'days', 'details', 'status'];
+    protected $fillable = ['name', 'value', 'quantity', 'percentual_rendimento', 'coin_id', 'details', 'status'];
     protected $date = ['created_at', 'updated_at'];
 
     public function scopeGetAll($query, $post) {
@@ -41,5 +41,9 @@ class PlansModel extends Model {
         }
 
         return $result;
+    }
+
+    public function purchaces() {
+        return $this->hasMany(Purchases::class, 'plan_id');
     }
 }
