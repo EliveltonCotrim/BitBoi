@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\BoletosModel;
 use App\Models\ClientsModel;
+use App\Models\Coins;
 use App\Models\ComprasModel;
 use App\Models\FaqsModel;
 use App\Models\FilesModel;
@@ -279,8 +280,14 @@ class ClientController extends Controller {
     }
 
     public function plan_select() {
-        $this->dados['pacotes'] = PlansModel::where('status', 'ativo')->get();
+        $this->dados['pacotes'] = PlansModel::where('status', 'active')->get();
         return view('client.plan_select', $this->dados);
+    }
+
+    public function coin_select() {
+
+        $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->get();
+        return view('client.coin_select', $this->dados);
     }
 
     public function plan_select_store(Request $request) {

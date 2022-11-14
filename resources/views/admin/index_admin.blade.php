@@ -50,7 +50,6 @@
             <ul class="metismenu" id="menu">
                 <li class="menu-label">Menu</li>
 
-
                 <li>
                     <a href="{{ url('admin') }}">
                         <i class="flaticon-381-home-2"></i>
@@ -88,6 +87,12 @@
                         <span class=" nav-text">Pacotes</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('coins.index') }}">
+                        <i class="fa fa-money"></i>
+                        <span class=" nav-text">Moedas</span>
+                    </a>
+                </li>
 
 
                 <li class="">
@@ -97,7 +102,8 @@
                         <div class="nav-text">Configurações</div>
                     </a>
                     <ul class="mm-collapse" style="height: 2px;">
-                        <li> <a href="{{ url('admin/parameters') }}"><i class="bx bx-right-arrow-alt"></i>Parâmetros</a>
+                        <li> <a href="{{ url('admin/parameters') }}"><i
+                                    class="bx bx-right-arrow-alt"></i>Parâmetros</a>
                         </li>
                         <li> <a href="{{ url('admin/logs') }}"><i class="bx bx-right-arrow-alt"></i>Logs</a>
                         </li>
@@ -134,12 +140,15 @@
                 <div class="right-topbar ml-auto">
                     <ul class="navbar-nav">
                         <li class="nav-item search-btn-mobile">
-                            <a class="nav-link position-relative" href="javascript:;"> <i class="bx bx-search vertical-align-middle"></i>
+                            <a class="nav-link position-relative" href="javascript:;"> <i
+                                    class="bx bx-search vertical-align-middle"></i>
                             </a>
                         </li>
 
                         <li class="nav-item dropdown dropdown-lg">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="javascript:;" data-toggle="dropdown"> <i class="bx bx-bell vertical-align-middle"></i>
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                                href="javascript:;" data-toggle="dropdown"> <i
+                                    class="bx bx-bell vertical-align-middle"></i>
                                 <span class="msg-count">0</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -151,7 +160,7 @@
                                 </a>
                                 <div class="header-notifications-list">
 
-                                    <!-- 
+                                    <!--
 
                                     <a class="dropdown-item" href="javascript:;">
                                         <div class="media align-items-center">
@@ -173,18 +182,23 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown dropdown-user-profile">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;"
+                                data-toggle="dropdown">
                                 <div class="media user-box align-items-center">
                                     <div class="media-body user-info">
                                         <p class="user-name mb-0">{{ session('user') }}</p>
                                         <p class="designattion mb-0">On-line</p>
                                     </div>
-                                    <img src="{{ asset('assets') }}/img/logo9.png" class="user-img" alt="user avatar">
+                                    <img src="{{ asset('assets') }}/img/logo9.png" class="user-img"
+                                        alt="user avatar">
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ url('client/meus_dados') }}"><i class="bx bx-user"></i><span>Profile</span></a>
-                                <div class="dropdown-divider mb-0"></div> <a class="dropdown-item" href="{{ url('client/logout') }}"><i class="bx bx-power-off"></i><span>Sair</span></a>
+                                <a class="dropdown-item" href="{{ url('client/meus_dados') }}"><i
+                                        class="bx bx-user"></i><span>Profile</span></a>
+                                <div class="dropdown-divider mb-0"></div> <a class="dropdown-item"
+                                    href="{{ url('client/logout') }}"><i
+                                        class="bx bx-power-off"></i><span>Sair</span></a>
                             </div>
                         </li>
 
@@ -224,7 +238,8 @@
         <!--start overlay-->
         <div class="overlay toggle-btn-mobile"></div>
         <!--end overlay-->
-        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
+                class='bx bxs-up-arrow-alt'></i></a>
         <!--End Back To Top Button-->
         <!--footer -->
         <div class="footer">
@@ -239,6 +254,9 @@
         $('.moeda').mask("#.##0,00", {
             reverse: true
         });
+        $('.percentual_lucro').mask("#.##0,00", {
+            reverse: true
+        });
         $('.data').mask("00/00/0000");
         $('.fone').mask("(99) 9 9999-9999", {
             clearIfNotMatch: true
@@ -250,6 +268,11 @@
             clearIfNotMatch: true
         });
         $('.voucher').mask("AAAA-AAAA-AAAA");
+
+        $(".alert").show();
+        setTimeout(function() {
+            $(".alert").hide();
+        }, 5000);
     </script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

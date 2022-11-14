@@ -8,7 +8,11 @@
         <div class='table-responsive'>
             <a href="{{ url('client/plan/select') }}" class="btn btn-primary mb-2">
                 <span class="bx bx-cart"></span>
-                Comprar
+                Comprar Pacote
+            </a>
+            <a href="{{ url('client/coin/select') }}" class="btn btn-primary mb-2">
+                <span class="bx bx-cart"></span>
+                Comprar Moedas
             </a>
             <table class='table table-bordered table-striped '>
                 <thead>

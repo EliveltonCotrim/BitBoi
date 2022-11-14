@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->double('porcentual_lucro');
+            $table->double('percentual_lucro');
             $table->string('status');
             $table->timestamps();
         });

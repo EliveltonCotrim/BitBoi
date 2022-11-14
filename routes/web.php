@@ -43,6 +43,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('check', [ClientController::class, 'check']);
 
         Route::get('plan/select', [ClientController::class, 'plan_select']);
+        Route::get('coin/select', [ClientController::class, 'coin_select']);
         Route::post('plan/select', [ClientController::class, 'plan_select_store']);
 
         Route::get('meu_plano', [ClientController::class, 'meu_plano']);

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PlansController;
 use App\Http\Controllers\Admin\RaceController;
 use App\Http\Controllers\Admin\SaquesController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\CoinsController;
 use App\Http\Middleware\AuthAdmin;
 use App\Models\BoletosModel;
 use App\Models\DocumentsModel;
@@ -137,6 +138,13 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
         Route::get('plans/status', [PlansController::class, 'status']);
         Route::resource('plans', PlansController::class);
+
+        Route::get('coins/index', [CoinsController::class, 'index'])->name('coins.index');
+        Route::get('coins/create', [CoinsController::class, 'create'])->name('coins.create');
+        Route::post('coin/store', [CoinsController::class, 'store'])->name('coins.store');
+        Route::get('coins/{coin}/edit', [CoinsController::class, 'edit'])->name('coin.edit');
+        Route::put('coins/{coins}/update', [CoinsController::class, 'update'])->name('coin.update');
+
 
         Route::get('estrategia', [AdminController::class, 'estrategia']);
     });

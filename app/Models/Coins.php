@@ -12,16 +12,24 @@ class Coins extends Model
     protected $table = 'coins';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'description', 'porcentual_lucro', 'status',];
+    protected $fillable = ['name', 'description', 'profit_percentage', 'status',];
     protected $date = ['created_at', 'updated_at'];
 
-    public function cotacaoMoeda()
+    public function cotacoes()
     {
-        return $this->hasMany(CotacaoMoeda::class, 'id_coin');
+        return $this->hasMany(CotacaoMoeda::class, 'id_coin', 'id');
     }
+
+    /**
+ * Get the user's most recent order.
+ */
+public function latestCotacao()
+{
+    return $this->hasOne(CotacaoMoeda::class, 'id_coin', 'id')->latestOfMany();
+}
 
     public function purchases()
     {
-        return $this->hasMany(Purchases::class, 'coin_id');
+        return $this->hasMany(Purchases::class, 'coin_id', 'id');
     }
 }

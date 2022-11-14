@@ -9,6 +9,7 @@ class CotacaoMoeda extends Model
 {
     use HasFactory;
     protected  $table = 'cotacao_moedas';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'id_coin',
         'value',
@@ -22,6 +23,6 @@ class CotacaoMoeda extends Model
 
     public function coin()
     {
-        return $this->belongsTo(Coins::class, 'id_coin');
+        return $this->belongsTo(Coins::class, 'id_coin', 'id');
     }
 }
