@@ -10,17 +10,13 @@
 
 <div class='card'>
     <div class='card-body'>
-
-
-
         <div class='col-md-12'>
             <div class='form-horizontal'>
-                @include('commons/alerts')
-                <form action="{{ route('plans.update',$plans->id) }}" method='post'>
+                <form action="{{ route('plans.update', $plan->id) }}" method='post'>
                     @csrf
                     @method('PUT')
 
-                    @include('admin.plans._partials.plans_form')
+                    @include('admin.plans._partials.plans_form_edit')
                 </form>
 
             </div>

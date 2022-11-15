@@ -18,7 +18,7 @@
                     @csrf
                     <div class='form-row'>
                         <div class='col-md-2'>
-                            <label>name</label>
+                            <label>Nome</label>
                             <input type='text' name='name' value="{{ $filters['name'] ?? '' }}" class='form-control'>
                         </div>
                         <div class='col-md-2'>
@@ -36,6 +36,7 @@
                 <tr>
                     <th>Plano</th>
                     <th>Valor</th>
+                    <th>Percentual de Rendimento(%)</th>
                     <th>Visibilidade Cliente</th>
                 </tr>
             </thead>
@@ -46,6 +47,7 @@
                     <tr>
                         <td><?php echo $dado->name; ?></td>
                         <td>@money($dado->value)</td>
+                        <td>@money2($dado->percentual_rendimento)</td>
                         <td><?php echo $dado->status; ?></td>
                         <td>
                             <a href='<?php echo url('admin/plans/' . $dado->id . '/edit') ?>' class='btn btn-primary btn-sm'>

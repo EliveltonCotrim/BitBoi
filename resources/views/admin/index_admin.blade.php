@@ -272,32 +272,37 @@
         $(".alert").show();
         setTimeout(function() {
             $(".alert").hide();
-        }, 5000);
+        }, 8000);
     </script>
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    @section('scripts')
 
-    <script src="{{ asset('assets') }}/painel/js/popper.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/js/bootstrap.min.js"></script>
-    <!--plugins-->
-    <script src="{{ asset('assets') }}/painel/plugins/simplebar/js/simplebar.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/metismenu/js/metisMenu.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    <!-- Vector map JavaScript -->
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-in-mill.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-au-mill.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/js/index.js"></script>
-    <!-- App JS -->
-    <script src="{{ asset('assets') }}/painel/js/app.js"></script>
-    <script>
-        new PerfectScrollbar('.dashboard-social-list');
-        new PerfectScrollbar('.dashboard-top-countries');
-    </script>
-</body>
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-</html>
+        <script src="{{ asset('assets/painel/js/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/painel/js/bootstrap.min.js') }}"></script>
+        <!--plugins-->
+        <script src="{{ asset('assets/painel/plugins/simplebar/js/simplebar.min.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+        <!-- Vector map JavaScript -->
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
+        <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+        <script src="{{ asset('assets/painel/js/index.js') }}"></script>
+        <!-- App JS -->
+        <script src="{{ asset('assets/painel/js/app.js') }}"></script>
+        <script>
+            new PerfectScrollbar('.dashboard-social-list');
+            new PerfectScrollbar('.dashboard-top-countries');
+        </script>
+
+        {{-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> --}}
+    </body>
+
+    </html>

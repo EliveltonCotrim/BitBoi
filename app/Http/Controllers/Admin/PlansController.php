@@ -5,35 +5,44 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoreUpdatePlans;
 use App\Http\Controllers\Controller;
 use App\Models\Client_planModel;
+use App\Models\Coins;
 use App\Models\PlansModel;
+use App\Src\Utils\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
-class PlansController extends Controller {
+use function GuzzleHttp\Promise\all;
 
+class PlansController extends Controller
+{
     private $dados;
     private $plans;
 
-    public function __construct(PlansModel $plans) {
+    public function __construct(PlansModel $plans)
+    {
         $this->plans = $plans;
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $filters = $request->except('_token');
+
+
         $this->dados['filters'] = $filters;
 
         $plans = $this->plans
             ->where(function ($query) use ($request) {
                 if ($request->name) {
-                    $query->where('name', $request->name);
+                    $query->where('name', 'like', '%'. $request->name . '%');
                 }
             })
             ->latest()
-            ->paginate();
+            ->paginate(10);
 
         $this->dados['plans'] = $plans;
         return view('admin.plans.plans_list', $this->dados);
@@ -44,17 +53,36 @@ class PlansController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
+        $this->dados['coins'] = Coins::with('latestCotacao')
+            ->where('status', 'active')
+            ->orderBy('name', 'ASC')
+            ->get();
+
         $this->dados['titulo'] = 'plans';
         return view('admin.plans.plans_create', $this->dados);
     }
 
-    public function store(StoreUpdatePlans $request) {
-        $this->plans->create($request->all());
-        return redirect('admin/plans');
+    public function store(StoreUpdatePlans $request)
+    {
+        $dataPlan = [
+            'name' => $request->name,
+            'quantity' => $request->quantity,
+            'value' => Utils::moeda($request->value),
+            'percentual_rendimento' => Utils::moeda($request->percentual_rendimento),
+            'coin_id' => $request->coin,
+            'details' => $request->details,
+            'status' => 'active',
+        ];
+
+        $this->plans->create($dataPlan);
+
+        return redirect('admin/plans')->with('success', 'Pacote cadastrado com sucesso!');
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         if (!$plans = $this->plans->find($id)) {
             return redirect()->back();
         }
@@ -71,19 +99,38 @@ class PlansController extends Controller {
      * @param  \App\Models\{plans}Model  $plans
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id)
+    {
+        $this->dados['coins'] = Coins::with('latestCotacao')
+            ->where('status', 'active')
+            ->orderBy('name', 'ASC')
+            ->get();
+
         $plans = $this->plans->find($id);
-        $this->dados['plans'] = $plans;
+        $this->dados['plan'] = $plans;
         $this->dados['titulo'] = 'plans';
         return view('admin.plans.plans_edit', $this->dados);
     }
 
-    public function update(StoreUpdatePlans $request, $id) {
-        $this->plans->find($id)->update($request->all());
-        return redirect('admin/plans');
+    public function update(StoreUpdatePlans $request, $id)
+    {
+        $dataPlan = [
+            'name' => $request->name,
+            'quantity' => $request->quantity,
+            'value' => Utils::moeda($request->value),
+            'percentual_rendimento' => Utils::moeda($request->percentual_rendimento),
+            'coin_id' => $request->coin,
+            'details' => $request->details,
+            'status' => $request->status,
+        ];
+
+        $this->plans->find($id)->update($dataPlan);
+
+        return redirect('admin/plans')->with('success', 'Pacote atualizado com sucesso!');
     }
 
-    public function delete(Request $request, $id) {
+    public function delete(Request $request, $id)
+    {
         if ($request->isMethod('post')) {
             $input = $request->except(['_token']);
             plansModel::where('id', $id)->delete();
@@ -96,7 +143,8 @@ class PlansController extends Controller {
         }
     }
 
-    public function status(Request $request) {
+    public function status(Request $request)
+    {
         $filters = $request->except('_token');
 
         if (!isset($filters['status'])) {

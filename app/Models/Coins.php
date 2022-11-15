@@ -32,4 +32,9 @@ public function latestCotacao()
     {
         return $this->hasMany(Purchases::class, 'coin_id', 'id');
     }
+
+    public function plans()
+    {
+        return $this->hasMany(PlansModel::class, 'coin_id', 'id');
+    }
 }

@@ -46,4 +46,8 @@ class PlansModel extends Model {
     public function purchaces() {
         return $this->hasMany(Purchases::class, 'plan_id');
     }
+
+    public function coin() {
+        return $this->belongsTo(Coins::class, 'coin_id', 'id');
+    }
 }

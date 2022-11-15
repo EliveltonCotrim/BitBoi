@@ -209,6 +209,9 @@ return [
         'profit_percentage' => 'percentual de lucro',
         'value' => 'valor',
         'nova_cotacao' => 'nova cotação',
+        'quantity' => 'quantidade',
+        'percentual_rendimento' => 'percentual de rendimento',
+        'coin' => 'moeda',
     ],
 
 ];
