@@ -58,20 +58,31 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('client/meu_plano') }}">
+                    <a href="{{ url('client/compras') }}">
                         <div class="parent-icon"> <i class="bx bx-cart"></i>
                         </div>
                         <div class="menu-title">Compras</div>
                     </a>
                 </li>
-                {{--
-                --}}
-
+                <li>
+                    <a href="{{ route('solicitar.saques.rendimentos') }}">
+                        <div class="parent-icon"> <i class="bx bxs-bank"></i>
+                        </div>
+                        <div class="menu-title">Saques</div>
+                    </a>
+                </li>
                 <li>
                     <a href="{{ url('client/meus_dados') }}">
                         <div class="parent-icon"> <i class="bx bxs-user-account"></i>
                         </div>
                         <div class="menu-title">Meus Dados</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="parent-icon"><i class='bx bx-book-open'></i>
+                        </div>
+                        <div class="menu-title">Termos de Uso</div>
                     </a>
                 </li>
 
@@ -103,12 +114,15 @@
                 <div class="right-topbar ml-auto">
                     <ul class="navbar-nav">
                         <li class="nav-item search-btn-mobile">
-                            <a class="nav-link position-relative" href="javascript:;"> <i class="bx bx-search vertical-align-middle"></i>
+                            <a class="nav-link position-relative" href="javascript:;"> <i
+                                    class="bx bx-search vertical-align-middle"></i>
                             </a>
                         </li>
 
                         <li class="nav-item dropdown dropdown-lg">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="javascript:;" data-toggle="dropdown"> <i class="bx bx-bell vertical-align-middle"></i>
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                                href="javascript:;" data-toggle="dropdown"> <i
+                                    class="bx bx-bell vertical-align-middle"></i>
                                 <span class="msg-count">0</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -142,18 +156,23 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown dropdown-user-profile">
-                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;"
+                                data-toggle="dropdown">
                                 <div class="media user-box align-items-center">
                                     <div class="media-body user-info">
                                         <p class="user-name mb-0">{{ auth()->user()->name }}</p>
                                         <p class="designattion mb-0">On-line</p>
                                     </div>
-                                    <img src="{{ asset('assets') }}/img/avata.png" class="user-img" alt="user avatar">
+                                    <img src="{{ asset('assets') }}/img/avata.png" class="user-img"
+                                        alt="user avatar">
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ url('client/meus_dados') }}"><i class="bx bx-user"></i><span>Profile</span></a>
-                                <div class="dropdown-divider mb-0"></div> <a class="dropdown-item" href="{{ url('client/logout') }}"><i class="bx bx-power-off"></i><span>Sair</span></a>
+                                <a class="dropdown-item" href="{{ url('client/meus_dados') }}"><i
+                                        class="bx bx-user"></i><span>Profile</span></a>
+                                <div class="dropdown-divider mb-0"></div> <a class="dropdown-item"
+                                    href="{{ url('client/logout') }}"><i
+                                        class="bx bx-power-off"></i><span>Sair</span></a>
                             </div>
                         </li>
 
@@ -193,7 +212,8 @@
         <!--start overlay-->
         <div class="overlay toggle-btn-mobile"></div>
         <!--end overlay-->
-        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
+                class='bx bxs-up-arrow-alt'></i></a>
         <!--End Back To Top Button-->
         <!--footer -->
         <div class="footer">
@@ -223,21 +243,25 @@
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <script src="{{ asset('assets') }}/painel/js/popper.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/painel/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/js/bootstrap.min.js') }}"></script>
     <!--plugins-->
-    <script src="{{ asset('assets') }}/painel/plugins/simplebar/js/simplebar.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/metismenu/js/metisMenu.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="{{ asset('assets/painel/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script> --}}
     <!-- Vector map JavaScript -->
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-in-mill.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-au-mill.js"></script>
-    <script src="{{ asset('assets') }}/painel/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
-    <script src="{{ asset('assets') }}/painel/js/index.js"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apex-custom.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/painel/plugins/chartjs/js/Chart.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/chartjs/js/chartjs-custom.js') }}"></script> --}}
+
+    <script src="{{ asset('assets/painel/js/index.js') }}"></script>
     <!-- App JS -->
     <script src="{{ asset('assets') }}/painel/js/app.js"></script>
     <script>

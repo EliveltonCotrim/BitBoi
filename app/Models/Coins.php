@@ -12,7 +12,7 @@ class Coins extends Model
     protected $table = 'coins';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'description', 'profit_percentage', 'status',];
+    protected $fillable = ['name', 'description', 'profit_percentage', 'status', 'time_pri'];
     protected $date = ['created_at', 'updated_at'];
 
     public function cotacoes()
@@ -37,4 +37,5 @@ public function latestCotacao()
     {
         return $this->hasMany(PlansModel::class, 'coin_id', 'id');
     }
+
 }

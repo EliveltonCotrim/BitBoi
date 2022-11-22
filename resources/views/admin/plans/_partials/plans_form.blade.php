@@ -35,6 +35,12 @@
 
 </div>
 <div class="form-row">
+    <div class='col-md-3'>
+        <label>Data para retorno de Investimento</label>
+        <input  type='number' min="0"  class="form-control" name="time_pri" value="{{ old('time_pri') }}">
+    </div>
+</div>
+<div class="form-row">
     <div class='col-md-8'>
         <label>Descrição</label>
         <textarea class="form-control" name="details" cols="30" rows="3" maxlength="350">{{ old('details') }}</textarea>

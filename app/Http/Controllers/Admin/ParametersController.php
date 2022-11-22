@@ -61,8 +61,11 @@ class ParametersController extends Controller {
      */
 
     public function update(Request $request) {
+
+
+        // dd($request->all());
+        // dd( Utils::moeda($request->taxa_saque));
         $update = [
-            'taxa_saque' => Utils::moeda($request->taxa_saque),
             'pix_client_id' => $request->pix_client_id,
             'pix_client_secret' => $request->pix_client_secret,
             'pix_url_gerencianet' => $request->pix_url_gerencianet,
@@ -70,8 +73,13 @@ class ParametersController extends Controller {
             'percent_indicacao' => $request->percent_indicacao,
             'usa_indicacao' => $request->usa_indicacao,
             'assas_token' => $request->assas_token,
+            'investiment_cycle' => $request->investiment_cycle,
             'assas_url' => $request->assas_url,
         ];
+
+        if($request->taxa_saque){
+            $update['taxa_saque'] = Utils::moeda($request->taxa_saque);
+        }
 
         $pix_key_file = $request->file('pix_key_file');
         if ($pix_key_file) {

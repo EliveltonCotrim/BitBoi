@@ -9,23 +9,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class SiteController extends Controller {
-
+class SiteController extends Controller
+{
     private $data = [];
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         return view('site.login');
     }
 
-    public function cadastro() {
+    public function cadastro()
+    {
         return redirect('cadastrar');
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         return view('site.login');
     }
 
-    public function login_client(Request $request) {
+    public function login_client(Request $request)
+    {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = UsersModel::where('email', $request->email)->first();
@@ -38,11 +42,13 @@ class SiteController extends Controller {
         return redirect()->back()->with('alert', 'Dados Incorretos!');
     }
 
-    public function cadastrar(Request $request) {
+    public function cadastrar(Request $request)
+    {
         return view('site.cadastrar', $this->data);
     }
 
-    public function create_store(Request $request, ClientsModel $clients, $patrocinador = '') {
+    public function create_store(Request $request, ClientsModel $clients, $patrocinador = '')
+    {
         $id_indicado = 1;
         $request->validate(
             [
@@ -71,16 +77,25 @@ class SiteController extends Controller {
             'cpf' => $request->cpf,
             'cell' => $request->phone,
         ];
-        UsersModel::create($insert);
+
+        $user = UsersModel::create($insert);
+
+        $insertClient = [
+            'user_id' => $user->id
+        ];
+
+        $clients->create($insertClient);
 
         return redirect('/')->with('alert', 'Cadastro Concluído com Sucesso');
     }
 
-    public function recupera_senha() {
+    public function recupera_senha()
+    {
         return view('site.recupera_senha');
     }
 
-    public function cliente_painel() {
+    public function cliente_painel()
+    {
         return view('site.cliente_painel');
     }
 }

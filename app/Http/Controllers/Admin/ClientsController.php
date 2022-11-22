@@ -246,6 +246,7 @@ class ClientsController extends Controller {
             'dataConfirmacao' => now(),
             'status' => 'confirmado',
         ];
+        
         $deposit_id = BoletosModel::insertGetId($insert);
         $client_plan = Client_planModel::where('client_id', $client_id)->first();
 

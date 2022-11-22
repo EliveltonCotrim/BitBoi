@@ -28,6 +28,7 @@ class RequestCreateCoins extends FormRequest
             'name' => ['required', 'max:255', 'unique:coins,name'],
             'value' => ['required'],
             'profit_percentage' => ['required'],
+            'time_pri' => ['required'],
         ];
     }
 }

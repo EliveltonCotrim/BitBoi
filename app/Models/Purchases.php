@@ -14,14 +14,15 @@ class Purchases extends Model
 
     protected $fillable = [
         'client_user_id',
-        'quantity',
-        'value_coin',
-        'value_total',
         'plan_id',
         'coin_id',
+        'quantity_coin',
+        'value_coin',
+        'value_total',
         'percentual_rendimento',
         'dt_purchase',
         'status',
+        'time_pri'
     ];
 
     protected $date = [
@@ -43,4 +44,11 @@ class Purchases extends Model
     {
         return $this->belongsTo(Coins::class, 'coin_id');
     }
+
+    public function boletos()
+    {
+        return $this->hasMany(BoletosModel::class, 'purchase_id', 'id');
+    }
+
+
 }

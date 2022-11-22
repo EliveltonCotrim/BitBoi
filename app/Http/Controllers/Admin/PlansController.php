@@ -74,6 +74,7 @@ class PlansController extends Controller
             'coin_id' => $request->coin,
             'details' => $request->details,
             'status' => 'active',
+            'time_pri' => $request->time_pri,
         ];
 
         $this->plans->create($dataPlan);
@@ -109,6 +110,7 @@ class PlansController extends Controller
         $plans = $this->plans->find($id);
         $this->dados['plan'] = $plans;
         $this->dados['titulo'] = 'plans';
+
         return view('admin.plans.plans_edit', $this->dados);
     }
 
@@ -122,6 +124,7 @@ class PlansController extends Controller
             'coin_id' => $request->coin,
             'details' => $request->details,
             'status' => $request->status,
+            'time_pri' => $request->time_pri,
         ];
 
         $this->plans->find($id)->update($dataPlan);

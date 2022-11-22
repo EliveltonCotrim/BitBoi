@@ -44,7 +44,7 @@
                         </div>
                         <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
                             <p>
-                                <a href="<?php echo url('client/meu_plano') ?>" class="text-cyan-600 hover:text-cyan-700">
+                                <a href="<?php echo url('client/compras') ?>" class="text-cyan-600 hover:text-cyan-700">
                                     Voltar
                                 </a>
                             </p>

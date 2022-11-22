@@ -7,6 +7,7 @@ use App\Models\BoletosModel;
 use App\Models\ClientsModel;
 use App\Src\Gerencianet\PixCobCreate;
 use App\Src\Gerencianet\PixConsult;
+use App\Src\Transactions\Balance as TransactionsBalance;
 use App\Src\Utils\Utils;
 use App\Transactions\Balance;
 use App\Transactions\Comissao;
@@ -138,7 +139,7 @@ class GerencianetController extends Controller {
                 $deposit->update($update);
 
                 $value = $deposit->valor;
-                Balance::credit($deposit->client_id, $value, 'rs', 'credito');
+                TransactionsBalance::credit($deposit->client_id, $value, 'rs', 'credito');
 
                 $comissao = new Comissao();
                 $comissao->comissao_direta($deposit->client_id, $value);

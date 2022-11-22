@@ -37,6 +37,12 @@
     </div>
 
 </div>
+<div class="form-row">
+    <div class='col-md-3'>
+        <label>Data para retorno de Investimento</label>
+        <input  type='number' name='time_pri' min="0"  name="time_pri" value="{{ $plan->time_pri ?? old('time_pri') }}">
+    </div>
+</div>
 <div class="form-row mt-3">
     <div class='col-md-8'>
         <label>Descrição</label>

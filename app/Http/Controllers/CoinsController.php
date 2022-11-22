@@ -28,10 +28,10 @@ class CoinsController extends Controller
         if ($request->search) {
             $this->dados['coins'] = Coins::with('latestCotacao')
             ->where('name', 'LIKE', '%' . $request->name .'%')
-            ->where('status', 'active')
+            ->orderBy('name', 'asc')
             ->get();
         } else {
-            $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->get();
+            $this->dados['coins'] = Coins::with('latestCotacao')->orderBy('name', 'asc')->get();
         }
 
 
@@ -49,8 +49,10 @@ class CoinsController extends Controller
             'name' => $request->name,
             'profit_percentage' => Utils::moeda($request->profit_percentage),
             'status' => 'active',
+            'time_pri' => $request->time_pri,
         ];
 
+        // dd($dataCoin);
         $coin = Coins::create($dataCoin);
 
         if ($coin) {
@@ -79,22 +81,25 @@ class CoinsController extends Controller
         $dataCoin = [
             'name' => $request->name,
             'profit_percentage' => Utils::moeda($request->profit_percentage),
-            'status' => 'active',
+            'time_pri' => $request->time_pri,
+            'status' => $request->status,
         ];
-
-        $cotacaoAtual = CotacaoMoeda::where('id_coin', $coins->id)->where('status', 'active')->latest()->first();
-        $cotacaoAtual->update(['status' => 'inactive']);
 
         $coin = Coins::where('id', $coins->id)->update($dataCoin);
 
         if ($coin) {
-            $dataCotacaoCoin = [
-                'id_coin' => $coins->id,
-                'value' => Utils::moeda($request->nova_cotacao),
-                'status' => 'active',
-            ];
+            if ($request->nova_cotacao) {
+                $cotacaoAtual = CotacaoMoeda::where('id_coin', $coins->id)->where('status', 'active')->latest()->first();
+                $cotacaoAtual->update(['status' => 'inactive']);
 
-            CotacaoMoeda::create($dataCotacaoCoin);
+                $dataCotacaoCoin = [
+                    'id_coin' => $coins->id,
+                    'value' => Utils::moeda($request->nova_cotacao),
+                    'status' => 'active',
+                ];
+
+                CotacaoMoeda::create($dataCotacaoCoin);
+            }
 
             return redirect()->route('coins.index')->with('success', 'Moeda atualizada com sucesso!');
         } else {

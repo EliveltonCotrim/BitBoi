@@ -43,10 +43,11 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('check', [ClientController::class, 'check']);
 
         Route::get('plan/select', [ClientController::class, 'plan_select']);
-        Route::get('coin/select', [ClientController::class, 'coin_select']);
         Route::post('plan/select', [ClientController::class, 'plan_select_store']);
+        Route::get('coin/select', [ClientController::class, 'coin_select']);
+        Route::post('coin/select', [ClientController::class, 'coin_select_store']);
 
-        Route::get('meu_plano', [ClientController::class, 'meu_plano']);
+        Route::get('compras', [ClientController::class, 'meu_plano']);
         Route::get('relatorio', [ClientController::class, 'relatorio']);
 
         Route::get('ativacao', [DocClientController::class, 'ativacao']);
@@ -56,6 +57,8 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
 
         Route::get('edit', [ClientController::class, 'edit']);
         Route::post('edit/store', [ClientController::class, 'edit_store']);
+
+        Route::post('banks/store', [ClientController::class, 'banks_store'])->name('banks.store');
 
         Route::get('cpf', [ClientController::class, 'cpf']);
         Route::post('cpf', [ClientController::class, 'cpf_store']);
@@ -71,22 +74,31 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
             return Storage::response($file);
         });
 
-        Route::get('saques/rendimento', [ClientController::class, 'saques_rendimento']);
-        Route::get('saques/indicacao', [ClientController::class, 'saques_indicacao']);
+        // Route::get('saques/rendimento', [ClientController::class, 'saques_rendimento']);
+        // Route::get('saques/indicacao', [ClientController::class, 'saques_indicacao']);
+        // Saques
+        Route::get('solicitar/saque/', [ClientController::class, 'saquesRendimentos'])->name('solicitar.saques.rendimentos');
+        Route::get('saques/investimentos', [ClientController::class, 'saquesInvestimentos'])->name('saques.investimentos');
 
-        Route::prefix('/')->middleware(AuthClienteAtivado::class)->group(function () {
+        // verificar o middleware
+        Route::prefix('/')->group(function () {
+            // middleware(AuthClienteAtivado::class)->
             Route::get('estrategia', [ClientController::class, 'estrategia2']);
 
             Route::get('tutorial', [ClientController::class, 'tutorial']);
 
-            Route::get('saque/indicacao', [ClientController::class, 'saque_indicacao']);
-            Route::post('saque/indicacao', [ClientController::class, 'saque_indicacao_store']);
+            Route::get('saque/rendimento/', [ClientController::class, 'saque_rendimento'])->name('sacar.rendimento');
+            Route::post('saque/rendimento/', [ClientController::class, 'saque_rendimento_store']);
 
-            Route::get('saque/rendimento', [ClientController::class, 'saque_rendimento']);
-            Route::post('saque/rendimento', [ClientController::class, 'saque_rendimento_store']);
+            // Route::get('saque/rendimento', [ClientController::class, 'saque_rendimento'])->name('sacar.rendimento');
+            // Route::post('saque/rendimento', [ClientController::class, 'saque_rendimento_store'])->name('sacar.rendimento');
         });
 
-        Route::get('compras', [ClientController::class, 'compras']);
+        // Compras
+        Route::get('compras/', [ClientController::class, 'compras'])->name('compras.pendentes');
+        Route::get('compras/confirmadas', [ClientController::class, 'compras_confirmadas'])->name('compras.confirmadas');
+        Route::get('compras/enceradas', [ClientController::class, 'compras_enceradas'])->name('compras.enceradas');
+
         Route::get('compra/info/{compra_id}', [ClientController::class, 'compra_info']);
 
         Route::get('ciclos', [ClientController::class, 'ciclos']);
@@ -109,6 +121,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('depositar/meio/{deposit_id}', [ClientController::class, 'depositar_meio']);
         Route::post('depositar/meio/{deposit_id}', [ClientController::class, 'depositar_meio_post']);
 
+
         Route::prefix('asaas')->group(function () {
             Route::get('pix/create/{deposit_id_crypt}', [AsaasController::class, 'pix_create']);
             Route::get('pix/pay/{deposit_id_crypt}', [AsaasController::class, 'pix_pay']);
@@ -130,6 +143,8 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
             Route::get('pay/{deposit_id_crypt}', [DepositoController::class, 'pay']);
             Route::post('pay/{deposit_id_crypt}', [DepositoController::class, 'pay_store']);
         });
+
+        route::get('show/compra/{purchases}', [ClientController::class, 'show_investimento'])->name('show.compra');
     });
 
 

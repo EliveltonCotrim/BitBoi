@@ -33,6 +33,7 @@ use Illuminate\Validation\Rule;
                 'percentual_rendimento' => ['required'],
                 'coin' => ['required'],
                 'details' => ['max:350'],
+                'time_pri' => ['required'],
             ];
         }
     }

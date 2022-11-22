@@ -115,6 +115,18 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::resource('boletos', BoletosController::class);
         Route::post('boletos/search', [BoletosController::class, 'search'])->name('boletos.search');
 
+
+
+        // Lançar investimentos
+        route::get('lancar/investimentos/list', [AdminController::class, 'lancarInvestimentos'])->name('lancar.investimentos');
+
+        route::post('lancar/investimentos/', [AdminController::class, 'lancarInvestimentos'])->name('lancar.investimentos.search');
+
+        route::post('rendimentos/store', [AdminController::class, 'lancar'])->name('larcar.rendimentos');
+
+        // payment day
+        route::get('pagemento/', [AdminController::class, 'paymentDay'])->name('payment.day');
+
         Route::resource('compras', ComprasController::class);
         Route::post('compras/search', [ComprasController::class, 'search'])->name('compras.search');
 
@@ -144,6 +156,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::post('coin/store', [CoinsController::class, 'store'])->name('coins.store');
         Route::get('coins/{coin}/edit', [CoinsController::class, 'edit'])->name('coin.edit');
         Route::put('coins/{coins}/update', [CoinsController::class, 'update'])->name('coin.update');
+
+        Route::get('termos/', [AdminController::class, 'termosIndex'])->name('termos.index');
 
 
         Route::get('estrategia', [AdminController::class, 'estrategia']);

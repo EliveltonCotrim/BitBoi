@@ -15,9 +15,10 @@ class UsersModel extends Model {
         'name', 'email', 'user', 'email_verified_at', 'password',
         'remember_token', 'type', 'cpf', 'sponsor'
     ];
+
     protected $date = ['created_at', 'updated_at'];
 
     public function client() {
-        return $this->hasOne(ClientsModel::class, 'id', 'client_id');
+        return $this->hasOne(ClientsModel::class, 'user_id', 'id');
     }
 }

@@ -13,19 +13,19 @@ class BalancesModel extends Model {
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'client_id', 'reference', 'operation',
+        'user_id', 'reference', 'operation',
         'coin', 'value', 'courentBalance', 'previousBalance', 'observation', 'status',
         'pedido_id',
     ];
     protected $date = ['created_at', 'updated_at'];
 
     public function scopeGetAll($query, $post) {
-        if ($post->input('cliente_id') != '') {
-            $query->where('cliente_id', 'LIKE', '%' . $post->input('cliente_id') . '%');
+        if ($post->input('user_id') != '') {
+            $query->where('user_id', 'LIKE', '%' . $post->input('cliente_id') . '%');
         }
 
         $dados =  $query
-            ->orderBy('cliente_id')
+            ->orderBy('user_id')
             ->paginate(10);
         return $dados;
     }
@@ -48,7 +48,7 @@ class BalancesModel extends Model {
 
     public function scopeGetLast($query, $cliente_id, $coin) {
         return $query
-            ->where('client_id', $cliente_id)
+            ->where('user_id', $cliente_id)
             ->where('coin', $coin)
             ->orderBy('id', 'desc')
             ->first();
@@ -60,13 +60,17 @@ class BalancesModel extends Model {
                 // 'value',
                 DB::raw('IFNULL((select sum(value)), 0) AS ganhos')
             ])
-            ->where('client_id', $id_client)
+            ->where('user_id', $id_client)
             ->where('coin',  'comissao')
             // ->groupBy('coin')
             ->first();
     }
 
-    public function client() {
-        return $this->hasOne(ClientsModel::class, 'id', 'client_id');
+    public function user() {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
+
+    // public function client() {
+    //     return $this->hasOne(ClientsModel::class, 'id', 'client_id');
+    // }
 }

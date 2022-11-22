@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoreUpdateVendas;
 use App\Http\Controllers\Controller;
 use App\Models\VendasModel;
+use App\Src\Transactions\Balance as TransactionsBalance;
 use App\Transactions\Balance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class VendasController extends Controller {
 
         $total = $venda->valor_total;
         $client_id = $venda->client_id;
-        $balance = new Balance();
+        $balance = new TransactionsBalance();
 
         // dd($venda->toArray(), $total, $ciclo_nome);
         $balance->credit($client_id, $total, 'rs', 'venda_token', 'ciclo - ' . $ciclo_nome);

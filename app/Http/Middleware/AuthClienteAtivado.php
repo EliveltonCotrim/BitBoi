@@ -17,8 +17,10 @@ class AuthClienteAtivado {
      */
     public function handle(Request $request, Closure $next) {
         // $id_cliente = $request->session()->get('id');
-        $id_cliente = auth()->user()->client_id;
 
+        $id_cliente = auth()->user()->client_id;
+        dd($id_cliente);
+        
         $planCliente = new PlanClient();
         $plan_client = $planCliente->get($id_cliente);
 

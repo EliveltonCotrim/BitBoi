@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('coins', function (Blueprint $table) {
+        Schema::create('rendimentos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->double('profit_percentage');
-            $table->integer('time_pri');
-            $table->string('status');
+            $table->double('valor_total');
+            $table->date('dt_lacamento');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coins');
+        Schema::dropIfExists('rendimentos');
     }
 };

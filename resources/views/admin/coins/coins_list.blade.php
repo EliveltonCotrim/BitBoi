@@ -17,7 +17,7 @@
                         @csrf
                         <div class='form-row'>
                             <div class='col-md-2'>
-                                <label>name</label>
+                                <label>Nome</label>
                                 <input type='text' name='name' value="{{ $filters['name'] ?? '' }}"
                                     class='form-control'>
                             </div>
@@ -37,6 +37,7 @@
                         <th>Valor</th>
                         <th>Descrição</th>
                         <th>Percentual de Lucro(%)</th>
+                        <th>Tempo PRI</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -48,6 +49,7 @@
                             <td>@money2($coin->latestCotacao->value)</td>
                             <td>{{ $coin->description }}</td>
                             <td>{{ $coin->profit_percentage }}</td>
+                            <td>{{ $coin->time_pri }}</td>
                             <td>{{ $coin->status }}</td>
                             <td>
                                 <a href='{{ route('coin.edit', $coin->id) }}' class='btn btn-primary btn-sm'>

@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->double('percent_indicacao')->default(10);
             $table->string('assas_token')->nullable();
             $table->string('assas_url')->nullable();
+            $table->integer('investiment_cycle')->nullable();
             $table->longText('termo_compra')->nullable();
             $table->longText('pix_client_id')->nullable();
             $table->longText('pix_client_secret')->nullable();

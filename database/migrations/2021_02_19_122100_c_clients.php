@@ -25,7 +25,17 @@ return new class extends Migration {
             $table->string('avatar')->nullable();
             $table->string('status')->default('pendente');
             $table->string('emailValidated')->nullable();
+            $table->string('parent_nome')->nullable();
+            $table->string('parent_cpf')->nullable();
+            $table->string('parent_rg')->nullable();
+            $table->string('parent_email')->nullable();
+            $table->string('parent_parentesco')->nullable();
+            $table->string('parent_nascimento')->nullable();
+            $table->string('parent_phone')->nullable();
+            $table->json('banks')->nullable();
+            $table->string('pix')->nullable();
             $table->timestamps();
+
         });
     }
 

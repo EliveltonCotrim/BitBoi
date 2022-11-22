@@ -170,17 +170,17 @@ $(function () {
 				text: 'Distribution in % of world population'
 			},
 			legend: {
-				 position :"right",	
+				 position :"right",
 				 display: true,
 				    labels: {
-					  fontColor: '#fff',  
+					  fontColor: '#fff',
 					  boxWidth:15
 				   }
 				},
 			scale: {
 			  gridLines: {
-				   color: "rgba(221, 221, 221, 0.12)" 
-				 }, 
+				   color: "rgba(221, 221, 221, 0.12)"
+				 },
 			}
 		}
 	});
@@ -203,17 +203,17 @@ $(function () {
 				text: 'Predicted world population (millions) in 2050'
 			},
 			legend: {
-				 position :"right",	
+				 position :"right",
 				 display: true,
 				    labels: {
-					  fontColor: '#fff',  
+					  fontColor: '#fff',
 					  boxWidth:15
 				   }
 				},
 			scale: {
 			  gridLines: {
-				   color: "rgba(221, 221, 221, 0.12)" 
-				 }, 
+				   color: "rgba(221, 221, 221, 0.12)"
+				 },
 			}
 		}
 	});
@@ -310,10 +310,10 @@ $(function () {
 				text: 'Population growth (millions)'
 			},
 			legend: {
-				 position :"top",	
+				 position :"top",
 				 display: true,
 				    labels: {
-					  fontColor: '#fff',  
+					  fontColor: '#fff',
 					  boxWidth:15
 				   }
 				},
@@ -378,10 +378,10 @@ $(function () {
 				text: 'Population growth (millions): Europe & Africa'
 			},
 			legend: {
-				 position :"top",	
+				 position :"top",
 				 display: true,
 				    labels: {
-					  fontColor: '#fff',  
+					  fontColor: '#fff',
 					  boxWidth:15
 				   }
 				},
@@ -459,10 +459,10 @@ $(function () {
 				text: 'Predicted world population (millions) in 2050'
 			},
 			legend: {
-				 position :"top",	
+				 position :"top",
 				 display: true,
 				    labels: {
-					  fontColor: '#fff',  
+					  fontColor: '#fff',
 					  boxWidth:15
 				   }
 				},

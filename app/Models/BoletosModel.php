@@ -16,16 +16,23 @@ class BoletosModel extends Model {
     protected $fillable = [
         'user_id', 'purchase_id', 'tipo', 'valor', 'meioPagamento', 'ticket', 'status',
         'dataConfirmacao', 'obs', 'json', 'transaction_id', 'forwardingTransaction_id',
-        'quantity',
+        'quantity'
     ];
+
     protected $dates = ['created_at', 'updated_at', 'dataConfirmacao'];
 
     public function user() {
         return $this->hasOne(UsersModel::class, 'id', 'user_id');
     }
 
-    public function plan() {
-        return $this->hasOne(PlansModel::class, 'id', 'plan_id');
+    public function purchase() {
+        return $this->hasOne(Purchases::class, 'id', 'purchase_id');
     }
+
+    public function rendimentosPagos() {
+        return $this->hasMany(RendimentosPagos::class, 'boleto_id', 'id');
+    }
+
+
 
 }

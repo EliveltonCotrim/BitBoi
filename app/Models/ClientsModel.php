@@ -29,7 +29,8 @@ class ClientsModel extends Model {
         'parent_parentesco',
         'parent_nascimento',
         'parent_phone',
-        'codigo_assas'
+        'codigo_assas',
+        'user_id'
     ];
 
     protected $casts = [
@@ -65,9 +66,9 @@ class ClientsModel extends Model {
         return $result;
     }
 
-    public function scopeGetBancosList($query, $client_id) {
+    public function scopeGetBancosList($query, $user_id) {
         $result = [];
-        $bancos = $query->find($client_id)->banks;
+        $bancos = $query->find($user_id)->banks;
 
         if ($bancos) {
             foreach ($bancos as $k => $banco) {
@@ -105,5 +106,9 @@ class ClientsModel extends Model {
 
     public function plan() {
         return $this->hasOne(Client_planModel::class, 'client_id', 'id');
+    }
+
+    public function user(){
+        $this->hasOne(UsersModel::class, 'id', 'user_id');
     }
 }

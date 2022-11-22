@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ParametersModel extends Model {
+class ParametersModel extends Model
+{
     use HasFactory;
 
     protected $table = 'parameters';
@@ -23,6 +24,7 @@ class ParametersModel extends Model {
         'usa_indicacao',
         'percent_indicacao',
         'assas_token',
+        'investiment_cycle',
         'assas_url'
     ];
     protected $date = ['created_at', 'updated_at'];

@@ -16,16 +16,20 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_user_id')->constrained('users');
-            $table->double('quantity');
+            $table->integer('quantity_coin');
             $table->double('value_coin');
             $table->double('value_total');
-            $table->foreignId('plan_id')->constrained('plans')->nullable();;
-            $table->foreignId('coin_id')->constrained('coins')->nullable();;
+            $table->unsignedBigInteger('plan_id')->nullable();
+            $table->unsignedBigInteger('coin_id')->nullable();
             $table->double('percentual_rendimento');
+            $table->integer('time_pri');
             $table->date('dt_purchase')->nullable();
             $table->string('status');
 
             $table->timestamps();
+
+            $table->foreign('plan_id')->references('id')->on('plans');
+            $table->foreign('coin_id')->references('id')->on('coins');
         });
     }
 

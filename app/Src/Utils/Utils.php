@@ -12,6 +12,9 @@ class Utils {
     static function moeda2($valor = 0, $digitos = 2, $moeda = '$') {
         return $moeda . ' ' . number_format(round($valor, $digitos), $digitos, '.', '.');
     }
+    static function moeda4($valor = 0, $digitos = 2) {
+        return  number_format(round($valor, $digitos), $digitos, '.', '.');
+    }
 
     static function moeda3($valor) {
         return number_format($valor, 2, '', '.');

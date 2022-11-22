@@ -4,7 +4,8 @@
 @section('actions')
     <a href='{{ route('coins.index') }}' class='btn btn-primary'>
         Voltar
-</a>@endsection
+</a>
+@endsection
 
 @section('content')
     <div class='card'>

@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up() {
         Schema::create('client_plan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('client_id')->constrained('clients');
             $table->foreignId('plan_id')->nullable()->constrained('plans');
             // $table->timestamp('renovation')->nullable();
             // $table->timestamp('expiration')->nullable();

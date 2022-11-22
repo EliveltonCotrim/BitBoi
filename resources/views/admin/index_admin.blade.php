@@ -109,7 +109,11 @@
                         </li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="{{ route('termos.index') }}">
+                        <span class="nav-text"><i class="bx bxs-file-doc"></i> Termos de Uso</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{{ url('admin/logout') }}">
                         <div class="parent-icon"><i class="bx bx-power-off"></i>

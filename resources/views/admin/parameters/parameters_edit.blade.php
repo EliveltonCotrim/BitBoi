@@ -10,7 +10,6 @@
 
 <div class='card'>
     <div class='card-body'>
-
         <div class='col-md-12'>
             <div class='form-horizontal'>
                 @include('commons/alerts')
@@ -41,6 +40,10 @@
                         <div class='col-md-3'>
                             <label>Porcent Indicação</label>
                             <input type='text' name='percent_indicacao' value='<?php echo isset($parameters) ? $parameters->percent_indicacao : old('percent_indicacao') ?>' class='form-control'>
+                        </div>
+                        <div class='col-md-3'>
+                            <label>Ciclo de Investimento</label>
+                            <input type='number' min="0" name='investiment_cycle' value='<?php echo isset($parameters) ? $parameters->investiment_cycle : old('investiment_cycle') ?>' class='form-control'>
                         </div>
                     </div>
                     <hr>

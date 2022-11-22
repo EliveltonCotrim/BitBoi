@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->string('name');
             $table->double('value');
             $table->double('quantity');
+            $table->integer('time_pri');
             $table->double('percentual_rendimento')->nullable();
             $table->unsignedBigInteger('coin_id')->nullable();
             // $table->integer('days');
@@ -29,12 +30,12 @@ return new class () extends Migration {
             $table->foreign('coin_id')->references('id')->on('coins');
         });
 
-        DB::table('plans')->insert([
-            ['name' => 'Pack 1', 'value' => 1000, 'quantity' => 10, 'status' => 'active'],
-            ['name' => 'Pack 2', 'value' => 2500, 'quantity' => 25,'status' => 'active'],
-            ['name' => 'Pack 3', 'value' => 5000, 'quantity' => 50, 'status' => 'active'],
-            ['name' => 'Pack 4', 'value' => 10000, 'quantity' => 100, 'status' => 'active'],
-        ]);
+        // DB::table('plans')->insert([
+        //     ['name' => 'Pack 1', 'value' => 1000, 'quantity' => 10, 'status' => 'active'],
+        //     ['name' => 'Pack 2', 'value' => 2500, 'quantity' => 25,'status' => 'active'],
+        //     ['name' => 'Pack 3', 'value' => 5000, 'quantity' => 50, 'status' => 'active'],
+        //     ['name' => 'Pack 4', 'value' => 10000, 'quantity' => 100, 'status' => 'active'],
+        // ]);
 
         // $dados = [
         //     ['name' => 'Pack 1', 'value' => 1000, 'quantity' => 10, 'status' => 'active'],
