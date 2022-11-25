@@ -12,12 +12,12 @@
             <div class="col-12 col-lg-3 col-xl-3">
                 <div class="card">
                     <div class="card-body text-center">
-                        <h4 class="card-title mb-0">{{  $pacote->name }}</h4>
+                        <h4 class="card-title mb-0">{{ $pacote->name }}</h4>
                         <p class="mb-0">R$ @money2($pacote->value)</p>
                         <hr />
                         <span class="card-title mb-0">Pecentual Rendimento</span>
-                        <p class="mb-0"> {{ $pacote->percentual_rendimento }}%</p>
-                        <span class="card-title mb-0">Tempo</span>
+                        <p class="mb-2"> {{ $pacote->percentual_rendimento }}%</p>
+                        <span class="card-title mb-0">Tempo PRI</span>
                         <p class="mb-0">{{ $pacote->time_pri }} (mês)</p>
                         <hr />
                         <form action="" method="post">
@@ -32,7 +32,6 @@
                 </div>
             </div>
         @endforeach
-
     </div>
 
 @endsection

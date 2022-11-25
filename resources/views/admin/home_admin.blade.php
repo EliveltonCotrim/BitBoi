@@ -11,7 +11,6 @@
                             <p class="mb-0 font-weight-bold text-white">Total de Clientes</p>
                             <h2 class="mb-0 text-white">{{ \App\Models\UsersModel::where('type', 'client')->count() }}</h2>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -22,7 +21,7 @@
                     <div class="d-flex mb-2">
                         <div>
                             <p class="mb-0 font-weight-bold text-white">Pagamento do Dia</p>
-                            <h2 class="mb-0 text-white">@money($valorTotalPagamentoDia)</h2>
+                            <h2 class="mb-0 text-white">@money($valorPagamentoDia)</h2>
                         </div>
 
                     </div>

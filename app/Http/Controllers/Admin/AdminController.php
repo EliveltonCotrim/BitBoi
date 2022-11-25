@@ -9,6 +9,7 @@ use App\Models\ParametersModel;
 use App\Models\Purchases;
 use App\Models\Rendimentos;
 use App\Models\RendimentosPagos;
+use App\Models\SaquesModel;
 use App\Models\User;
 use App\Src\Transactions\Balance;
 use App\Src\Transactions\Import;
@@ -24,19 +25,50 @@ class AdminController extends Controller
     public function index()
     {
         // pagamento do dia e mes;;
-        $day = date('d');
-        $dataAtual = date('Y-m-d');
-        $valorTotalPagamentoDia = 0;
+        $dia = date('d');
+        $dateAtual = date('Y-m-d');
+        $pagadomentoDia = 0;
         $valorTotalPagamentoMes = 0;
 
         $ultimosClients = User::orderBy('name', 'ASC')->limit(5)->get();
-        $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
+        // $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
 
-        foreach ($boletos as $key => $boleto) {
-            $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dataAtual);
+        // foreach ($boletos as $key => $boleto) {
+        //     $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dataAtual);
 
-            if ($timeInvestment >= $boleto->purchase->time_pri) {
-                $valorTotalPagamentoDia += (($boleto->valor * $boleto->purchase->percentual_rendimento) / 100) * $boleto->purchase->time_pri;
+        //     if ($timeInvestment >= $boleto->purchase->time_pri) {
+        //         $valorTotalPagamentoDia += (($boleto->valor * $boleto->purchase->percentual_rendimento) / 100);
+        //     }
+        // }
+        $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
+        foreach ($boletosDia as $key => $boleto) {
+            $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
+            $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)
+            ->get();
+
+            $totaLancado = $historicoPagamento->count();
+            $dt_lancadas = [];
+            foreach ($historicoPagamento as $key => $historico) {
+                $dt_lancadas[$key] = date('Y-m-d', strtotime($historico->created_at));
+            }
+
+            if ($totaLancado == $boleto->purchase->time_pri) {
+                BoletosModel::where('id', $boleto->id)->update([
+                    'status' => 'encerrado',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+
+                Purchases::where('id', $boleto->purchase->id)->update([
+                    'status' => 'encerrada',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+            } else {
+                if ($timeInvestment > $totaLancado) {
+                    if (in_array($dateAtual, $dt_lancadas)) {
+                    } else {
+                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                    }
+                }
             }
         }
 
@@ -45,7 +77,7 @@ class AdminController extends Controller
             ->latest()->limit(10)->get();
 
         $this->data['clients'] = $ultimosClients;
-        $this->data['valorTotalPagamentoDia'] = $valorTotalPagamentoDia;
+        $this->data['valorPagamentoDia'] = $pagadomentoDia;
 
         return view('admin.home_admin', $this->data);
     }
@@ -70,7 +102,16 @@ class AdminController extends Controller
 
     public function termos_store(Request $request)
     {
-        ParametersModel::find(1)->update(['termo_compra' => $request->termos]);
+        $data = $request->all();
+
+        $data = [
+            'termo_compra' => $request->termos
+        ];
+
+        // ParametersModel::find(1)->update(['termo_compra' => $request->termos]);
+
+        ParametersModel::where('id', 1)->update($data);
+
         return redirect('admin/termos');
     }
 
@@ -175,10 +216,14 @@ class AdminController extends Controller
             if ($historicoPagamento == $boleto->purchase->time_pri) {
                 BoletosModel::where('id', $boleto->id)->update([
                     'status' => 'encerrado',
+                    'dt_encerramento' => $dt_atual,
+
                 ]);
 
                 Purchases::where('id', $boleto->purchase->id)->update([
                     'status' => 'encerrada',
+                    'dt_encerramento' => $dt_atual,
+
                 ]);
             } else {
                 if ($timeInvestment > $historicoPagamento) {
@@ -245,12 +290,15 @@ class AdminController extends Controller
                     if ($historicoPagamento == $boleto->purchase->time_pri) {
                         BoletosModel::where('id', $boleto->id)->update([
                             'status' => 'encerrado',
+                            'dt_encerramento' => $data,
+
                         ]);
 
                         Purchases::where('id', $boleto->purchase->id)->update([
                             'status' => 'encerrada',
-                        ]);
+                            'dt_encerramento' => $data,
 
+                        ]);
                     } else {
                         if ($timeInvestment > $historicoPagamento) {
                             $rendimento = ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
@@ -312,10 +360,13 @@ class AdminController extends Controller
             if ($totaLancado == $boleto->purchase->time_pri) {
                 BoletosModel::where('id', $boleto->id)->update([
                     'status' => 'encerrado',
+                    'dt_encerramento' => $dt_atual,
+
                 ]);
 
                 Purchases::where('id', $boleto->purchase->id)->update([
                     'status' => 'encerrada',
+                    'dt_encerramento' => $dt_atual,
                 ]);
             } else {
                 if ($timeInvestment > $totaLancado) {
@@ -338,8 +389,29 @@ class AdminController extends Controller
         return view('admin.boletos.pagamentos_do_dia', $this->dados);
     }
 
-    public function termosIndex()
+    // public function termosIndex()
+    // {
+    //     return view('admin.termos');
+    // }
+
+    // public function termosStore(Request $request)
+    // {
+    //     $data = $request->all();
+    //     dd($data);
+    //     // return view('admin.termos');
+    // }
+
+    public function sacsPendentes(SaquesModel $saques)
     {
-        return view('admin.termos');
+        $saques = $saques->where('status', 'pendente')->paginate(10);
+
+        return view('admin.saques.saques_pendentes', compact('saques'));
+    }
+
+    public function sacsConfirmados(SaquesModel $saques)
+    {
+        $saques = $saques->where('status', 'pago')->paginate(10);
+
+        return view('admin.saques.saques_confirmados', compact('saques'));
     }
 }

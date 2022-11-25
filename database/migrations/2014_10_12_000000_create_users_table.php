@@ -25,6 +25,9 @@ return new class extends Migration {
             $table->string('cell')->nullable();
             $table->string('codigo_assas')->nullable();
             $table->unsignedBigInteger('sponsor');
+            $table->longText('termo_compra')->nullable();
+            $table->string('status_termo')->nullable();
+            $table->date('dt_termo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,7 +39,7 @@ return new class extends Migration {
                 'name' => 'admin',
                 'user' => 'admin',
                 'email' => '1',
-                'cpf' => '111.111.111-11',
+                'cpf' => '270.110.669-93',
                 'password' => Hash::make('1'),
                 'type' => 'admin',
             ],
@@ -46,7 +49,7 @@ return new class extends Migration {
                 'name' => 'Teste J',
                 'user' => 'testej',
                 'email' => 'j@j.com',
-                'cpf' => '222.222.222-22',
+                'cpf' => '235.988.619-31',
                 'password' => Hash::make('j@j.com'),
                 'type' => 'client',
             ]

@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->longText('obs')->nullable();
             $table->longText('json')->nullable();
             $table->string('transaction_id')->nullable();
+            $table->date('dt_encerramento')->nullable();
             $table->string('forwardingTransaction_id')->nullable();
             $table->decimal('quantity');
 

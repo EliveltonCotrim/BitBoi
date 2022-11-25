@@ -93,6 +93,12 @@
                         <span class=" nav-text">Moedas</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('saques.pendentes') }}">
+                        <i class="fa fa-money"></i>
+                        <span class="nav-text">Saques</span>
+                    </a>
+                </li>
 
 
                 <li class="">
@@ -107,13 +113,15 @@
                         </li>
                         <li> <a href="{{ url('admin/logs') }}"><i class="bx bx-right-arrow-alt"></i>Logs</a>
                         </li>
+                        <li>
+                            <a href="{{ route('termos.index') }}">
+                                <i class="bx bx-right-arrow-alt"></i>Termos de Uso
+
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="{{ route('termos.index') }}">
-                        <span class="nav-text"><i class="bx bxs-file-doc"></i> Termos de Uso</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="{{ url('admin/logout') }}">
                         <div class="parent-icon"><i class="bx bx-power-off"></i>
@@ -279,31 +287,50 @@
         }, 8000);
     </script>
 
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="{{ asset('assets/painel/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/js/bootstrap.min.js') }}"></script>
+    <!--plugins-->
+    <script src="{{ asset('assets/painel/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    <!-- Vector map JavaScript -->
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/painel/js/index.js') }}"></script>
+    <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
+
+    <!-- App JS -->
+    <script src="{{ asset('assets/painel/js/app.js') }}"></script>
+    <script>
+        new PerfectScrollbar('.dashboard-social-list');
+        new PerfectScrollbar('.dashboard-top-countries');
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                fontColor: {
+                    colors: [{
+                            color: 'Black',
+                            label: 'Black'
+                        }
+
+                    ]
+                },
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     @section('scripts')
 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-        <script src="{{ asset('assets/painel/js/popper.min.js') }}"></script>
-        <script src="{{ asset('assets/painel/js/bootstrap.min.js') }}"></script>
-        <!--plugins-->
-        <script src="{{ asset('assets/painel/plugins/simplebar/js/simplebar.min.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/metismenu/js/metisMenu.min.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-        <!-- Vector map JavaScript -->
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
-        <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
-        <script src="{{ asset('assets/painel/js/index.js') }}"></script>
-        <!-- App JS -->
-        <script src="{{ asset('assets/painel/js/app.js') }}"></script>
-        <script>
-            new PerfectScrollbar('.dashboard-social-list');
-            new PerfectScrollbar('.dashboard-top-countries');
-        </script>
 
         {{-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"
             integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> --}}

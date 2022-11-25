@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdmController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BoletosController;
 use App\Http\Controllers\Admin\ClientsController;
@@ -30,8 +31,11 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::get('sobre', [AdminController::class, 'sobre']);
         Route::post('sobre', [AdminController::class, 'sobre_store']);
 
-        Route::get('termos', [AdminController::class, 'termos']);
-        Route::post('termos', [AdminController::class, 'termos_store']);
+        Route::get('termos', [AdminController::class, 'termos'])->name('termos.index');
+        Route::post('termos', [AdminController::class, 'termos_store'])->name('termos.store');
+
+        // Route::get('termos/', [AdminController::class, 'termosIndex']);
+        // Route::post('termos/store', [AdminController::class, 'termosStore'])->name('termos.store');
 
         Route::resource('balances', BalancesController::class);
         Route::post('balances/search', [BalancesController::class, 'search'])->name('balances.search');
@@ -77,10 +81,11 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::resource('notifications', NotificationsController::class);
         Route::post('notifications/search', [NotificationsController::class, 'search'])->name('notifications.search');
 
-        Route::get('saques/pendentes', [SaquesController::class, 'pendentes']);
-        Route::post('saques/confirm/{saque_id}', [SaquesController::class, 'confirm']);
-        Route::resource('saques', SaquesController::class);
-        Route::post('saques/search', [SaquesController::class, 'search'])->name('saques.search');
+        Route::post('saques/confirm/{saque_id}', [SaquesController::class, 'confirm'])->name('saques.confirm');
+        Route::get('saques/{saque_id}/edit', [SaquesController::class, 'edit'])->name('saque.edit');
+        // Route::get('saques/pendentes', [SaquesController::class, 'pendentes']);
+        // Route::resource('saques', SaquesController::class);
+        // Route::post('saques/search', [SaquesController::class, 'search'])->name('saques.search');
 
         Route::resource('documents', DocumentsController::class);
         Route::post('documents/search', [DocumentsController::class, 'search'])->name('documents.search');
@@ -157,7 +162,10 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::get('coins/{coin}/edit', [CoinsController::class, 'edit'])->name('coin.edit');
         Route::put('coins/{coins}/update', [CoinsController::class, 'update'])->name('coin.update');
 
-        Route::get('termos/', [AdminController::class, 'termosIndex'])->name('termos.index');
+        Route::get('saques/pendentes', [AdminController::class, 'sacsPendentes'])->name('saques.pendentes');
+        Route::get('saques/confirmados', [AdminController::class, 'sacsConfirmados'])->name('saques.confirmados');
+
+
 
 
         Route::get('estrategia', [AdminController::class, 'estrategia']);

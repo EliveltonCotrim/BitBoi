@@ -3,8 +3,8 @@
 
 @section('actions')
     <!-- <a href='<?php echo url('admin/boletos/create'); ?>' class='btn btn-primary'>
-        Cadastrar
-    </a> -->
+                    Cadastrar
+                </a> -->
 @endsection
 
 @section('content')
@@ -17,13 +17,13 @@
                     <form action="" method='get'>
                         @csrf
                         <div class='form-row mt-2'>
-                            <div class='col-md-3'>
+                            <div class='col-md-2'>
                                 <label>Data Inicial</label>
                                 <input type='date' name='start' value="{{ $filters['start'] ?? '' }}"
                                     class='form-control'>
                             </div>
 
-                            <div class='col-md-3'>
+                            <div class='col-md-2'>
                                 <label>Data Final</label>
                                 <input type='date' name='end' value="{{ $filters['end'] ?? '' }}"
                                     class='form-control'>
@@ -40,7 +40,7 @@
                                     PDF
                                 </a>
                             </div>
-                            <div class='col-md-2'>
+                            <div class='col-md-3'>
                                 <label>&nbsp;</label>
 
                                 {{-- <input type='submit' value='Pesquisar' class='form-control btn btn-light'> --}}
@@ -54,36 +54,44 @@
             <hr>
 
             <div class='row'>
-                <div class='col-md-3'>
-                    <div class="card p-2">
-                        Total de Vendas:
-                        {{ $boletos->total() }}
+                <div class="col-12 col-lg-3 col-xl-3">
+                    <div class="card radius-15">
+                        <div class="card-body">
+                            <h6 class="card-title text-white">Total de Vendas</h6>
+                            <h6 class="card-subtitle mb-2 text-white"> {{ $boletos->total() }}</h6>
+                            {{-- <a href="#" class="card-link text-white">Another link</a> --}}
+                        </div>
                     </div>
                 </div>
-                <div class='col-md-3'>
-                    <div class="card p-2">
-                        Valor Total Investido:
-                        @money($valorTotalInvestido)
+                <div class="col-12 col-lg-3 col-xl-3">
+                    <div class="card radius-15">
+                        <div class="card-body">
+                            <h6 class="card-title text-white">Valor Investido</h6>
+                            <h6 class="card-subtitle mb-2 text-white">@money($valorTotalInvestido)</h6>
+                            {{-- <a href="#" class="card-link text-white">Another link</a> --}}
+                        </div>
                     </div>
                 </div>
-                <div class='col-md-3'>
+                <div class="col-12 col-lg-3 col-xl-3">
+                    <div class="card radius-15">
+                        <div class="card-body">
+                            <h6 class="card-title text-white">Rendimentos Previsto</h6>
+                            <h6 class="card-subtitle mb-2 text-white">@money($rendimentoPrevisto)</h6>
+                            {{-- <a href="#" class="card-link text-white">Another link</a> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 col-xl-3">
                     <a href="{{ route('payment.day') }}">
-                        <div class="card p-2">
-                            Rendimentos do Dia:
-                            @money($pagamentoDia)
+                        <div class="card radius-15">
+                            <div class="card-body">
+                                <h6 class="card-title text-white">Rendimentos do Dia</h6>
+                                <h6 class="card-subtitle mb-2 text-white">@money($pagamentoDia)
+                                </h6>
+                            </div>
                         </div>
                     </a>
                 </div>
-                <div class='col-md-3'>
-                    <a href="#">
-                        <div class="card p-2">
-                            Rendimentos total Previsto:
-                            @money($investPrevisto)
-                        </div>
-                    </a>
-                </div>
-
-
             </div>
 
             <table class='table table-bordered table-hover'>

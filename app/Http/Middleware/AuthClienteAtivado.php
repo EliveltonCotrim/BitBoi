@@ -7,7 +7,8 @@ use App\Src\Plans\PlanClient;
 use Closure;
 use Illuminate\Http\Request;
 
-class AuthClienteAtivado {
+class AuthClienteAtivado
+{
     /**
      * Handle an incoming request.
      *
@@ -15,17 +16,18 @@ class AuthClienteAtivado {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next) {
+    public function handle(Request $request, Closure $next)
+    {
         // $id_cliente = $request->session()->get('id');
+        // $planCliente = new PlanClient();
+        // $plan_client = $planCliente->get($id_cliente);
 
-        $id_cliente = auth()->user()->client_id;
-        dd($id_cliente);
-        
-        $planCliente = new PlanClient();
-        $plan_client = $planCliente->get($id_cliente);
+        $user_client = auth()->user();
+        $statusTermo = $user_client->status_termo;
 
-        if ($plan_client['status'] != 'ativo') {
-            return redirect('client/ativacao')->with('alert', 'Seu Plano não está ativo');
+        if ($statusTermo != 'aceito') {
+            // return redirect('client/ativacao')->with('alert', 'Seu Plano não está ativo');
+            return redirect()->back()->with('alert', 'Você precisa aceitar os termos de uso');
         }
 
         return $next($request);

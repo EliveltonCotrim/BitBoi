@@ -83,7 +83,7 @@ class Balance
         }
 
         $insert = [
-            'client_id' => $cliente_id,
+            'user_id' => $cliente_id,
             'reference' => $reference,
             'operation' => 'd',
             'coin' => $coin,

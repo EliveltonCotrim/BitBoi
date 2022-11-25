@@ -43,15 +43,17 @@
         <div class="col-12 col-lg-12">
             <div class="card radius-15">
                 <div class="card-body p-5">
-                    <div class="form-body">
+                    <form  action="{{ route('termos.store') }}" method="post">
+                        @csrf
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label>Termos</label>
+                                <textarea name="termos" id="editor" cols="10">{{ $param->termo_compra }}</textarea>
+                            </div>
 
-                        <div class="form-group">
-                            <label>Termos</label>
-                            <textarea class="form-control" rows="10" cols="3"></textarea>
+                            <button type="submit" class="btn btn-primary px-5 radius-30">Salvar</button>
                         </div>
-
-                        <button type="button" class="btn btn-primary px-5 radius-30">Salvar</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

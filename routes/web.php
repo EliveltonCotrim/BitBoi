@@ -43,9 +43,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('check', [ClientController::class, 'check']);
 
         Route::get('plan/select', [ClientController::class, 'plan_select']);
-        Route::post('plan/select', [ClientController::class, 'plan_select_store']);
         Route::get('coin/select', [ClientController::class, 'coin_select']);
-        Route::post('coin/select', [ClientController::class, 'coin_select_store']);
 
         Route::get('compras', [ClientController::class, 'meu_plano']);
         Route::get('relatorio', [ClientController::class, 'relatorio']);
@@ -81,8 +79,11 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('saques/investimentos', [ClientController::class, 'saquesInvestimentos'])->name('saques.investimentos');
 
         // verificar o middleware
-        Route::prefix('/')->group(function () {
-            // middleware(AuthClienteAtivado::class)->
+        Route::prefix('/')->middleware(AuthClienteAtivado::class)->group(function () {
+
+            Route::post('plan/select', [ClientController::class, 'plan_select_store']);
+            Route::post('coin/select', [ClientController::class, 'coin_select_store']);
+
             Route::get('estrategia', [ClientController::class, 'estrategia2']);
 
             Route::get('tutorial', [ClientController::class, 'tutorial']);
@@ -112,6 +113,8 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('faq', [ClientController::class, 'faq']);
         Route::get('about', [ClientController::class, 'about']);
         Route::get('termos_compra', [ClientController::class, 'termos_compra']);
+        Route::post('store/termo/user', [ClientController::class, 'storetermoUser'])->name('store.termo.user');
+
 
         Route::get('logout', [ClientController::class, 'logout']);
 

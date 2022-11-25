@@ -16,7 +16,7 @@ class BoletosModel extends Model {
     protected $fillable = [
         'user_id', 'purchase_id', 'tipo', 'valor', 'meioPagamento', 'ticket', 'status',
         'dataConfirmacao', 'obs', 'json', 'transaction_id', 'forwardingTransaction_id',
-        'quantity'
+        'quantity', 'dt_encerramento'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'dataConfirmacao'];

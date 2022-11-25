@@ -10,13 +10,13 @@
         <div class="card-body">
             <div class='row'>
                 <div class='col-md-2'>
-                    <a href="{{ route('solicitar.saques.rendimentos') }}" class="btn btn-primary btn-sm">
-                        Saque de Rendimentos
+                    <a href="{{ route('solicitar.saques.rendimentos') }}" class="btn btn-primary">
+                        Saque Rendimentos
                     </a>
                 </div>
                 <div class='col-md-2'>
-                    <a href="{{ route('saques.investimentos') }}" class="btn btn-primary btn-sm">
-                        Saque de Investimentos
+                    <a href="{{ route('saques.investimentos') }}" class="btn btn-primary">
+                        Saque Investimentos
                     </a>
                 </div>
                 <div class='col-md-2 align-self-end'>

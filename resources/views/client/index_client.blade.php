@@ -79,7 +79,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ url('client/termos_compra') }}">
                         <div class="parent-icon"><i class='bx bx-book-open'></i>
                         </div>
                         <div class="menu-title">Termos de Uso</div>
@@ -268,6 +268,40 @@
         new PerfectScrollbar('.dashboard-social-list');
         new PerfectScrollbar('.dashboard-top-countries');
     </script>
+    <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .ten(editor => {
+                console.log(editor);
+                editor.isReadOnly = true;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        $('#editor').isReadOnly = true;
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#show_hide_password a").on('click', function(event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("bx-hide");
+                    $('#show_hide_password i').removeClass("bx-show");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("bx-hide");
+                    $('#show_hide_password i').addClass("bx-show");
+                }
+            });
+        });
+    </script>
+
+    @yield('scripts')
 </body>
 
 </html>

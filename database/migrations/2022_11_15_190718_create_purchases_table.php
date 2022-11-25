@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double('percentual_rendimento');
             $table->integer('time_pri');
             $table->date('dt_purchase')->nullable();
+            $table->date('dt_encerramento')->nullable();
             $table->string('status');
 
             $table->timestamps();

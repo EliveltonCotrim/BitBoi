@@ -31,11 +31,11 @@ class BoletosController extends Controller
      */
     public function index(Request $request)
     {
-        $inevstPrevisto = 0;
+        $rendimentoPrevisto = 0;
         $qtd_coin = 0;
-        $dia = date('d');
         $pagadomentoDia = 0;
         $valorTotalInvestido = 0;
+        $dia = date('d');
         $dateAtual = date('Y-m-d');
 
         $filters = $request->except('_token');
@@ -84,10 +84,12 @@ class BoletosController extends Controller
             if ($totaLancado == $boleto->purchase->time_pri) {
                 BoletosModel::where('id', $boleto->id)->update([
                     'status' => 'encerrado',
+                    'dt_encerramento' => $dateAtual,
                 ]);
 
                 Purchases::where('id', $boleto->purchase->id)->update([
                     'status' => 'encerrada',
+                    'dt_encerramento' => $dateAtual,
                 ]);
             } else {
 
@@ -105,16 +107,17 @@ class BoletosController extends Controller
 
 
         foreach ($boletosConfirmados as $key => $boletoConfirmado) {
-            $inevstPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $boletoConfirmado->purchase->time_pri;
+            $rendimentoPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $boletoConfirmado->purchase->time_pri;
             $valorTotalInvestido += $boletoConfirmado->valor;
             $qtd_coin += $boletoConfirmado->purchase->quantity_coin;
         }
 
         $this->dados['filters'] = $filters;
-        $this->dados['investPrevisto'] = $inevstPrevisto;
+        $this->dados['rendimentoPrevisto'] = $rendimentoPrevisto;
         $this->dados['pagamentoDia'] = $pagadomentoDia;
         $this->dados['valorTotalInvestido'] = $valorTotalInvestido;
         $this->dados['boletos'] = $boletos->paginate(20);
+        $this->dados['boletosConfirmados'] = $boletosConfirmados;
 
         return view('admin.boletos.boletos_list', $this->dados);
     }

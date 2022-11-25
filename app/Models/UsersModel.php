@@ -13,7 +13,7 @@ class UsersModel extends Model {
 
     protected $fillable = [
         'name', 'email', 'user', 'email_verified_at', 'password',
-        'remember_token', 'type', 'cpf', 'sponsor'
+        'remember_token', 'type', 'cpf', 'sponsor', 'termo_compra', 'status_termo', 'dt_termo'
     ];
 
     protected $date = ['created_at', 'updated_at'];

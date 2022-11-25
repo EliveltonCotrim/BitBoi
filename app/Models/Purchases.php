@@ -22,7 +22,8 @@ class Purchases extends Model
         'percentual_rendimento',
         'dt_purchase',
         'status',
-        'time_pri'
+        'time_pri',
+        'dt_encerramento'
     ];
 
     protected $date = [

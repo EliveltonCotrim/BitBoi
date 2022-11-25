@@ -86,6 +86,7 @@ class ClientsModel extends Model {
     public function scopeGetBancos($query, $client_id) {
         $result = [];
         $bancos = $query->find($client_id)->banks;
+
         if ($bancos) {
             foreach ($bancos as $k => $banco) {
                 $result[$k] = [

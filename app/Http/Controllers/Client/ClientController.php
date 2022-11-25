@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RequestTermoUser;
 use App\Models\BalancesModel;
 use App\Models\BoletosModel;
 use App\Models\ClientsModel;
 use App\Models\Coins;
 use App\Models\ComprasModel;
+use App\Models\CotacaoMoeda;
 use App\Models\FaqsModel;
 use App\Models\FilesModel;
 use App\Models\ParametersModel;
@@ -80,10 +82,13 @@ class ClientController extends Controller
             $lucroPrevisto +=  (($value->valor * $value->purchase->percentual_rendimento) / 100) * $value->purchase->time_pri;
         }
 
+        $cotacoes = CotacaoMoeda::orderBy('created_at', 'ASC')->get();
+
         $this->dados['saldo_moedas'] = $compras->sum('quantity_coin');
         $this->dados['valorInvestido'] =  $saldo_investimento;
         $this->dados['lucroPrevisto'] = $lucroPrevisto;
         $this->dados['rendimentoatual'] = $rendimentoatual;
+        $this->dados['cotacoes'] = $cotacoes;
 
         return view('client.home_client', $this->dados);
     }
@@ -119,7 +124,7 @@ class ClientController extends Controller
         $userClient = UsersModel::find($this->user_id);
         $cliente = ClientsModel::where('user_id', $this->user_id)->first();
         $this->dados['client'] = $userClient;
-        $this->dados['banks'] = $cliente->banks;
+        $this->dados['banks'] = $cliente->banks ?? null;
         return view('client.meus_dados', $this->dados);
     }
 
@@ -191,6 +196,11 @@ class ClientController extends Controller
         // $request->validate($roles);
 
         $id_cliente = ClientsModel::where('user_id', $this->user_id)->first();
+
+        if (!isset($id_cliente)) {
+            return redirect()->back()->with('alert', 'Por favor, preencha seu CPF.');
+        }
+
         $client =  $this->clientesmodel->find($id_cliente->id);
         $banks = $client->banks;
         $banks[] = $request->all();
@@ -237,11 +247,9 @@ class ClientController extends Controller
 
     public function edit_store(Request $request)
     {
-        $client = ClientsModel::where('user_id', $this->user_id)->first();
-
         $roles=[
             'name' => ['required', 'max:255'],
-            'rg' => 'required|unique:clients,rg,'. $client->id,
+            'rg' => 'required',
             'phone' => ['required', 'max:20'],
             'uf' => ['required', 'max:255'],
             'city' => ['required', 'max:255'],
@@ -253,7 +261,7 @@ class ClientController extends Controller
 
         $request->validate($roles);
 
-        $update = [
+        $dados = [
             'rg' => $request->rg,
             'phone' => $request->phone,
             'uf' => $request->uf,
@@ -264,6 +272,14 @@ class ClientController extends Controller
             'cep' => $request->cep,
         ];
 
+        $client = ClientsModel::where('user_id', $this->user_id)->first();
+
+        if (!isset($client)) {
+            $dados['user_id'] = $this->user_id;
+            ClientsModel::create($dados);
+        } else {
+            $client->update($dados);
+        }
 
         $updateUser = [
             'cell' => $request->phone,
@@ -271,10 +287,9 @@ class ClientController extends Controller
 
         ];
 
-        $client->update($update);
         User::where('id', $this->user_id)->update($updateUser);
 
-        return redirect('client/meus_dados')->with('alert', 'Dados Alterados');
+        return redirect('client/meus_dados')->with('success', 'Dados Alterados');
     }
 
     public function pagar()
@@ -306,6 +321,28 @@ class ClientController extends Controller
     public function termos_compra()
     {
         $this->dados['param'] = ParametersModel::find(1);
+        $user = UsersModel::find($this->user_id);
+
+        $this->dados['user'] = $user;
+
+        return view('client.termos_compra', $this->dados);
+    }
+
+    public function storetermoUser(RequestTermoUser $request)
+    {
+        $param = ParametersModel::find(1);
+
+        $dados = [
+            'termo_compra' => $param->termo_compra,
+            'status_termo' => 'aceito',
+            'dt_termo' => date('Y-m-d H:i:s'),
+        ];
+
+        UsersModel::where('id', $this->user_id)->update($dados);
+        $user = UsersModel::find($this->user_id);
+
+        $this->dados['param'] = $param;
+        $this->dados['user'] = $user;
         return view('client.termos_compra', $this->dados);
     }
 

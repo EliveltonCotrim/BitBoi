@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\RequestCreateCoins;
 use App\Http\Requests\Admin\RequestEditCoins;
 use App\Models\Coins;
 use App\Models\CotacaoMoeda;
+use App\Models\SaquesModel;
 use App\Src\Utils\Utils;
 use Illuminate\Http\Request;
 
@@ -107,7 +108,5 @@ class CoinsController extends Controller
         }
     }
 
-    public function delete(Coins $coins)
-    {
-    }
+    
 }
