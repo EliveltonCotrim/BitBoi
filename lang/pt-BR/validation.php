@@ -210,6 +210,7 @@ return [
         'value' => 'valor',
         'nova_cotacao' => 'nova cotação',
         'quantity' => 'quantidade',
+        'quantity_coin' => 'quantidade',
         'percentual_rendimento' => 'percentual de rendimento',
         'coin' => 'moeda',
     ],

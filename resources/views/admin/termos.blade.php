@@ -42,13 +42,13 @@
     <div class="row">
         <div class="col-12 col-lg-12">
             <div class="card radius-15">
-                <div class="card-body p-5">
+                <div class="p-5">
                     <form  action="{{ route('termos.store') }}" method="post">
                         @csrf
-                        <div class="form-body">
+                        <div class="" style="color: black;">
                             <div class="form-group">
-                                <label>Termos</label>
-                                <textarea name="termos" id="editor" cols="10">{{ $param->termo_compra }}</textarea>
+                                <label style="color: white">Termos</label>
+                                <textarea name="termos" id="mytextarea" cols="10"  >{{ $param->termo_compra }}</textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary px-5 radius-30">Salvar</button>

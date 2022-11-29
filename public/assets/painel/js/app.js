@@ -30,7 +30,7 @@ $(function () {
 			subMenu: '.card-body'
 		});
 	});
-	// Tooltips 
+	// Tooltips
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip()
 	})
@@ -127,9 +127,9 @@ $(function () {
     $('#theme10').click(theme10);
     $('#theme11').click(theme11);
     $('#theme12').click(theme12);
-    $('#theme13').click(theme13);
-    $('#theme14').click(theme14);
-    $('#theme15').click(theme15);
+    // $('#theme13').click(theme13);
+    // $('#theme14').click(theme14);
+    // $('#theme15').click(theme15);
 
     function theme1() {
       $('body').attr('class', 'bg-theme bg-theme1');
@@ -146,11 +146,11 @@ $(function () {
     function theme4() {
       $('body').attr('class', 'bg-theme bg-theme4');
     }
-	
+
 	function theme5() {
       $('body').attr('class', 'bg-theme bg-theme5');
     }
-	
+
 	function theme6() {
       $('body').attr('class', 'bg-theme bg-theme6');
     }

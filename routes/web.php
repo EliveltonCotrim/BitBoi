@@ -95,6 +95,9 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
             // Route::post('saque/rendimento', [ClientController::class, 'saque_rendimento_store'])->name('sacar.rendimento');
         });
 
+        // Requisicoes ajax
+        route::get('ajax/cotacoes/coin/', [ClientController::class, 'ajax_cotacoes_coin'])->name('ajax.cotacoes');
+
         // Compras
         Route::get('compras/', [ClientController::class, 'compras'])->name('compras.pendentes');
         Route::get('compras/confirmadas', [ClientController::class, 'compras_confirmadas'])->name('compras.confirmadas');

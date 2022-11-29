@@ -21,12 +21,12 @@ class Coins extends Model
     }
 
     /**
- * Get the user's most recent order.
- */
-public function latestCotacao()
-{
-    return $this->hasOne(CotacaoMoeda::class, 'id_coin', 'id')->latestOfMany();
-}
+    * Get the user's most recent order.
+    */
+    public function latestCotacao()
+    {
+        return $this->hasOne(CotacaoMoeda::class, 'id_coin', 'id')->latestOfMany();
+    }
 
     public function purchases()
     {
@@ -37,5 +37,4 @@ public function latestCotacao()
     {
         return $this->hasMany(PlansModel::class, 'coin_id', 'id');
     }
-
 }

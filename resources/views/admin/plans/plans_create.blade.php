@@ -26,12 +26,11 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#coin').change(function() {
-            console.log('sdasd')
-            var id_coin = ($(this).val());
+    {{-- <script>
+        $('#coin').change(function(event) {
+            var id_coin = $(this).val();
             console.log(id_coin);
         });
-    </script>
+    </script> --}}
 
 @endsection

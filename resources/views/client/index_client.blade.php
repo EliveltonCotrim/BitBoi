@@ -258,17 +258,16 @@
     <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
     {{-- <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apex-custom.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/painel/plugins/chartjs/js/Chart.min.js') }}"></script>
-    <script src="{{ asset('assets/painel/plugins/chartjs/js/chartjs-custom.js') }}"></script> --}}
+    <script src="{{ asset('assets/painel/plugins/chartjs/js/Chart.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/painel/plugins/chartjs/js/chartjs-custom.js') }}"></script> --}}
 
-    <script src="{{ asset('assets/painel/js/index.js') }}"></script>
+    {{-- <script src="{{ asset('assets/painel/js/index.js') }}"></script> --}}
     <!-- App JS -->
     <script src="{{ asset('assets') }}/painel/js/app.js"></script>
     <script>
         new PerfectScrollbar('.dashboard-social-list');
         new PerfectScrollbar('.dashboard-top-countries');
     </script>
-    <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
 
     <script>
         ClassicEditor

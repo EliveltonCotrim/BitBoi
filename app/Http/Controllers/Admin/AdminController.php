@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BoletosModel;
 use App\Models\ClientsModel;
+use App\Models\Coins;
 use App\Models\ParametersModel;
 use App\Models\Purchases;
 use App\Models\Rendimentos;
@@ -413,5 +414,19 @@ class AdminController extends Controller
         $saques = $saques->where('status', 'pago')->paginate(10);
 
         return view('admin.saques.saques_confirmados', compact('saques'));
+    }
+
+    public function ajaxValueCoin(Request $request)
+    {
+        $coin_value = [];
+
+        $coin = Coins::with('latestCotacao')
+        ->where('id', $request->id_coin)
+        ->where('status', 'active')->first();
+
+        $coin_value['coin'] = $coin->name;
+        $coin_value['value'] = $coin->latestCotacao->value;
+
+        return response()->json($coin_value);
     }
 }

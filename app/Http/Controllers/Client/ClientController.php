@@ -68,27 +68,28 @@ class ClientController extends Controller
 
         $boletos = BoletosModel::where('user_id', $this->user_id)->where('status', 'confirmado')->get();
 
-        $saldo_investimento = BalancesModel::where('reference', 'investimento')
+        $saldo_investimento = BalancesModel::where('coin', 'investimento')
         ->where('user_id', $this->user_id)
         ->latest()->first();
 
-        $rendimentoatual = BalancesModel::where('reference', 'rendimento')
+        $rendimentoatual = BalancesModel::where('coin', 'rendimento')
         ->where('user_id', $this->user_id)
         ->latest()->first();
-
 
         $lucroPrevisto = 0;
         foreach ($boletos as $key => $value) {
             $lucroPrevisto +=  (($value->valor * $value->purchase->percentual_rendimento) / 100) * $value->purchase->time_pri;
         }
 
-        $cotacoes = CotacaoMoeda::orderBy('created_at', 'ASC')->get();
+        $coins = Coins::where('status', 'active')->get();
 
+        $cotacoes = CotacaoMoeda::orderBy('created_at', 'ASC')->get();
         $this->dados['saldo_moedas'] = $compras->sum('quantity_coin');
         $this->dados['valorInvestido'] =  $saldo_investimento;
         $this->dados['lucroPrevisto'] = $lucroPrevisto;
         $this->dados['rendimentoatual'] = $rendimentoatual;
         $this->dados['cotacoes'] = $cotacoes;
+        $this->dados['coins'] = $coins;
 
         return view('client.home_client', $this->dados);
     }
@@ -485,6 +486,13 @@ class ClientController extends Controller
 
     public function coin_select_store(Request $request)
     {
+
+        $roles = [
+            'coin' => 'required',
+            'quantity_coin' => 'required',
+        ];
+
+        $request->validate($roles);
         $coin_id = Crypt::decrypt($request->coin);
 
         $coin = Coins::find($coin_id);
@@ -656,5 +664,29 @@ class ClientController extends Controller
         $this->dados['boleto'] = $boleto;
 
         return view('client.compras.show_compra', $this->dados);
+    }
+
+
+    // Requisição Ajax
+    public function ajax_cotacoes_coin(Request $request){
+        $cotacoes = [];
+        $year = date('Y');
+        $monthStart = date('m', strtotime('2022-01-01'));
+        $monthEnd = date('m', strtotime('2022-12-31'));
+
+        $coin = Coins::where('id', $request->id_coin_selected)->where('status', 'active')->first();
+
+        $cotacoes_moeda = CotacaoMoeda::where('id_coin', $coin->id)->orderBy('created_at', 'ASC')->latest()->limit(12)->get();
+
+        $cotacoes['moeda'] = $coin->name;
+
+
+        foreach ($cotacoes_moeda as $key => $cotacao) {
+            $cotacoes['valores'][$key] = $cotacao->value;
+            $cotacoes['datas'][$key] = date('d-m-Y', strtotime($cotacao->created_at));
+        }
+
+        return response()->json($cotacoes);
+
     }
 }

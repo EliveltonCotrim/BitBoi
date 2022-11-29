@@ -28,7 +28,7 @@
 
     <div class='col-md-3'>
         <label>Valor</label>
-        <input type='text' name='value' value='{{ old('value') ?? $plan->value }}' class='form-control moeda'>
+        <input type='text' name='value' value='{{ old('value') ?? $plan->value }}' class='form-control'>
     </div>
     <div class='col-md-3'>
         <label>Percentual de Lucro(%)</label>
@@ -38,9 +38,10 @@
 
 </div>
 <div class="form-row">
-    <div class='col-md-3'>
-        <label>Data para retorno de Investimento</label>
-        <input  type='number' name='time_pri' min="0"  name="time_pri" value="{{ $plan->time_pri ?? old('time_pri') }}">
+    <div class='col-md-4'>
+        <label>Tempo para retorno de Investimento (meses)</label>
+        <input class="form-control" type='number' min="0" name="time_pri"
+            value="{{ $plan->time_pri ?? old('time_pri') }}">
     </div>
 </div>
 <div class="form-row mt-3">

@@ -20,12 +20,12 @@
 
     <div class="col-md-2">
         <label for="">Quantidade</label>
-        <input type='number' name='quantity' value='{{ old('quantity') }}' class='form-control'>
+        <input type='number' name='quantity' id="quantity"  min=0 value='{{ old('quantity') }}' class='form-control'>
     </div>
 
     <div class='col-md-3'>
         <label>Valor</label>
-        <input type='text' name='value' value='{{ old('value') }}' class='form-control moeda'>
+        <input type='text' name='value' id="value" min=0 value='{{ old('value') }}' class='form-control moeda'>
     </div>
     <div class='col-md-3'>
         <label>Percentual de Lucro(%)</label>
@@ -35,8 +35,8 @@
 
 </div>
 <div class="form-row">
-    <div class='col-md-3'>
-        <label>Data para retorno de Investimento</label>
+    <div class='col-md-4'>
+        <label>Tempo para retorno de Investimento (meses)</label>
         <input  type='number' min="0"  class="form-control" name="time_pri" value="{{ old('time_pri') }}">
     </div>
 </div>

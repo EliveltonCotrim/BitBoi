@@ -22,9 +22,10 @@
     <!-- Icons CSS -->
     <link rel="stylesheet" href="{{ asset('assets') }}/painel/css/icons.css" />
     <!-- App CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/painel/css/app.css" />
+    <link rel="stylesheet" href="{{ asset('assets/painel/css/app.css') }}" />
+    <script src="{{ asset('assets/painel/js/jquery.min.js') }}"></script>
 
-    <script src="{{ asset('assets') }}/painel/js/jquery.min.js"></script>
+
 
     <style>
         .form-row {
@@ -201,7 +202,7 @@
                                         <p class="user-name mb-0">{{ session('user') }}</p>
                                         <p class="designattion mb-0">On-line</p>
                                     </div>
-                                    <img src="{{ asset('assets') }}/img/logo9.png" class="user-img"
+                                    <img src="{{ asset('assets/img/avata.png') }}" class="user-img"
                                         alt="user avatar">
                                 </div>
                             </a>
@@ -297,15 +298,16 @@
     <script src="{{ asset('assets/painel/plugins/metismenu/js/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
     <!-- Vector map JavaScript -->
-    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-in-mill.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-us-aea-en.js') }}"></script>
     <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-uk-mill-en.js') }}"></script>
-    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script>
-    <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/painel/js/index.js') }}"></script>
-    <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-au-mill.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/painel/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/painel/js/index.js') }}"></script> --}}
+    <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+
 
     <!-- App JS -->
     <script src="{{ asset('assets/painel/js/app.js') }}"></script>
@@ -328,6 +330,55 @@
             .catch(error => {
                 console.error(error);
             });
+    </script>
+    <script>
+        tinymce.init({
+            selector: '#mytextarea'
+        });
+
+        // $('#coin').change(function(event) {
+        //     var id_coin = $(this).val();
+
+        //     $.ajax({
+        //         type: 'get',
+        //         url: '{{ route('ajax.value.coin') }}',
+        //         data: {
+        //             'id_coin': id_coin
+        //         },
+        //         success: function(coin) {
+
+        //             $('#value').val(coin.value);
+        //             $('#value').mask("#.##0,00", {
+        //                 reverse: true
+        //             });
+        //         }
+        //     })
+
+        // });
+
+        $('#quantity').keyup(function(event) {
+
+            var id_coin = $('#coin').val();
+            var quantity = $(this).val();
+
+            $.ajax({
+                type: 'get',
+                url: '{{ route('ajax.value.coin') }}',
+                data: {
+                    'id_coin': id_coin
+                },
+                success: function(coin) {
+
+                    var total = quantity * coin.value;
+
+                    $('#value').val(total);
+                    $('#value').mask("#.##0,00", {
+                        reverse: true
+                    });
+                }
+            })
+
+        });
     </script>
     @section('scripts')
 

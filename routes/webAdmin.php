@@ -165,6 +165,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::get('saques/pendentes', [AdminController::class, 'sacsPendentes'])->name('saques.pendentes');
         Route::get('saques/confirmados', [AdminController::class, 'sacsConfirmados'])->name('saques.confirmados');
 
+        // Requisiçoes ajax
+        Route::get('ajax/coin', [AdminController::class, 'ajaxValueCoin'])->name('ajax.value.coin');
 
 
 

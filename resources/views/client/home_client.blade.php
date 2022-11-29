@@ -3,198 +3,178 @@
 @section('menu_home', 'active')
 
 @section('content')
-
-    <div class="container-fluid">
-        <div class='row'>
-            <div class="col-12 col-md-4">
-                <div class='row'>
-                    <div class='col-md-12'>
-                        <div class="card radius-15">
-                            <div class="card-body" style="position: relative;">
-                                <div class="d-flex mb-2">
-                                    <div>
-                                        <p class="mb-0 font-weight-bold text-white">Saldo Moedas</p>
-                                        <h2 class="mb-0 text-white">
-                                            {{ $saldo_moedas }}
-                                        </h2>
-                                    </div>
-                                    <div class="ml-auto align-self-end">
-                                    </div>
-                                </div>
-                                <div id="chart1" style="min-height: 80px;">
-                                </div>
-                                <div class="resize-triggers">
-                                    <div class="expand-trigger">
-                                        <div style="width: 363px; height: 188px;"></div>
-                                    </div>
-                                    <div class="contract-trigger"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div class='col-md-12'>
-                        <div class="card radius-15">
-                            <div class="card-body" style="position: relative;">
-                                <div class="d-flex mb-2">
-                                    <div>
-                                        <p class="mb-0 font-weight-bold text-white">Saldo Investimento</p>
-                                        <h2 class="mb-0 text-white">
-                                            {{-- @money2($valorInvestido->courentBalance) --}}
-                                        </h2>
-                                    </div>
-                                    <div class="ml-auto align-self-end">
-                                    </div>
-                                </div>
-                                <div id="chart1" style="min-height: 80px;">
-                                </div>
-                                <div class="resize-triggers">
-                                    <div class="expand-trigger">
-                                        <div style="width: 363px; height: 188px;"></div>
-                                    </div>
-                                    <div class="contract-trigger"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div class='col-md-12'>
-                        <div class="card radius-15">
-                            <div class="card-body" style="position: relative;">
-                                <div class="d-flex mb-2">
-                                    <div>
-                                        <p class="mb-0 font-weight-bold text-white">Rendimento Atual</p>
-                                        <h2 class="mb-0 text-white">
-                                            @if ($rendimentoatual)
-                                                @money2($rendimentoatual->courentBalance)
-                                            @endif
-                                        </h2>
-                                    </div>
-                                    <div class="ml-auto align-self-end">
-                                    </div>
-                                </div>
-                                <div id="chart1" style="min-height: 80px;">
-                                </div>
-                                <div class="resize-triggers">
-                                    <div class="expand-trigger">
-                                        <div style="width: 363px; height: 188px;"></div>
-                                    </div>
-                                    <div class="contract-trigger"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    {{-- <div class="row">
+        <div class="col-12 col-lg-3 col-xl-3">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <p class="card-text text-white">Saldo Investimento</p>
+                    <h2 class="mb-0 text-white">
+                        @money($valorInvestido->courentBalance)
+                    </h2>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class='row'>
-                    <div class='col-md-12'>
-                        <div class="card radius-15">
-                            <div class="card-body" style="position: relative;">
-                                <div class="d-flex mb-2">
-                                    <div>
-                                        <p class="mb-0 font-weight-bold text-white">Lucro previsto</p>
-                                        <h2 class="mb-0 text-white">
-                                            @money($lucroPrevisto)
-                                        </h2>
-                                    </div>
-                                    <div class="ml-auto align-self-end">
-                                    </div>
-                                </div>
-                                <div id="chart2" style="min-height: 80px;">
-                                </div>
-                                <div class="resize-triggers">
-                                    <div class="expand-trigger">
-                                        <div style="width: 363px; height: 188px;"></div>
-                                    </div>
-                                    <div class="contract-trigger"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-5">
-                <div class="card radius-15">
-                    <div class="card-body">
-                        <div class="d-lg-flex align-items-center mb-4">
-                            <div>
-                                <h5 class="mb-0">Nossas Redes Sociais</h5>
-                            </div>
-                            <div class="ml-auto">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="dashboard-social-list ps ps--active-y">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex align-items-center bg-transparent">
-                                    <a href="" target="_blank">
-
-                                        <div class="media align-items-center">
-                                            <div class="widgets-social rounded-circle text-white"><i
-                                                    class="bx bxl-youtube"></i>
-                                            </div>
-                                            <div class="media-body ml-2">
-                                                <h6 class="mb-0">YouTube</h6>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item d-flex align-items-center bg-transparent">
-                                    <a href="" target="_blank">
-                                        <div class="media align-items-center">
-                                            <div class="widgets-social rounded-circle text-white"><i
-                                                    class="bx bxl-telegram"></i>
-                                            </div>
-                                            <div class="media-body ml-2">
-                                                <h6 class="mb-0">Telegram</h6>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-group-item d-flex align-items-center bg-transparent">
-                                    <a href="" target="_blank">
-
-                                        <div class="media align-items-center">
-                                            <div class="widgets-social rounded-circle text-white">
-                                                <i class="bx bxl-instagram"></i>
-                                            </div>
-                                            <div class="media-body ml-2">
-                                                <h6 class="mb-0">Instagram</h6>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                            </ul>
-                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                            </div>
-                            <div class="ps__rail-y" style="top: 0px; height: 230px; right: 0px;">
-                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 135px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-12 mx-auto">
-                <div class="card radius-15">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <h4 class="mb-0">Cotações</h4>
-                        </div>
-                        <hr />
-                        <div id="curve_chart" style="width: 100%; height: 500px"></div>
-                    </div>
-                </div>
-            </div>
-
         </div>
+        <div class="col-12 col-lg-3 col-xl-3">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <p class="card-text text-white">Saldo Moedas</p>
+                    <h2 class="mb-0 text-white">
+                        {{ $saldo_moedas }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 col-xl-3">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <p class="card-text text-white">Rendimento previsto</p>
+                    <h2 class="mb-0 text-white">
+                        @money($lucroPrevisto)
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 col-xl-3">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <p class="card-text">Rendimento Atual</p>
+                    @if ($rendimentoatual)
+                        <h2 class="mb-0 text-white">
 
+                            @money2($rendimentoatual->courentBalance)
+                        </h2>
+                    @else
+                        <h2 class="mb-0 text-white">
+
+                            @money2(0000)
+                        </h2>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <div class="row">
+        <div class="col-12 col-lg-12 col-xl-6">
+            <div class="card-deck flex-column flex-lg-row">
+                <div class="card radius-15">
+                    <div class="card-body text-center">
+                        <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-money'></i></i>
+                        </div>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido->courentBalance)</h4>
+                        <p class="mb-0 text-white">Saldo Investimento</p>
+                    </div>
+                </div>
+                <div class="card radius-15">
+                    <div class="card-body text-center">
+                        <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-coin'></i></i>
+                        </div>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">{{ $saldo_moedas }}</h4>
+                        <p class="mb-0 text-white">Saldo Moedas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck flex-column flex-lg-row">
+                <div class="card radius-15">
+                    <div class="card-body text-center">
+                        <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-line-chart'></i>
+                        </div>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($lucroPrevisto)</h4>
+                        <p class="mb-0 text-white">Rendimento previsto</p>
+                    </div>
+                </div>
+                <div class="card radius-15">
+                    <div class="card-body text-center">
+                        <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-line-chart'></i>
+                        </div>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">
+                            @if ($rendimentoatual)
+                                @money($rendimentoatual->courentBalance)
+                            @else
+                                @money(0000)
+                            @endif
+                        </h4>
+                        <p class="mb-0 text-white">Rendimento Atual</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-lg-12 col-xl-6">
+            <div class="card radius-15">
+                <div class="card-body">
+                    <div class="d-lg-flex align-items-center mb-4">
+                        <div>
+                            <h5 class="mb-0">Nossas Redes Sociais</h5>
+                        </div>
+                        <div class="ml-auto">
+                            {{-- <h3 class="mb-0"><span class="font-14">Total Visits:</span> 874</h3> --}}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="dashboard-social-list">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center bg-transparent">
+                                <div class="media align-items-center">
+                                    <div class="widgets-social rounded-circle text-white"><i class='bx bxl-youtube'></i>
+                                    </div>
+                                    <div class="media-body ml-2">
+                                        <h6 class="mb-0">YouTube</h6>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center bg-transparent">
+                                <div class="media align-items-center">
+                                    <div class="widgets-social rounded-circle text-white"><i class='bx bxl-instagram'></i>
+                                    </div>
+                                    <div class="media-body ml-2">
+                                        <h6 class="mb-0">Instagram</h6>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center bg-transparent">
+                                <div class="media align-items-center">
+                                    <div class="widgets-social rounded-circle text-white"><i class='bx bxl-telegram'></i>
+                                    </div>
+                                    <div class="media-body ml-2">
+                                        <h6 class="mb-0">Telegram</h6>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-12 col-lg-12 mx-auto">
+            <div class="card radius-15">
+                <div class="card-header border-bottom-0">
+                    <div class="d-lg-flex align-items-center">
+                        <div>
+                            <h5 class="mb-lg-0">Cotações</h5>
+                        </div>
+                        <div class="ml-lg-auto mb-2 mb-lg-0">
+                            <div class="form-group">
+                                <select name="select_coin" id="select_coin" class="form-control form-control-sm">
+                                    @foreach ($coins as $key => $coin)
+                                        <option value="{{ $coin->id }}" {{ $key == 0 ? 'selected' : '' }}>
+                                            {{ $coin->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container1">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         function copy() {
@@ -206,36 +186,212 @@
             window.getSelection().removeAllRanges(); // to deselect
         }
     </script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <script type="text/javascript">
-        array.forEach(element => {
-            google.charts.load('current', {
-                'packages': ['corechart']
-            });
-            google.charts.setOnLoadCallback(drawChart);
+    <script>
+        $(document).ready(function() {
+            var select_coin = document.getElementById('select_coin');
+            var id_coin_selected = select_coin.value;
 
-            function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Data', 'Cotação', 'Moeda'],
-                    ['2004', 1000, 400],
-                    ['2005', 1170, 460],
-                    ['2006', 660, 1120],
-                    ['2007', 1030, 540]
-                ]);
+            // chart 1
+            var ctx = document.getElementById('chart1').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
 
-                var options = {
-                    title: 'Company Performance',
-                    curveType: 'function',
+                },
+                options: {
+                    maintainAspectRatio: false,
                     legend: {
-                        position: 'bottom'
+                        display: true,
+                        labels: {
+                            fontColor: '#fff',
+                            boxWidth: 40
+                        }
+                    },
+
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: -25
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: '#fff'
+                            },
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255, 255, 255, 0.24)"
+                            },
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: 'rgba(255, 255, 255, 0.64)'
+                            },
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255, 255, 255, 0.24)"
+                            },
+                        }]
                     }
-                };
+                }
 
-                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            });
 
-                chart.draw(data, options);
+            function addData(myChart, label, data) {
+                myChart.data.labels.push(label);
+                myChart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(data);
+                });
+                myChart.update();
             }
+
+            function removeData(chart) {
+                chart.data.labels.pop();
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.pop();
+                });
+                chart.update();
+            }
+
+            $.ajax({
+                url: "{{ route('ajax.cotacoes') }}",
+                type: "get",
+                data: {
+                    'id_coin_selected': id_coin_selected,
+                },
+                dataType: "json",
+                success: function(cotacoes) {
+                    myChart.config.data.datasets = [];
+                    myChart.config.data.labels = [];
+                    var moeda = cotacoes.moeda
+
+                    var values = []
+                    var datas = cotacoes.datas
+
+                    $.each(cotacoes.valores, function(key, value) {
+                        values.push(value)
+                    });
+
+                    myChart.config.data.labels = datas;
+
+                    var dataSet = [{
+                        label: moeda,
+                        data: values,
+                        borderColor: "rgba(255, 255, 255, 0.70)",
+                        pointRadius: "0",
+                        borderWidth: 3,
+                        tension: 0.1,
+                    }]
+
+                    myChart.config.data.datasets = dataSet;
+                    myChart.update();
+
+                }
+
+            })
+
+        })
+
+        $('#select_coin').change(function() {
+            var id_coin_selected = ($(this).val());
+            var select_coin = document.getElementById('select_coin');
+            var id_coin_selected = select_coin.value;
+
+            // chart 1
+            var ctx = document.getElementById('chart1').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: '#fff',
+                            boxWidth: 40
+                        }
+                    },
+
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: -25
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: '#fff'
+                            },
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255, 255, 255, 0.24)"
+                            },
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: 'rgba(255, 255, 255, 0.64)'
+                            },
+                            gridLines: {
+                                display: true,
+                                color: "rgba(255, 255, 255, 0.24)"
+                            },
+                        }]
+                    }
+                }
+
+            });
+            $.ajax({
+                url: "{{ route('ajax.cotacoes') }}",
+                type: "get",
+                data: {
+                    'id_coin_selected': id_coin_selected,
+                },
+                dataType: "json",
+                success: function(cotacoes) {
+
+                    myChart.config.data.datasets = [];
+                    myChart.config.data.labels = [];
+                    var moeda = cotacoes.moeda
+
+                    var values = []
+                    var datas = cotacoes.datas
+
+                    $.each(cotacoes.valores, function(key, value) {
+                        values.push(value)
+                    });
+
+                    myChart.config.data.labels = datas;
+
+                    var dataSet = [{
+                        label: moeda,
+                        data: values,
+                        borderColor: "rgba(255, 255, 255, 0.70)",
+                        pointRadius: "0",
+                        borderWidth: 3,
+                        tension: 0.1,
+                    }]
+
+                    myChart.config.data.datasets = dataSet;
+                    myChart.update();
+
+                }
+
+            })
+
         });
     </script>
+
 @endsection
