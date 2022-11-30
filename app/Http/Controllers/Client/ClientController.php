@@ -486,7 +486,6 @@ class ClientController extends Controller
 
     public function coin_select_store(Request $request)
     {
-
         $roles = [
             'coin' => 'required',
             'quantity_coin' => 'required',
@@ -582,11 +581,15 @@ class ClientController extends Controller
 
     public function saquesInvestimentos(SaquesModel $saquesModel)
     {
-        $saldo_investimento = BalancesModel::where('reference', 'investimento')
-        ->where('client_id', $this->user_id)
+        $investimento = BalancesModel::where('coin', 'investimento')
+        ->where('user_id', $this->user_id)
         ->latest()->first();
 
-        $this->dados['saldo_investimento'] = $saldo_investimento;
+        $this->dados['saquesInvestimento'] = $saquesModel
+        ->where('moeda', 'investimento')
+        ->where('user_id', $this->user_id)->get();
+
+        $this->dados['investimento'] = $investimento;
 
         return view('client.saque_investimentos', $this->dados);
     }
@@ -624,12 +627,18 @@ class ClientController extends Controller
 
     public function saque_rendimento_store(Request $request)
     {
+        $roles = [
+            'valor' => 'required',
+            'conta' => 'required',
+        ];
+
+        $request->validate($roles);
+
         // $balance = BalancesModel::where('reference', 'rendimento')->where('client_id', $this->user_id)->latest()->first();
         // $id_client = ClientsModel::where('user_id', $this->user_id)->first()->id;
         $balances = new Balance();
         $valorDisponivel = Utils::moeda4(Crypt::decrypt($request->valueDisponivel));
         $valorSolicitado = Utils::moeda($request->valor);
-
         if ($valorSolicitado > $valorDisponivel) {
             return redirect()->back()->with('alert', 'Valor Solicitado maior que o disponível');
         }
@@ -657,6 +666,72 @@ class ClientController extends Controller
         return redirect()->route('solicitar.saques.rendimentos')->with('success', 'Saque Solicitado');
     }
 
+    public function saque_investimento()
+    {
+        $balances = new Balance();
+
+        $quinta_feira = date('w');
+        $id_cliente =  ClientsModel::where('user_id', $this->user_id)->first()->id;
+        $totalRendimento = 0;
+
+        if ($quinta_feira != 5) {
+            // return redirect()->back()->with('alert', 'Saque liberado todas as quinta-feiras');
+        }
+
+        $this->dados['bancos'] = ClientsModel::getBancosList($id_cliente);
+        $this->dados['balances'] = $balances->balances($this->user_id, 'investimento_encerrado');
+
+        $investimentoDisponivel = $this->dados['balances']['saldo_disponivel'];
+        $this->dados['totalDiponivelSaque'] = $investimentoDisponivel;
+
+        return view('client.saques.saque_investimento', $this->dados);
+    }
+
+    public function saque_investimento_store(Request $request)
+    {
+        $roles = [
+            'valor' => 'required',
+            'conta' => 'required',
+        ];
+
+        $request->validate($roles);
+
+        $id_client = ClientsModel::where('user_id', $this->user_id)->first()->id;
+        $valorSolicitado = floatval(Utils::moeda($request->valor));
+
+        $balances = new Balance();
+        $this->dados['balances'] = $balances->balances($this->user_id, 'investimento_encerrado');
+        $investimentoDisponivel = $this->dados['balances']['saldo_disponivel'];
+
+        // dd($valorSolicitado, $investimentoDisponivel);
+
+        $investimentoDisponivel = Utils::moeda($investimentoDisponivel);
+
+        if ($valorSolicitado > $investimentoDisponivel) {
+
+            return redirect()->back()->with('alert', 'Valor Solicitado maior que o disponível');
+        }
+
+        if ($valorSolicitado <= 0 || $valorSolicitado > $investimentoDisponivel) {
+            return redirect()->back()->with('alert', 'Saldo Insuficiente');
+        }
+
+        if ($request->conta == '') {
+            return redirect()->back()->with('alert', 'Informe a conta para saque');
+        }
+
+        $data = [
+            'user_id' => $this->user_id,
+            'valor' => $valorSolicitado,
+            'moeda' => 'investimento_encerrado',
+            'banco' => $request->conta,
+        ];
+
+        SaquesModel::create($data);
+
+        return redirect()->route('saques.investimentos')->with('success', 'Saque solicitado com sucesso!');
+    }
+
     public function show_investimento(Purchases $purchases)
     {
         $boleto = BoletosModel::where('purchase_id', $purchases->id)->first();
@@ -668,7 +743,8 @@ class ClientController extends Controller
 
 
     // Requisição Ajax
-    public function ajax_cotacoes_coin(Request $request){
+    public function ajax_cotacoes_coin(Request $request)
+    {
         $cotacoes = [];
         $year = date('Y');
         $monthStart = date('m', strtotime('2022-01-01'));
@@ -687,6 +763,5 @@ class ClientController extends Controller
         }
 
         return response()->json($cotacoes);
-
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreUpdateSaques;
 use App\Http\Controllers\Controller;
+use App\Models\BalancesModel;
+use App\Models\BoletosModel;
 use App\Models\ClientsModel;
 use App\Models\ParametersModel;
 use App\Models\SaquesModel;
@@ -147,13 +149,29 @@ class SaquesController extends Controller
         $valor_receber = $valor_solicitado - $taxa_saque_valor;
 
         $balance = new Balance();
-        $balance->debit($user_id, $valor_receber, $moeda, 'saque', 'saque id: ' . $saque_id);
-        $balance->debit($user_id, $taxa_saque_valor, $moeda, 'taxa_saque', 'saque id: ' . $saque_id);
+        if ($saque->moeda == 'investimento_encerrado') {
+            // $balances = BalancesModel::where('user_id', $user_id)->where('coin', 'investimento_encerrado')->latest()-> first();
+            // $balance->debit($user_id, $valor_solicitado, 'investimento_encerrado', $balances->coin);
+            $balance->debit($user_id, $valor_receber, 'investimento_encerrado', 'saque', 'saque id: ' . $saque_id);
+
+            $balance->debit($user_id, $taxa_saque_valor, 'investimento_encerrado', 'taxa_saque', 'saque id: ' . $saque_id);
+        } else {
+            $balance->debit($user_id, $valor_receber, 'rendimento', 'saque', 'saque id: ' . $saque_id);
+
+            $balance->debit($user_id, $taxa_saque_valor, 'rendimento', 'taxa_saque', 'saque id: ' . $saque_id);
+        }
+
 
         $data = [
             'data_pagamento' => Carbon::now(),
             'status' => 'pago',
         ];
+
+        $dataBoleto = [
+            'data_pagamento' => Carbon::now(),
+            'status' => 'encerrado',
+        ];
+
 
         $saque->update($data);
         return redirect()->route('saques.pendentes')->with('success', 'Saque Lançado');

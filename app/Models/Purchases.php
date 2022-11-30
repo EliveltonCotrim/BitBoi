@@ -38,7 +38,7 @@ class Purchases extends Model
 
     public function plan()
     {
-        return $this->belongsTo(PlansModel::class, 'plan_id');
+        return $this->belongsTo(PlansModel::class, 'plan_id', 'id');
     }
 
     public function coin()

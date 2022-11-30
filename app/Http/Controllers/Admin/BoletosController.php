@@ -66,8 +66,7 @@ class BoletosController extends Controller
 
 
         $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
-        // $dia = date('d');
-        // $dateAtual = date('Y-m-d', strtotime('2023-02-22'));
+
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
         foreach ($boletosDia as $key => $boleto) {
@@ -91,17 +90,23 @@ class BoletosController extends Controller
                     'status' => 'encerrada',
                     'dt_encerramento' => $dateAtual,
                 ]);
+
+                if ($boleto->purchase->coin_id) {
+                    $moeda = $boleto->purchase->coin->name;
+                } else {
+                    $moeda = $boleto->purchase->plan->coin->name;
+                }
+                $balance = new Balance();
+
+                $balance->credit($boleto->user_id, $boleto->valor, 'investimento_encerrado', $moeda);
+                $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
             } else {
-
                 if ($timeInvestment > $totaLancado) {
-
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-
                         $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
                     }
                 }
-
             }
         }
 

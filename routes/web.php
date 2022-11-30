@@ -90,6 +90,8 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
 
             Route::get('saque/rendimento/', [ClientController::class, 'saque_rendimento'])->name('sacar.rendimento');
             Route::post('saque/rendimento/', [ClientController::class, 'saque_rendimento_store']);
+            Route::get('saque/investimento/', [ClientController::class, 'saque_investimento'])->name('sacar.investimento');
+            Route::post('saque/investimento/', [ClientController::class, 'saque_investimento_store']);
 
             // Route::get('saque/rendimento', [ClientController::class, 'saque_rendimento'])->name('sacar.rendimento');
             // Route::post('saque/rendimento', [ClientController::class, 'saque_rendimento_store'])->name('sacar.rendimento');

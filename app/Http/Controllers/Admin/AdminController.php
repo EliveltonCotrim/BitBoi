@@ -214,25 +214,25 @@ class AdminController extends Controller
             ->count();
 
 
-            if ($historicoPagamento == $boleto->purchase->time_pri) {
-                BoletosModel::where('id', $boleto->id)->update([
-                    'status' => 'encerrado',
-                    'dt_encerramento' => $dt_atual,
+            // if ($historicoPagamento == $boleto->purchase->time_pri) {
+            //     BoletosModel::where('id', $boleto->id)->update([
+            //         'status' => 'encerrado',
+            //         'dt_encerramento' => $dt_atual,
 
-                ]);
+            //     ]);
 
-                Purchases::where('id', $boleto->purchase->id)->update([
-                    'status' => 'encerrada',
-                    'dt_encerramento' => $dt_atual,
+            //     Purchases::where('id', $boleto->purchase->id)->update([
+            //         'status' => 'encerrada',
+            //         'dt_encerramento' => $dt_atual,
 
-                ]);
-            } else {
-                if ($timeInvestment > $historicoPagamento) {
-                    $pays_day[$key] = $boleto;
-                    $valorTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
-                    $qtd_coin += $boleto->purchase->quantity_coin;
-                }
+            //     ]);
+            // } else {
+            if ($timeInvestment > $historicoPagamento) {
+                $pays_day[$key] = $boleto;
+                $valorTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                $qtd_coin += $boleto->purchase->quantity_coin;
             }
+            // }
         }
         $this->dados['valor_total'] = $valorTotal;
         $this->dados['qtd_coin'] = $qtd_coin;
@@ -300,6 +300,16 @@ class AdminController extends Controller
                             'dt_encerramento' => $data,
 
                         ]);
+
+                        if ($boleto->purchase->coin_id) {
+                            $moeda = $boleto->purchase->coin->name;
+                        } else {
+                            $moeda = $boleto->purchase->plan->coin->name;
+                        }
+                        $balance = new Balance();
+
+                        $balance->credit($boleto->user_id, $boleto->valor, 'investimento_encerrado', $moeda);
+                        $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
                     } else {
                         if ($timeInvestment > $historicoPagamento) {
                             $rendimento = ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
@@ -325,6 +335,7 @@ class AdminController extends Controller
                                 $moeda,
                             );
                         }
+                        
                     }
                 }
 
@@ -358,28 +369,37 @@ class AdminController extends Controller
             }
 
 
-            if ($totaLancado == $boleto->purchase->time_pri) {
-                BoletosModel::where('id', $boleto->id)->update([
-                    'status' => 'encerrado',
-                    'dt_encerramento' => $dt_atual,
+            // if ($totaLancado == $boleto->purchase->time_pri) {
+            //     BoletosModel::where('id', $boleto->id)->update([
+            //         'status' => 'encerrado',
+            //         'dt_encerramento' => $dt_atual,
 
-                ]);
+            //     ]);
 
-                Purchases::where('id', $boleto->purchase->id)->update([
-                    'status' => 'encerrada',
-                    'dt_encerramento' => $dt_atual,
-                ]);
-            } else {
-                if ($timeInvestment > $totaLancado) {
-                    if (in_array($dt_atual, $dt_lancadas)) {
-                    } else {
-                        $rendimentoTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
-                        $qtd_coin += $boleto->purchase->quantity_coin;
-                        $boleto['rendimento_atual'] = $rendimentoTotal;
-                        $pays_day[$key1] = $boleto;
-                    }
+            //     Purchases::where('id', $boleto->purchase->id)->update([
+            //         'status' => 'encerrada',
+            //         'dt_encerramento' => $dt_atual,
+            //     ]);
+
+            //     if ($boleto->coin_id) {
+            //         $moeda = $boleto->purchase->coin->name;
+            //     } else {
+            //         $moeda = $boleto->purchase->plan->coin->name;
+            //     }
+            //     $balance = new Balance();
+            //     $balance->credit($boleto->user_id, $boleto->valor, 'saque_investimento', $moeda);
+            //     $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
+            // } else {
+            if ($timeInvestment > $totaLancado) {
+                if (in_array($dt_atual, $dt_lancadas)) {
+                } else {
+                    $rendimentoTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                    $qtd_coin += $boleto->purchase->quantity_coin;
+                    $boleto['rendimento_atual'] = $rendimentoTotal;
+                    $pays_day[$key1] = $boleto;
                 }
             }
+            // }
         }
 
         $this->dados['rendimentoTotal'] = $rendimentoTotal;
