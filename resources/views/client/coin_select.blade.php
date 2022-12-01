@@ -12,11 +12,12 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h4 class="card-title mb-0">{{ $coin->name }}</h4>
+                        <p class="mb-0">Valor da Moeda</p>
                         <p class="mb-0">R$ @money2($coin->latestCotacao->value)</p>
                         <hr />
-                        <span class="card-title mb-0">Pecentual Rendimento</span>
+                        <span class="card-title mb-0">Rendimento</span>
                         <p class="mb-0"> {{ $coin->profit_percentage }}%</p>
-                        <span class="card-title mb-0">Tempo PRI</span>
+                        <span class="card-title">Tempo</span>
                         <p class="mb-0">{{ $coin->time_pri }} (mês)</p>
                         <hr />
                         <form action="" method="post">

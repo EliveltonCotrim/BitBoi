@@ -438,7 +438,8 @@ class ClientController extends Controller
     public function plan_select()
     {
         $this->dados['pacotes'] = PlansModel::with('coin')->where('status', 'active')->get();
-
+        $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->get();
+        
         return view('client.plan_select', $this->dados);
     }
 
@@ -586,7 +587,7 @@ class ClientController extends Controller
         ->latest()->first();
 
         $this->dados['saquesInvestimento'] = $saquesModel
-        ->where('moeda', 'investimento')
+        ->where('moeda', 'investimento_encerrado')
         ->where('user_id', $this->user_id)->get();
 
         $this->dados['investimento'] = $investimento;
@@ -598,7 +599,6 @@ class ClientController extends Controller
     {
         $quinta_feira = date('w');
         $id_cliente =  ClientsModel::where('user_id', $this->user_id)->first()->id;
-        $totalRendimento = 0;
 
         if ($quinta_feira != 5) {
             // return redirect()->back()->with('alert', 'Saque liberado todas as quinta-feiras');
@@ -606,21 +606,10 @@ class ClientController extends Controller
 
         $this->dados['bancos'] = ClientsModel::getBancosList($id_cliente);
 
-        $rendimentos_pagos = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
-        ->where('boletos.user_id', $this->user_id)
-        ->where('boletos.status', 'encerrado')
-        ->select('rendimentos_pagos.*')
-        ->get();
-
-        foreach ($rendimentos_pagos as $key => $value) {
-            $totalRendimento += $value->valor;
-        }
-
         $balances = new Balance();
         $this->dados['balances'] = $balances->balances($this->user_id, 'rendimento');
-        $totalRendimento -= $this->dados['balances']['saque_pendente'];
-        $this->dados['totalDiponivelSaque'] = $totalRendimento;
-
+        $saldo_disponivel = $this->dados['balances']['saldo_disponivel'];
+        $this->dados['totalDiponivelSaque'] = $saldo_disponivel;
 
         return view('client.saques.saque_rendimento', $this->dados);
     }
@@ -632,25 +621,27 @@ class ClientController extends Controller
             'conta' => 'required',
         ];
 
+
         $request->validate($roles);
 
-        // $balance = BalancesModel::where('reference', 'rendimento')->where('client_id', $this->user_id)->latest()->first();
-        // $id_client = ClientsModel::where('user_id', $this->user_id)->first()->id;
         $balances = new Balance();
-        $valorDisponivel = Utils::moeda4(Crypt::decrypt($request->valueDisponivel));
-        $valorSolicitado = Utils::moeda($request->valor);
-        if ($valorSolicitado > $valorDisponivel) {
+        $valorSolicitado = floatval(Utils::moeda($request->valor));
+
+        $this->dados['balances'] = $balances->balances($this->user_id, 'rendimento');
+        $saldo_disponivel = $this->dados['balances']['saldo_disponivel'];
+        // $saldo_disponivel -= $this->dados['balances']['saque_pendente'];
+
+
+        if ($valorSolicitado > $saldo_disponivel) {
             return redirect()->back()->with('alert', 'Valor Solicitado maior que o disponível');
         }
 
-        $balance = $balances->balance($this->user_id, 'rendimento');
-        $disponivel = Utils::moeda4($balance);
 
         if ($request->conta == '') {
             return redirect()->back()->with('alert', 'Informe a conta para saque');
         }
 
-        if ($valorSolicitado <= 0 || $valorSolicitado > $disponivel) {
+        if ($valorSolicitado <= 0 || $valorSolicitado > $saldo_disponivel) {
             return redirect()->back()->with('alert', 'Saldo Insuficiente');
         }
 
@@ -708,7 +699,6 @@ class ClientController extends Controller
         $investimentoDisponivel = Utils::moeda($investimentoDisponivel);
 
         if ($valorSolicitado > $investimentoDisponivel) {
-
             return redirect()->back()->with('alert', 'Valor Solicitado maior que o disponível');
         }
 

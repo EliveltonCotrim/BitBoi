@@ -4,8 +4,10 @@
         <input type='text' name='name' value='{{ old('name') ?? $plan->name }}' class='form-control'>
     </div>
     <div class="col-md-4">
-        <label for="">Moedas</label>
-        <select id="coin" name="coin" class="form-control">
+        <label for="">Moeda</label>
+        <input type='text' name='coin' value='{{ old('coin') ?? $plan->coin->name  }}' class='form-control' reload>
+
+        {{-- <select id="coin" name="coin" class="form-control">
             <option value="{{ $plan->coin->id }}" selected desable>{{ $plan->coin->name }}</option>
             @foreach ($coins as $coin)
                 @if ($coin->id != $plan->coin->id)
@@ -15,7 +17,7 @@
                         {{ $coin->latestCotacao->value }} </option>
                 @endif
             @endforeach
-        </select>
+        </select> --}}
     </div>
 </div>
 <br>

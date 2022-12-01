@@ -66,7 +66,7 @@ class BoletosController extends Controller
 
 
         $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
-
+        
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
         foreach ($boletosDia as $key => $boleto) {

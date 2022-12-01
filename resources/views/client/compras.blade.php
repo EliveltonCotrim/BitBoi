@@ -7,12 +7,12 @@
             <div class='table-responsive'>
                 <a href="{{ url('client/plan/select') }}" class="btn btn-primary mb-2">
                     <span class="bx bx-cart"></span>
-                    Comprar Pacote
+                    Comprar
                 </a>
-                <a href="{{ url('client/coin/select') }}" class="btn btn-primary mb-2">
+                {{-- <a href="{{ url('client/coin/select') }}" class="btn btn-primary mb-2">
                     <span class="bx bx-cart"></span>
                     Comprar Moedas
-                </a>
+                </a> --}}
                 <hr>
                 <div class="col-md-12 mt-2">
                     <ul class="nav nav-tabs card-header-tabs">

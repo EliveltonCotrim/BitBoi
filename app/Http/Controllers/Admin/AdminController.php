@@ -310,6 +310,12 @@ class AdminController extends Controller
 
                         $balance->credit($boleto->user_id, $boleto->valor, 'investimento_encerrado', $moeda);
                         $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
+
+                        $rendimentosPagos = RendimentosPagos::where('boleto_id', $boleto->id)->sum('valor');
+
+                        $balance->credit($boleto->user_id, $rendimentosPagos, 'rendimento', $moeda);
+
+
                     } else {
                         if ($timeInvestment > $historicoPagamento) {
                             $rendimento = ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
@@ -328,14 +334,47 @@ class AdminController extends Controller
                                 $moeda = $boleto->purchase->plan->coin->name;
                             }
 
-                            $balance->credit(
-                                $boleto->user_id,
-                                $rendimento,
-                                'rendimento',
-                                $moeda,
-                            );
+                            // $balance->credit(
+                            //     $boleto->user_id,
+                            //     $rendimento,
+                            //     'rendimento',
+                            //     $moeda,
+                            // );
+
+                            $historicoPagamento = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
+                            ->where('rendimentos_pagos.boleto_id', $boleto->id)
+                            ->count();
+
+                            if ($historicoPagamento == $boleto->purchase->time_pri) {
+                                BoletosModel::where('id', $boleto->id)->update([
+                                    'status' => 'encerrado',
+                                    'dt_encerramento' => $data,
+
+                                ]);
+
+                                Purchases::where('id', $boleto->purchase->id)->update([
+                                    'status' => 'encerrada',
+                                    'dt_encerramento' => $data,
+
+                                ]);
+
+                                if ($boleto->purchase->coin_id) {
+                                    $moeda = $boleto->purchase->coin->name;
+                                } else {
+                                    $moeda = $boleto->purchase->plan->coin->name;
+                                }
+                                $balance = new Balance();
+
+                                $balance->credit($boleto->user_id, $boleto->valor, 'investimento_encerrado', $moeda);
+                                $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
+
+
+                                $rendimentosPagos = RendimentosPagos::where('boleto_id', $boleto->id)->sum('valor');
+
+                                $balance->credit($boleto->user_id, $rendimentosPagos, 'rendimento', $moeda);
+
+                            }
                         }
-                        
                     }
                 }
 
@@ -369,27 +408,7 @@ class AdminController extends Controller
             }
 
 
-            // if ($totaLancado == $boleto->purchase->time_pri) {
-            //     BoletosModel::where('id', $boleto->id)->update([
-            //         'status' => 'encerrado',
-            //         'dt_encerramento' => $dt_atual,
 
-            //     ]);
-
-            //     Purchases::where('id', $boleto->purchase->id)->update([
-            //         'status' => 'encerrada',
-            //         'dt_encerramento' => $dt_atual,
-            //     ]);
-
-            //     if ($boleto->coin_id) {
-            //         $moeda = $boleto->purchase->coin->name;
-            //     } else {
-            //         $moeda = $boleto->purchase->plan->coin->name;
-            //     }
-            //     $balance = new Balance();
-            //     $balance->credit($boleto->user_id, $boleto->valor, 'saque_investimento', $moeda);
-            //     $balance->debit($boleto->user_id, $boleto->valor, 'investimento', $moeda);
-            // } else {
             if ($timeInvestment > $totaLancado) {
                 if (in_array($dt_atual, $dt_lancadas)) {
                 } else {
@@ -399,7 +418,6 @@ class AdminController extends Controller
                     $pays_day[$key1] = $boleto;
                 }
             }
-            // }
         }
 
         $this->dados['rendimentoTotal'] = $rendimentoTotal;

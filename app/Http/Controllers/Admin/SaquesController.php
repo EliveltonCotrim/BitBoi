@@ -150,8 +150,6 @@ class SaquesController extends Controller
 
         $balance = new Balance();
         if ($saque->moeda == 'investimento_encerrado') {
-            // $balances = BalancesModel::where('user_id', $user_id)->where('coin', 'investimento_encerrado')->latest()-> first();
-            // $balance->debit($user_id, $valor_solicitado, 'investimento_encerrado', $balances->coin);
             $balance->debit($user_id, $valor_receber, 'investimento_encerrado', 'saque', 'saque id: ' . $saque_id);
 
             $balance->debit($user_id, $taxa_saque_valor, 'investimento_encerrado', 'taxa_saque', 'saque id: ' . $saque_id);

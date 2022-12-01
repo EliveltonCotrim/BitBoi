@@ -82,7 +82,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::prefix('/')->middleware(AuthClienteAtivado::class)->group(function () {
 
             Route::post('plan/select', [ClientController::class, 'plan_select_store']);
-            Route::post('coin/select', [ClientController::class, 'coin_select_store']);
+            Route::post('coin/select', [ClientController::class, 'coin_select_store'])->name('coin_select_store');
 
             Route::get('estrategia', [ClientController::class, 'estrategia2']);
 
