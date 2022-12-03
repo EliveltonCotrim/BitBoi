@@ -19,6 +19,7 @@
                         <li class="nav-item"> <a class="nav-link @yield('comp_pendentes')" href="{{ route('compras.pendentes') }}">Pendentes</a></li>
                         <li class="nav-item"> <a class="nav-link @yield('comp_confirmadas')" href="{{ route('compras.confirmadas')  }}">Confirmadas</a></li>
                         <li class="nav-item"> <a class="nav-link @yield('comp_enceradas')" href="{{ route('compras.enceradas')  }}">Encerradas</a></li>
+                        <li class="nav-item"> <a class="nav-link @yield('comp_canceladas')" href="{{ route('compras.canceladas')  }}">Canceladas</a></li>
                     </ul>
                 </div>
                 <div class="card-body">

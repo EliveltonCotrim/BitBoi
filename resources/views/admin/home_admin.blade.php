@@ -52,7 +52,7 @@
                 <div class='card-body'>
                     <div class='row'>
                         <div class='col-md-12'>
-                            <form action="#" method='post'>
+                            <form action="{{ route('las.cadast.search') }}" method='post'>
                                 @csrf
                                 <div class='form-row'>
                                     <div class='col-md-4'>
@@ -68,8 +68,13 @@
                             </form>
                         </div>
                     </div>
-                    <hr>
-                    <table class='table table-bordered table-striped table-sm'>
+                    <table class='table table-bordered table-striped table-sm mt-3'>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Data do Cadastro</th>
+                            </tr>
+                        </thead>
                         @foreach ($clients as $client)
                             <tr>
                                 <td>{{ $client->name }}</td>
@@ -94,7 +99,7 @@
                                 <div class='form-row'>
                                     <div class='col-md-4'>
                                         {{-- <label>&nbsp;</label> --}}
-                                        <input type='text' name='name' value="{{ $filters['name'] ?? '' }}"
+                                        <input type='text' name='client_boleto' value="{{ $filters['client_boleto'] ?? '' }}"
                                             class='form-control' placeholder="Cliente">
                                     </div>
                                     <div class='col-md-3'>
@@ -105,16 +110,26 @@
                             </form>
                         </div>
                     </div>
-                    <hr>
-                    <table class='table table-bordered table-striped table-sm'>
+                    <table class='table table-bordered table-striped table-sm mt-3'>
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Valor</th>
+                                <th>Medio de Pagamento</th>
+                                <th>Data de Pagemento</th>
+                            </tr>
+                        </thead>
                         @foreach ($pays as $pay)
                             <tr>
                                 <td>{{ $pay->user->name }}</td>
+                                <td>@money($pay->valor )</td>
                                 <td>{{ $pay->meioPagamento }}</td>
                                 <td>{{ $pay->dataConfirmacao }}</td>
                             </tr>
                         @endforeach
                     </table>
+                    <p>Total: <strong>@money($pays->sum('valor'))</strong></p>
+
                 </div>
             </div>
         </div>

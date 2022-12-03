@@ -308,6 +308,7 @@ class ClientController extends Controller
     public function compras_confirmadas(Purchases $purchases)
     {
         $this->dados['compras'] = $purchases->where('status', 'confirmada')->where('client_user_id', $this->user_id)->get();
+        $this->dados['multa_cancelamento'] = ParametersModel::first()->multa_purchease;
 
         return view('client.compras_confirmadas', $this->dados);
     }
@@ -317,6 +318,13 @@ class ClientController extends Controller
         $this->dados['compras'] = $purchases->where('status', 'encerrada')->where('client_user_id', $this->user_id)->get();
 
         return view('client.compras_encerradas', $this->dados);
+    }
+
+    public function compras_canceladas(Purchases $purchases)
+    {
+        $this->dados['compras'] = $purchases->where('status', 'cancelada')->where('client_user_id', $this->user_id)->get();
+
+        return view('client.compras_canceladas', $this->dados);
     }
 
     public function termos_compra()

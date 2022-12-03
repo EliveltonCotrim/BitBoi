@@ -107,6 +107,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('compras/', [ClientController::class, 'compras'])->name('compras.pendentes');
         Route::get('compras/confirmadas', [ClientController::class, 'compras_confirmadas'])->name('compras.confirmadas');
         Route::get('compras/enceradas', [ClientController::class, 'compras_enceradas'])->name('compras.enceradas');
+        Route::get('compras/canceladas', [ClientController::class, 'compras_canceladas'])->name('compras.canceladas');
 
         Route::get('compra/info/{compra_id}', [ClientController::class, 'compra_info']);
 

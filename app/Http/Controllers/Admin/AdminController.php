@@ -41,6 +41,7 @@ class AdminController extends Controller
         //         $valorTotalPagamentoDia += (($boleto->valor * $boleto->purchase->percentual_rendimento) / 100);
         //     }
         // }
+
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
         foreach ($boletosDia as $key => $boleto) {
             $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
@@ -136,18 +137,110 @@ class AdminController extends Controller
 
     public function lastPaysSearch(Request $request)
     {
+        $dia = date('d');
+        $dateAtual = date('Y-m-d');
+        $pagadomentoDia = 0;
+
+        $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
+        foreach ($boletosDia as $key => $boleto) {
+            $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
+            $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)
+            ->get();
+
+            $totaLancado = $historicoPagamento->count();
+            $dt_lancadas = [];
+            foreach ($historicoPagamento as $key => $historico) {
+                $dt_lancadas[$key] = date('Y-m-d', strtotime($historico->created_at));
+            }
+
+            if ($totaLancado == $boleto->purchase->time_pri) {
+                BoletosModel::where('id', $boleto->id)->update([
+                    'status' => 'encerrado',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+
+                Purchases::where('id', $boleto->purchase->id)->update([
+                    'status' => 'encerrada',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+            } else {
+                if ($timeInvestment > $totaLancado) {
+                    if (in_array($dateAtual, $dt_lancadas)) {
+                    } else {
+                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                    }
+                }
+            }
+        }
+
         $this->data['filters'] = $request->all();
 
-        $this->data['pays'] = BoletosModel::join('users', 'boletos.user_id', 'users.id')
-            ->where('users.name', 'like', '%' . $request->name .  '%')
-            ->where('status', 'confirmado')
-            ->select('boletos.*')
+        $this->data['pays'] = BoletosModel::whereHas('user', function ($query) use ($request) {
+            if ($request->name) {
+                $query->where('name', 'LIKE', "%{$request->client_boleto}%");
+            }
+        })->where('status', 'confirmado')
             ->latest()
             ->limit(10)
             ->get();
 
-        $this->data['lasts'] = ClientsModel::latest()->limit(10)->get();
+        $this->data['clients'] = User::orderBy('name', 'ASC')->limit(5)->get();
 
+        $this->data['valorPagamentoDia'] = $pagadomentoDia;
+
+        return view('admin.home_admin', $this->data);
+    }
+
+    public function lastCadastSearch(Request $request)
+    {
+        $dia = date('d');
+        $dateAtual = date('Y-m-d');
+        $pagadomentoDia = 0;
+
+        $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
+        foreach ($boletosDia as $key => $boleto) {
+            $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
+            $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)
+            ->get();
+
+            $totaLancado = $historicoPagamento->count();
+            $dt_lancadas = [];
+            foreach ($historicoPagamento as $key => $historico) {
+                $dt_lancadas[$key] = date('Y-m-d', strtotime($historico->created_at));
+            }
+
+            if ($totaLancado == $boleto->purchase->time_pri) {
+                BoletosModel::where('id', $boleto->id)->update([
+                    'status' => 'encerrado',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+
+                Purchases::where('id', $boleto->purchase->id)->update([
+                    'status' => 'encerrada',
+                    'dt_encerramento' => $dateAtual,
+                ]);
+            } else {
+                if ($timeInvestment > $totaLancado) {
+                    if (in_array($dateAtual, $dt_lancadas)) {
+                    } else {
+                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                    }
+                }
+            }
+        }
+
+        $this->data['filters'] = $request->all();
+
+        $this->data['pays'] = BoletosModel::where('status', 'confirmado')
+        ->with('user')
+        ->latest()->limit(10)->get();
+        $this->data['clients'] = User::where(function ($query) use ($request){
+            if($request->name){
+                $query->where('name', 'LIKE', "%{$request->name}%");
+            }
+        })->orderBy('name', 'ASC')->limit(5)->get();
+
+        $this->data['valorPagamentoDia'] = $pagadomentoDia;
 
         return view('admin.home_admin', $this->data);
     }
@@ -314,8 +407,6 @@ class AdminController extends Controller
                         $rendimentosPagos = RendimentosPagos::where('boleto_id', $boleto->id)->sum('valor');
 
                         $balance->credit($boleto->user_id, $rendimentosPagos, 'rendimento', $moeda);
-
-
                     } else {
                         if ($timeInvestment > $historicoPagamento) {
                             $rendimento = ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
@@ -372,7 +463,6 @@ class AdminController extends Controller
                                 $rendimentosPagos = RendimentosPagos::where('boleto_id', $boleto->id)->sum('valor');
 
                                 $balance->credit($boleto->user_id, $rendimentosPagos, 'rendimento', $moeda);
-
                             }
                         }
                     }
@@ -440,18 +530,33 @@ class AdminController extends Controller
     //     // return view('admin.termos');
     // }
 
-    public function sacsPendentes(SaquesModel $saques)
+    public function sacsPendentes(Request $request, SaquesModel $saques)
     {
-        $saques = $saques->where('status', 'pendente')->paginate(10);
+        $this->dados['filters'] = $request->except('_token');
 
-        return view('admin.saques.saques_pendentes', compact('saques'));
+
+        $this->dados['saques'] = $saques->whereHas('client', function ($query) use ($request) {
+            if ($request->name) {
+                $query->where('name', 'LIKE', "%{$request->name}%");
+            }
+        })->where('status', 'pendente')->paginate(10);
+
+
+        return view('admin.saques.saques_pendentes', $this->dados);
     }
 
-    public function sacsConfirmados(SaquesModel $saques)
+    public function sacsConfirmados(Request $request, SaquesModel $saques)
     {
-        $saques = $saques->where('status', 'pago')->paginate(10);
+        $this->dados['filters'] = $request->except('_token');
 
-        return view('admin.saques.saques_confirmados', compact('saques'));
+
+        $this->dados['saques'] = $saques->whereHas('client', function ($query) use ($request) {
+            if ($request->name) {
+                $query->where('name', 'LIKE', "%{$request->name}%");
+            }
+        })->where('status', 'pago')->paginate(10);
+
+        return view('admin.saques.saques_confirmados', $this->dados);
     }
 
     public function ajaxValueCoin(Request $request)

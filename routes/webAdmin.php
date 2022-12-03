@@ -76,6 +76,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         // });
 
         Route::post('last/pays/search', [AdminController::class, 'lastPaysSearch'])->name('las.pays.search');
+        Route::post('last/cadast/search', [AdminController::class, 'lastCadastSearch'])->name('las.cadast.search');
 
 
         Route::resource('notifications', NotificationsController::class);
@@ -163,7 +164,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
         Route::put('coins/{coins}/update', [CoinsController::class, 'update'])->name('coin.update');
 
         Route::get('saques/pendentes', [AdminController::class, 'sacsPendentes'])->name('saques.pendentes');
+        Route::post('saques/pendentes', [AdminController::class, 'sacsPendentes'])->name('search.saques.pendentes');
         Route::get('saques/confirmados', [AdminController::class, 'sacsConfirmados'])->name('saques.confirmados');
+        Route::post('saques/confirmados', [AdminController::class, 'sacsConfirmados'])->name('search.saques.confirmados');
 
         // Requisiçoes ajax
         Route::get('ajax/coin', [AdminController::class, 'ajaxValueCoin'])->name('ajax.value.coin');

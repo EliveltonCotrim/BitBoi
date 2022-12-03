@@ -1,5 +1,5 @@
 @extends('client.compras')
-@section('comp_confirmadas', 'active')
+@section('comp_canceladas', 'active')
 
 @section('content_client')
     <div class="table-responsive">
@@ -10,8 +10,10 @@
                     <th>Status</th>
                     <th>Plano</th>
                     <th>Moeda</th>
-                    <th>Valor Total</th>
+                    <th>Valor</th>
+                    <th>Multa Cancelamento</th>
                     <th>Data Compra</th>
+                    <th>Data Cancelamento</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -30,23 +32,15 @@
                         <th></th>
                     @endif
                     <td>@money($compra->value_total)</td>
+                    <td>@money($compra->valor_multa)</td>
                     <th>{{ date('d-m-Y', strtotime($compra->created_at)) }}</th>
+                    <th>{{ date('d-m-Y', strtotime($compra->dt_encerramento)) }}</th>
                     <td>
-                        <a href="{{ route('show.compra', $compra->id) }}" class="btn btn-primary btn-sm" data-toggle="tooltip"
-                            data-placement="bottom" title="Detalhes"><i class='bx bx-detail'></i></a>
-                        <a href="#" class="btn btn-primary btn-sm" data-toggle="modal"
-                            data-target="#cancelarCompra{{ $compra->id }}" data-tt="tooltip" data-placement="bottom"
-                            title="Cancelar"><i class='bx bx-x-circle'></i></a>
-
+                        <a href="{{ route('show.compra', $compra->id) }}" class="btn btn-primary btn-sm"><i
+                                class='bx bx-detail'></i></a>
                     </td>
-                    @include('client.includes.modal_cancelar_compra')
                 </tr>
             @endforeach
         </table>
     </div>
-@endsection
-@section('scripts')
-    <script>
-        $("[data-tt=tooltip]").tooltip();
-    </script>
 @endsection
