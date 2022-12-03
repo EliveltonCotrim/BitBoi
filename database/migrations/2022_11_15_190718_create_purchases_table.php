@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('quantity_coin');
             $table->double('value_coin');
             $table->double('value_total');
+            $table->double('valor_multa')->nullable();
+            $table->double('valor_recebido')->nullable();
             $table->unsignedBigInteger('plan_id')->nullable();
             $table->unsignedBigInteger('coin_id')->nullable();
             $table->double('percentual_rendimento');

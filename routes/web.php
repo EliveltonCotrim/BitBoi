@@ -46,6 +46,9 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('coin/select', [ClientController::class, 'coin_select']);
 
         Route::get('compras', [ClientController::class, 'meu_plano']);
+        Route::get('cancelar/compra/{purchase}', [ClientController::class, 'cancelar_compra'])->name('cancelar.compra');
+
+
         Route::get('relatorio', [ClientController::class, 'relatorio']);
 
         Route::get('ativacao', [DocClientController::class, 'ativacao']);

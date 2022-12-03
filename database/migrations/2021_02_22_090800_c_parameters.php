@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->longText('pix_url_gerencianet')->nullable();
             $table->longText('gerencianet_chave_pix')->nullable();
             $table->double('taxa_saque')->nullable();
+            $table->double('multa_purchease')->nullable();
             $table->timestamps();
         });
 

@@ -25,7 +25,8 @@ class ParametersModel extends Model
         'percent_indicacao',
         'assas_token',
         'investiment_cycle',
-        'assas_url'
+        'assas_url',
+        'multa_purchease'
     ];
     protected $date = ['created_at', 'updated_at'];
 }

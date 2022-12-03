@@ -7,24 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>BitBoi</title>
     <!--favicon-->
-    <link rel="icon" href="{{ asset('assets') }}/painel/images/favicon-32x32.png" type="image/png" />
+    <link rel="icon" href="{{ asset('assets/painel/images/favicon-32x32.png') }}" type="image/png" />
     <!-- Vector CSS -->
-    <link href="{{ asset('assets') }}/painel/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <link href="{{ asset('assets/painel/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
     <!--plugins-->
-    <link href="{{ asset('assets') }}/painel/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-    <link href="{{ asset('assets') }}/painel/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-    <link href="{{ asset('assets') }}/painel/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/painel/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/painel/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/painel/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
     <!-- loader-->
     <!-- <link href="{{ asset('assets') }}/painel/css/pace.min.css" rel="stylesheet" />
     <script src="{{ asset('assets') }}/painel/js/pace.min.js"></script> -->
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/painel/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/painel/css/bootstrap.min.css') }}" />
     <!-- Icons CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/painel/css/icons.css" />
+    <link rel="stylesheet" href="{{ asset('assets/painel/css/icons.css') }}" />
     <!-- App CSS -->
-    <link rel="stylesheet" href="{{ asset('assets') }}/painel/css/app.css" />
+    <link rel="stylesheet" href="{{ asset('assets/painel/css/app.css') }}" />
 
-    <script src="{{ asset('assets') }}/painel/js/jquery.min.js"></script>
+    <script src="{{ asset('assets/painel/js/jquery.min.js') }}"></script>
 
     <style>
         .form-row {

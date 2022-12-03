@@ -32,9 +32,13 @@
                     <td>@money($compra->value_total)</td>
                     <th>{{ date('d-m-Y', strtotime($compra->created_at)) }}</th>
                     <td>
-                        <a href="{{ route('show.compra', $compra->id) }}" class="btn btn-primary btn-sm"><i
+                        <a href="{{ route('show.compra', $compra->id) }}" class="btn btn-primary btn-sm"  data-toggle="tooltip" data-placement="bottom" title="Detalhes"><i
                                 class='bx bx-detail'></i></a>
+                        <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cancelarCompra{{ $compra->id }}" data-toggle="tooltip" data-placement="bottom" title="Cancelar"><i
+                                class='bx bx-x-circle'></i></a>
+
                     </td>
+                    @include('client.includes.modal_cancelar_compra')
                 </tr>
             @endforeach
         </table>

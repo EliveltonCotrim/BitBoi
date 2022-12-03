@@ -76,7 +76,9 @@ class ParametersController extends Controller {
             'investiment_cycle' => $request->investiment_cycle,
             'assas_url' => $request->assas_url,
         ];
-
+        if($request->taxa_saque){
+            $update['multa_purchease'] = Utils::moeda($request->multa_purchease);
+        }
         if($request->taxa_saque){
             $update['taxa_saque'] = Utils::moeda($request->taxa_saque);
         }

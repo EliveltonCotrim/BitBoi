@@ -19,6 +19,8 @@ class Purchases extends Model
         'quantity_coin',
         'value_coin',
         'value_total',
+        'valor_multa',
+        'valor_recebido',
         'percentual_rendimento',
         'dt_purchase',
         'status',

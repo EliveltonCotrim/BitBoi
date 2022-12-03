@@ -439,7 +439,7 @@ class ClientController extends Controller
     {
         $this->dados['pacotes'] = PlansModel::with('coin')->where('status', 'active')->get();
         $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->get();
-        
+
         return view('client.plan_select', $this->dados);
     }
 
@@ -753,5 +753,55 @@ class ClientController extends Controller
         }
 
         return response()->json($cotacoes);
+    }
+
+    public function cancelar_compra(Purchases $purchase, Balance $balance)
+    {
+        // Data cancelamento
+        $data_atual = date('Y-m-d');
+        $multa = ParametersModel::first()->multa_purchease;
+        $boleto_compra  = BoletosModel::where('purchase_id', $purchase->id)->first();
+        $data_compra = date('Y-m-d', strtotime($boleto_compra->dataConfirmacao));
+
+        // Calcular o tempo de investimento
+        $timeInvestment = Carbon::parse($data_compra)->DiffInMonths($data_atual);
+
+        // Rendimentos do investimento
+        $rendimentos_pagos = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
+                ->where('rendimentos_pagos.boleto_id', $boleto_compra->id)
+                ->sum('rendimentos_pagos.valor');
+
+        $valor_invest_lucro = $boleto_compra->valor + $rendimentos_pagos;
+
+        // Verificar se o tempo do investimento é menor que o tempo previsto
+        if ($timeInvestment < $purchase->time_pri) {
+            // $valor_multa = $valor_invest_lucro * $multa / 100;
+            $valor_multa = round(($valor_invest_lucro * $multa) / 100, 2);
+            $valor_total = $valor_invest_lucro - $valor_multa;
+
+            $balance->credit($purchase->client_user_id, $boleto_compra->valor, 'investimento_encerrado', 'compra_cancelada');
+            $balance->debit($purchase->client_user_id, $boleto_compra->valor, 'investimento', 'compra_cancelada');
+
+            $balance->debit($purchase->client_user_id, $valor_multa, 'investimento_encerrado', 'multa_cancelamento');
+
+            $data_purchase = [
+                'status' => 'cancelada',
+                'valor_multa' => $valor_multa,
+                'valor_recebido' => $valor_total,
+                'dt_encerramento' => $data_atual,
+            ];
+
+            $data_boleto = [
+                'status' => 'cancelado',
+                'dt_encerramento' => $data_atual,
+            ];
+
+            $purchase->update($data_purchase);
+            $boleto_compra->update($data_boleto);
+
+            return redirect()->back()->with('success', 'Compra cancelada com sucesso!');
+        } else {
+            return redirect()->back()->with('alert', 'Compra já foi encerrada!');
+        }
     }
 }
