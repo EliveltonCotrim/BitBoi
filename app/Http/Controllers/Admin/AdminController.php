@@ -234,8 +234,8 @@ class AdminController extends Controller
         $this->data['pays'] = BoletosModel::where('status', 'confirmado')
         ->with('user')
         ->latest()->limit(10)->get();
-        $this->data['clients'] = User::where(function ($query) use ($request){
-            if($request->name){
+        $this->data['clients'] = User::where(function ($query) use ($request) {
+            if ($request->name) {
                 $query->where('name', 'LIKE', "%{$request->name}%");
             }
         })->orderBy('name', 'ASC')->limit(5)->get();
@@ -270,68 +270,50 @@ class AdminController extends Controller
 
     public function lancarInvestimentos(Request $request)
     {
-        // dd('verificar');
+        $this->dados['filters'] = $request->all();
+        $rendimentoTotal = [];
+        $hitoricoRendimento = Rendimentos::where('dt_lacamento', $request->dt_lancamento)
+        ->count();
+
+        if ($hitoricoRendimento > 0) {
+            return redirect()->back()->with('alert', 'Já existe um lançamento para essa data!');
+        }
+
         if (empty($request->dt_lancamento)) {
             $day = date('d');
         } else {
             $day = date('d', strtotime($request->dt_lancamento));
         }
 
-        $dt_atual = date('Y-m-d');
         $pays_day = [];
-        $valorTotal = 0;
+        $dt_atual = date('Y-m-d');
         $qtd_coin = 0;
-        $filters = $request->all();
-        $hitoricoRendimento = Rendimentos::where('dt_lacamento', $request->dt_lancamento)
-        ->count();
 
         if ($hitoricoRendimento) {
             return redirect()->back()->with('error', 'Já existe um lançamento para essa data');
         }
 
+        $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
 
-        $boletos = BoletosModel::where(function ($query) use ($request, $filters, $day) {
-            if ($request->dt_lancamento) {
-                $query->whereDay('dataConfirmacao', $day);
-            } else {
-                $query->whereDay('dataConfirmacao', $day);
-            }
-        })->where('status', 'confirmado')->get();
-
-
-        foreach ($boletos as $key => $boleto) {
+        foreach ($boletos as $key1 => $boleto) {
+            // Tempo de investimento
             $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dt_atual);
+            $historicoPagamento = RendimentosPagos::where('boleto_id', $boleto->id)->get();
 
-            $historicoPagamento = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
-            ->where('rendimentos_pagos.boleto_id', $boleto->id)
-            ->count();
+            $totaLancado = $historicoPagamento->count();
 
-
-            // if ($historicoPagamento == $boleto->purchase->time_pri) {
-            //     BoletosModel::where('id', $boleto->id)->update([
-            //         'status' => 'encerrado',
-            //         'dt_encerramento' => $dt_atual,
-
-            //     ]);
-
-            //     Purchases::where('id', $boleto->purchase->id)->update([
-            //         'status' => 'encerrada',
-            //         'dt_encerramento' => $dt_atual,
-
-            //     ]);
-            // } else {
-            if ($timeInvestment > $historicoPagamento) {
-                $pays_day[$key] = $boleto;
-                $valorTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+            if ($timeInvestment > $totaLancado) {
+                $rendimentoTotal = round(($boleto->valor * $boleto->purchase->percentual_rendimento) / 100, 2);
                 $qtd_coin += $boleto->purchase->quantity_coin;
+                $boleto['rendimento_atual'] = $rendimentoTotal;
+                $pays_day[$key1] = $boleto;
             }
-            // }
         }
-        $this->dados['valor_total'] = $valorTotal;
+
+        $this->dados['rendimentoTotal'] = $rendimentoTotal;
         $this->dados['qtd_coin'] = $qtd_coin;
-        $this->dados['dt_atual'] = $dt_atual;
-        $this->dados['pays_day'] = $pays_day; //ver como add a paginação
-        $this->dados['filters'] = $filters;
+        $this->dados['pays_day'] = $pays_day;
+
 
         return view('admin.boletos.lancar_pagamentos', $this->dados);
     }
@@ -339,21 +321,25 @@ class AdminController extends Controller
     public function lancar(Request $request, Balance $balance)
     {
         $data = Crypt::decrypt($request->dt);
-        $rendimentos = Rendimentos::where('dt_lacamento', $request->dt)->get();
+        $rendimentosPago = Rendimentos::where('dt_lacamento', $request->dt)->count();
         $day = date('d', strtotime($data));
         $rendimentoTotal = 0;
         $rendimento = 0;
 
-
-        if (!$rendimentos->isEmpty()) {
+        if ($rendimentosPago != 0) {
             return redirect()->back()->with('erro', 'Já foi lançado os rendimentos para está data!');
         } else {
             $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
+
             foreach ($boletos as $key => $boleto) {
+                // Calcular o tempo de investimento
                 $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($data);
+
+                // Histórico de rendimentos do investimento
                 $historicoPagamento = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
                         ->where('rendimentos_pagos.boleto_id', $boleto->id)
                         ->count();
+
                 if ($historicoPagamento == $boleto->purchase->time_pri) {
                 } else {
                     if ($timeInvestment > $historicoPagamento) {
@@ -362,16 +348,11 @@ class AdminController extends Controller
                 }
             }
 
-            $rendimento = Rendimentos::where('dt_lacamento', $data)->count();
 
-            if ($rendimento == 0) {
-                $storeRendimentos = Rendimentos::create([
-                    'dt_lacamento' => date('Y-m-d h:i:s'),
-                    'valor_total' => $rendimentoTotal,
-                ]);
-            } else {
-                return redirect()->back()->with('erro', 'Já foi lançado os rendimentos para está data!');
-            }
+            $storeRendimentos = Rendimentos::create([
+                'dt_lacamento' => date('Y-m-d h:i:s'),
+                'valor_total' => $rendimentoTotal,
+            ]);
 
             if ($storeRendimentos) {
                 foreach ($boletos as $key => $boleto) {
@@ -496,8 +477,6 @@ class AdminController extends Controller
             foreach ($historicoPagamento as $key2 => $historico) {
                 $dt_lancadas[$key2] = date('Y-m-d', strtotime($historico->created_at));
             }
-
-
 
             if ($timeInvestment > $totaLancado) {
                 if (in_array($dt_atual, $dt_lancadas)) {

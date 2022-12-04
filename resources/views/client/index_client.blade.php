@@ -25,12 +25,14 @@
     <link rel="stylesheet" href="{{ asset('assets/painel/css/app.css') }}" />
 
     <script src="{{ asset('assets/painel/js/jquery.min.js') }}"></script>
-
+    @livewireStyles
     <style>
         .form-row {
             margin-top: 5px;
         }
     </style>
+
+    @section('style')
 
 </head>
 
@@ -49,7 +51,7 @@
             <!--navigation-->
             <ul class="metismenu" id="menu">
                 <li class="menu-label">Menu</li>
-                <li>
+                <li class="@yield('home')">
                     <a href="{{ url('client') }}">
                         <div class="parent-icon"><i class="bx bx-home-alt"></i>
                         </div>
@@ -57,28 +59,28 @@
                     </a>
                 </li>
 
-                <li>
+                <li class="@yield('compras')">
                     <a href="{{ url('client/compras') }}">
                         <div class="parent-icon"> <i class="bx bx-cart"></i>
                         </div>
                         <div class="menu-title">Compras</div>
                     </a>
                 </li>
-                <li>
+                <li class="@yield('saques')">
                     <a href="{{ route('solicitar.saques.rendimentos') }}">
                         <div class="parent-icon"> <i class="bx bxs-bank"></i>
                         </div>
                         <div class="menu-title">Saques</div>
                     </a>
                 </li>
-                <li>
+                <li class="@yield('meus-dados')">
                     <a href="{{ url('client/meus_dados') }}">
                         <div class="parent-icon"> <i class="bx bxs-user-account"></i>
                         </div>
                         <div class="menu-title">Meus Dados</div>
                     </a>
                 </li>
-                <li>
+                <li class="@yield('termos')">
                     <a href="{{ url('client/termos_compra') }}">
                         <div class="parent-icon"><i class='bx bx-book-open'></i>
                         </div>
@@ -223,6 +225,7 @@
         <!-- end footer -->
     </div>
 
+    @livewireScripts
     <script src="<?php echo asset('assets'); ?>/js/jquery.mask.js"></script>
     <script>
         $('.moeda').mask("#.##0,00", {

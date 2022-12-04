@@ -11,11 +11,11 @@
                     </button>
                 </div>
                 <div class="modal-body" style="overflow: hidden">
-                    <p>Multa <strong> @money2($multa_cancelamento)</strong></p>
+                    <p>Multa de<strong> @money2($multa_cancelamento)%</strong></p>
                 </div>
                 <div class="modal-footer">
                     {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-                    <button type="submit" class="btn btn-primary">Caneclar</button>
+                    <button type="submit" class="btn btn-primary">Cancelar</button>
                 </div>
             </div>
         </form>

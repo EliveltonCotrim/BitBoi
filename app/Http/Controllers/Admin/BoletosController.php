@@ -64,9 +64,7 @@ class BoletosController extends Controller
             })
             ->latest();
 
-
         $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
-        
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
         foreach ($boletosDia as $key => $boleto) {
@@ -109,7 +107,6 @@ class BoletosController extends Controller
                 }
             }
         }
-
 
         foreach ($boletosConfirmados as $key => $boletoConfirmado) {
             $rendimentoPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $boletoConfirmado->purchase->time_pri;

@@ -1,5 +1,6 @@
 @extends('client.index_client')
 @section('title', 'Alterar Dados Pessoais')
+@section('meus-dados', 'mm-active')
 
 @section('actions')
     <a href='<?php echo url('client/meus_dados'); ?>' class='btn btn-success'>

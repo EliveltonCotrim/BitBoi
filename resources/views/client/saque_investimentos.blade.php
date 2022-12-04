@@ -1,7 +1,8 @@
 @extends('client.index_client')
-
 @section('title', 'Saques de Investimentos')
 @section('menu_saque', 'active')
+@section('saques', 'mm-active')
+
 
 @section('content')
 

@@ -213,6 +213,8 @@ return [
         'quantity_coin' => 'quantidade',
         'percentual_rendimento' => 'percentual de rendimento',
         'coin' => 'moeda',
+        'new' => 'nova senha',
+        'again' => 'confirmação ',
     ],
 
 ];

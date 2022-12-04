@@ -1,5 +1,6 @@
 @extends('client.compras')
 @section('comp_pendentes', 'active')
+@section('compras', 'mm-active')
 
 @section('content_client')
     <div class="table-responsive">

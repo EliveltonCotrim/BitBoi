@@ -60,7 +60,7 @@
                     <div class="card-body text-center">
                         <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-money'></i></i>
                         </div>
-                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido->courentBalance)</h4>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido['saldo_atual'])</h4>
                         <p class="mb-0 text-white">Saldo Investimento</p>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         </div>
                         <h4 class="mb-0 font-weight-bold mt-3 text-white">
                             @if ($rendimentoatual)
-                                @money($rendimentoatual->courentBalance)
+                                @money($rendimentoatual)
                             @else
                                 @money(0000)
                             @endif

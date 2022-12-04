@@ -124,9 +124,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
 
         // Lançar investimentos
-        route::get('lancar/investimentos/list', [AdminController::class, 'lancarInvestimentos'])->name('lancar.investimentos');
+        route::get('lancar/investimentos/', [AdminController::class, 'lancarInvestimentos'])->name('lancar.investimentos');
 
-        route::post('lancar/investimentos/', [AdminController::class, 'lancarInvestimentos'])->name('lancar.investimentos.search');
+        route::post('search/rendimentos/', [AdminController::class, 'lancarInvestimentos'])->name('search.rendimentos');
 
         route::post('rendimentos/store', [AdminController::class, 'lancar'])->name('larcar.rendimentos');
 

@@ -51,6 +51,15 @@
                             <label>Percentual de Rendimento</label>
                             <input type="text" name="p_rendimento" value="@money2($purchases->percentual_rendimento )%" class="form-control" readonly>
                         </div>
+                        <div class="form-group col-md-2">
+                            <label>Tempo (mês)</label>
+                            <input type="text" name="p_rendimento" value="{{ $purchases->time_pri  }}" class="form-control" readonly>
+                        </div>
+                        {{-- @dd($purchases->boletos)
+                        <div class="form-group col-md-3">
+                            <label>Data da Compra</label>
+                            <input type="date" name="p_rendimento" value="{{ date('d-m-Y', strtotime($purchases->boletos->dataConfirmacao))  }}" class="form-control" readonly>
+                        </div> --}}
 
                     </div>
                     <hr>

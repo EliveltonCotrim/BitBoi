@@ -1,10 +1,10 @@
 @extends('admin.index_admin')
-@section('title', 'Pagamento')
+@section('title', 'Vendas')
 
 @section('actions')
     <!-- <a href='<?php echo url('admin/boletos/create'); ?>' class='btn btn-primary'>
-                    Cadastrar
-                </a> -->
+                        Cadastrar
+                    </a> -->
 @endsection
 
 @section('content')
@@ -93,7 +93,7 @@
                     </a>
                 </div>
             </div>
-
+           
             <table class='table table-bordered table-hover'>
                 <thead>
                     <tr>
@@ -103,7 +103,7 @@
                         <th>Status</th>
                         <th>Meio</th>
                         <th>Data de <br> Confirmação</th>
-                        <th></th>
+                        {{-- <th></th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -117,11 +117,11 @@
                         <td><?php echo $dado->status; ?></td>
                         <td><?php echo $dado->meioPagamento; ?></td>
                         <td><?php echo $dado->dataConfirmacao; ?></td>
-                        <td>
-                            <a href='<?php echo url('admin/boletos/confirm/' . $dado->id); ?>' class='btn btn-light btn-sm'>
+                        {{-- <td>
+                            <a href='{{ url('admin/boletos/confirm/' . $dado->id)}}' class='btn btn-light btn-sm'>
                                 <span class='bx bx-edit'></span> Editar
                             </a>
-                        </td>
+                        </td> --}}
                     </tr>
                     <?php } ?>
                 </tbody>

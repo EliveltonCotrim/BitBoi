@@ -2,6 +2,7 @@
 
 @section('title', 'Saques de Rendimento')
 @section('menu_saque', 'active')
+@section('saques', 'mm-active')
 
 @section('content')
 

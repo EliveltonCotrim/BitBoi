@@ -56,7 +56,7 @@ class ClientController extends Controller
     //     return redirect('client');
     // }
 
-    public function index(BoletosModel $boletos)
+    public function index(BoletosModel $boletos, Balance $balances)
     {
         $saldo_tokens = $boletos
             ->where('user_id', $this->user_id)
@@ -68,9 +68,12 @@ class ClientController extends Controller
 
         $boletos = BoletosModel::where('user_id', $this->user_id)->where('status', 'confirmado')->get();
 
-        $saldo_investimento = BalancesModel::where('coin', 'investimento')
-        ->where('user_id', $this->user_id)
-        ->latest()->first();
+      
+        $saldo_investimento = $balances->balances($this->user_id, 'investimento');
+        $rendimentoatual = $balances->balances($this->user_id, 'rendimento');
+
+        // dd($saldo_investimento, $rendimentoatual);
+
 
         $rendimentoatual = BalancesModel::where('coin', 'rendimento')
         ->where('user_id', $this->user_id)
@@ -224,10 +227,13 @@ class ClientController extends Controller
 
     public function password_store(Request $request)
     {
-        $request->validate(
-            ['new' => 'required|min:6'],
-            ['new.min' => 'Mínimo de 6 caracteres']
-        );
+        $roles = [
+            'new' => ['required'],
+            'new' => ['required', 'min:6'],
+            'again' => ['required', 'min:6', 'same:new']
+        ];
+
+        $request->validate($roles);
 
         $now = $request->now;
         $new = $request->new;
@@ -240,7 +246,7 @@ class ClientController extends Controller
 
         if (Hash::check($now, $user->password)) {
             $user->update(['password' => Hash::make($new)]);
-            return redirect('client/meus_dados')->with('alert', 'Senha alterada');
+            return redirect('client/meus_dados')->with('success', 'Senha alterada');
         } else {
             return redirect()->back()->with('alert', 'Senha Atual não confere');
         }
@@ -496,8 +502,8 @@ class ClientController extends Controller
     public function coin_select_store(Request $request)
     {
         $roles = [
-            'coin' => 'required',
-            'quantity_coin' => 'required',
+            'coin' => ['required'],
+            'quantity_coin' => ['required', 'min:1'],
         ];
 
         $request->validate($roles);

@@ -1,5 +1,6 @@
 @extends('client.index_client')
 @section('title', 'Solicitar Saque de Rendimentos')
+@section('saques', 'mm-active')
 
 @section('actions')
     <a href='{{ route('solicitar.saques.rendimentos') }}' class='btn btn-success rounded'>
