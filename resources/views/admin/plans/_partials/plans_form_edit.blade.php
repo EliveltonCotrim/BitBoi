@@ -5,8 +5,7 @@
     </div>
     <div class="col-md-4">
         <label for="">Moeda</label>
-        <input type='text' name='coin' value='{{ old('coin') ?? $plan->coin->name  }}' class='form-control' reload>
-
+        <input type='text' name='coin' value='{{ old('coin') ?? $plan->coin->name  }}' class='form-control' reload desable>
         {{-- <select id="coin" name="coin" class="form-control">
             <option value="{{ $plan->coin->id }}" selected desable>{{ $plan->coin->name }}</option>
             @foreach ($coins as $coin)

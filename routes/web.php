@@ -164,6 +164,10 @@ Route::get('migrate', function () {
     Artisan::call('migrate');
 });
 
+Route::get('migrate/fresh', function () {
+    Artisan::call('migrate:fresh');
+});
+
 Route::get('view', function () {
     Artisan::call('view:clear');
 });

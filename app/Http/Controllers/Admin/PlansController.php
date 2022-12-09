@@ -10,6 +10,7 @@ use App\Models\PlansModel;
 use App\Src\Utils\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Crypt;
 
 use function GuzzleHttp\Promise\all;
 
@@ -116,12 +117,12 @@ class PlansController extends Controller
 
     public function update(StoreUpdatePlans $request, $id)
     {
+
         $dataPlan = [
             'name' => $request->name,
             'quantity' => $request->quantity,
             'value' => Utils::moeda($request->value),
             'percentual_rendimento' => Utils::moeda($request->percentual_rendimento),
-            'coin_id' => $request->coin,
             'details' => $request->details,
             'status' => $request->status,
             'time_pri' => $request->time_pri,

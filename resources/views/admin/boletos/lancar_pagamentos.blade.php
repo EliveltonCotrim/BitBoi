@@ -37,7 +37,11 @@
                     <div class='col-md-3'>
                         <div class="card p-2">
                             Valor Total:
-                            @money($rendimentoTotal)
+                            @if (!isset($rendimentoTotal))
+                                @money($rendimentoTotal)
+                            @else
+                                @money(0000)
+                            @endif
                         </div>
                     </div>
                     <div class='col-md-3'>
