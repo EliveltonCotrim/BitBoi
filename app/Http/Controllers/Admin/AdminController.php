@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ExportBoletos;
 use App\Http\Controllers\Controller;
 use App\Models\BoletosModel;
 use App\Models\ClientsModel;
@@ -18,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -326,6 +328,12 @@ class AdminController extends Controller
         $rendimentoTotal = 0;
         $rendimento = 0;
 
+
+        $data = date('2023-01-10');
+
+        $day = date('d', strtotime('2023-01-09'));
+
+
         if ($rendimentosPago != 0) {
             return redirect()->back()->with('erro', 'Já foi lançado os rendimentos para está data!');
         } else {
@@ -464,6 +472,10 @@ class AdminController extends Controller
         $rendimentoTotal = 0;
         $qtd_coin = 0;
 
+        $dt_atual = date('2023-01-10');
+
+        $day = date('d', strtotime('2023-01-09'));
+
         $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
 
         foreach ($boletos as $key1 => $boleto) {
@@ -550,5 +562,11 @@ class AdminController extends Controller
         $coin_value['value'] = $coin->latestCotacao->value;
 
         return response()->json($coin_value);
+    }
+
+    // Exportar Boletos
+    public function exportBoletos()
+    {
+        return Excel::download(new ExportBoletos(), 'boletos_confirmados.xlsx');
     }
 }

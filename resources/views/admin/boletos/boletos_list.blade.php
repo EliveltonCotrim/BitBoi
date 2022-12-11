@@ -32,12 +32,20 @@
                                 <label>&nbsp;</label>
                                 <input type='submit' value='Pesquisar' class='form-control btn btn-light'>
                             </div>
-                            <div class='col-md-2'>
+                            {{-- <div class='col-md-2'>
                                 <label>&nbsp;</label>
                                 <a href="{{ url('admin/boletos/pdf?' . http_build_query($filters)) }}"
                                     class='form-control btn btn-light' target="_blanck">
                                     <span class="bx bxs-file-pdf"></span>
                                     PDF
+                                </a>
+                            </div> --}}
+                            <div class='col-md-2'>
+                                <label>&nbsp;</label>
+                                <a href="{{ route('export.boletos') }}"
+                                    class='form-control btn btn-light' target="_blanck">
+                                    <span class="bx bxs-file-pdf"></span>
+                                    EXCEL
                                 </a>
                             </div>
                             <div class='col-md-3'>
@@ -93,7 +101,7 @@
                     </a>
                 </div>
             </div>
-           
+
             <table class='table table-bordered table-hover'>
                 <thead>
                     <tr>

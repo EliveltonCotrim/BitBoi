@@ -110,6 +110,6 @@ class ClientsModel extends Model {
     }
 
     public function user(){
-        $this->hasOne(UsersModel::class, 'id', 'user_id');
+        $this->hasOne(UsersModel::class, 'user_id', 'id');
     }
 }

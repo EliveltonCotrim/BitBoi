@@ -10,6 +10,7 @@ use App\Http\Livewire\Cartaopay;
 use App\Http\Livewire\Estrategia;
 use App\Http\Middleware\AuthClient;
 use App\Http\Middleware\AuthClienteAtivado;
+use App\Http\Middleware\CheckDadosClient;
 use App\Models\FilesModel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -82,8 +83,7 @@ Route::prefix('client')->middleware(['auth', AuthClient::class])
         Route::get('saques/investimentos', [ClientController::class, 'saquesInvestimentos'])->name('saques.investimentos');
 
         // verificar o middleware
-        Route::prefix('/')->middleware(AuthClienteAtivado::class)->group(function () {
-
+        Route::prefix('/')->middleware([AuthClienteAtivado::class, CheckDadosClient::class])->group(function () {
             Route::post('plan/select', [ClientController::class, 'plan_select_store']);
             Route::post('coin/select', [ClientController::class, 'coin_select_store'])->name('coin_select_store');
 

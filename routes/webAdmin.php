@@ -130,6 +130,10 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
         route::post('rendimentos/store', [AdminController::class, 'lancar'])->name('larcar.rendimentos');
 
+        // exportar boletos em excel`
+        Route::get('/export/boletos', [AdminController::class, 'exportBoletos'])->name('export.boletos');
+
+
         // payment day
         route::get('pagemento/', [AdminController::class, 'paymentDay'])->name('payment.day');
 

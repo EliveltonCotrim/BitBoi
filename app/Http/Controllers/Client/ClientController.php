@@ -68,7 +68,7 @@ class ClientController extends Controller
 
         $boletos = BoletosModel::where('user_id', $this->user_id)->where('status', 'confirmado')->get();
 
-      
+
         $saldo_investimento = $balances->balances($this->user_id, 'investimento');
         $rendimentoatual = $balances->balances($this->user_id, 'rendimento');
 
@@ -677,6 +677,7 @@ class ClientController extends Controller
 
         $quinta_feira = date('w');
         $id_cliente =  ClientsModel::where('user_id', $this->user_id)->first()->id;
+
         $totalRendimento = 0;
 
         if ($quinta_feira != 5) {
@@ -738,10 +739,21 @@ class ClientController extends Controller
 
     public function show_investimento(Purchases $purchases)
     {
+        $dataAtual = date('Y-m-d');
+
         $boleto = BoletosModel::where('purchase_id', $purchases->id)->first();
-        $this->dados['purchases'] = $purchases;
         $this->dados['boleto'] = $boleto;
 
+
+
+        $dt_confirmacao = date('Y-m-d', strtotime($purchases->boletos->dataConfirmacao));
+        $timeInvestment = Carbon::parse($dt_confirmacao)->DiffInMonths($dataAtual);
+
+        $tempoRestante = $purchases->time_pri - $timeInvestment;
+        $purchases['tempoRestante'] = $tempoRestante;
+        $this->dados['purchases'] = $purchases;
+
+        dd($timeInvestment);
         return view('client.compras.show_compra', $this->dados);
     }
 

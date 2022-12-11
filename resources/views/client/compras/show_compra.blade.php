@@ -27,21 +27,19 @@
                     </div>
                     <hr />
                     <div class="form-row">
-                        <div class="form-group col-md-1">
-                            <label>ID</label>
-                            <input type="text" name="id" value="{{ $purchases->id }}" class="form-control" readonly>
-                        </div>
                         @isset($purchases->plan_id)
-                        <div class="form-group col-md-2">
-                            <label>Plano</label>
-                            <input type="text" name="phone" value="{{ $purchases->plan->name }}" class="form-control" readonly>
-                        </div>
+                            <div class="form-group col-md-2">
+                                <label>Plano</label>
+                                <input type="text" name="phone" value="{{ $purchases->plan->name }}" class="form-control"
+                                    readonly>
+                            </div>
                         @endisset
                         @isset($purchases->coin_id)
-                        <div class="form-group col-md-2">
-                            <label>Moeda</label>
-                            <input type="text" name="coin" value="{{ $purchases->coin->name }}" class="form-control" readonly>
-                        </div>
+                            <div class="form-group col-md-2">
+                                <label>Moeda</label>
+                                <input type="text" name="coin" value="{{ $purchases->coin->name }}" class="form-control"
+                                    readonly>
+                            </div>
                         @endisset
                         <div class="form-group col-md-2">
                             <label>Valor Total</label>
@@ -49,11 +47,18 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>Percentual de Rendimento</label>
-                            <input type="text" name="p_rendimento" value="@money2($purchases->percentual_rendimento )%" class="form-control" readonly>
+                            <input type="text" name="p_rendimento" value="@money2($purchases->percentual_rendimento)%" class="form-control"
+                                readonly>
                         </div>
                         <div class="form-group col-md-2">
                             <label>Tempo (mês)</label>
-                            <input type="text" name="p_rendimento" value="{{ $purchases->time_pri  }}" class="form-control" readonly>
+                            <input type="text" name="p_rendimento" value="{{ $purchases->time_pri }}"
+                                class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label>Tempo Restante (mês)</label>
+                            <input type="text" name="p_rendimento" value="{{ $purchases->tempoRestante }}"
+                                class="form-control" readonly>
                         </div>
                         {{-- @dd($purchases->boletos)
                         <div class="form-group col-md-3">

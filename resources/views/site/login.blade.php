@@ -18,7 +18,7 @@
                 @csrf
                 <div class="form-group mt-4">
                     <label>E-mail</label>
-                    <input type="text" autofocus name="email" required class="form-control" placeholder="Digite seu e-mail">
+                    <input type="text" autofocus name="user" required class="form-control" placeholder="Digite seu Usuário">
                 </div>
                 <div class="form-group">
                     <label>Senha</label>

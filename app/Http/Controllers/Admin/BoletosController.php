@@ -65,8 +65,13 @@ class BoletosController extends Controller
             ->latest();
 
         $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
+        // $dateAtual = date('2023-01-10');
+
+        // $dia = date('d', strtotime('2023-01-09'));
+
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
+
         foreach ($boletosDia as $key => $boleto) {
             $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
             $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)

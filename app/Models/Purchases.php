@@ -50,7 +50,7 @@ class Purchases extends Model
 
     public function boletos()
     {
-        return $this->hasMany(BoletosModel::class, 'purchase_id', 'id');
+        return $this->hasOne(BoletosModel::class, 'purchase_id', 'id');
     }
 
 

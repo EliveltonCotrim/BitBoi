@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -54,6 +55,13 @@ return new class extends Migration {
                 'type' => 'client',
             ]
         ]);
+
+        DB::table('clients')->insert([
+            [
+                'id' => 1,
+                'user_id' => 1,
+                ]
+        ]);
     }
 
     /**
@@ -61,7 +69,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('users');
     }
 };

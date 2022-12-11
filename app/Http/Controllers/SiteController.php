@@ -30,15 +30,20 @@ class SiteController extends Controller
 
     public function login_client(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('user', 'password');
+
         if (Auth::attempt($credentials)) {
-            $user = UsersModel::where('email', $request->email)->first();
+
+            $user = UsersModel::where('user', $request->user)->first();
+
             if ($user->type != 'client') {
                 auth()->logout();
             }
+
             $request->session()->regenerate();
             return redirect('client');
         }
+        
         return redirect()->back()->with('alert', 'Dados Incorretos!');
     }
 
