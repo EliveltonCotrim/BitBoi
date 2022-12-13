@@ -2,15 +2,17 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
@@ -35,8 +37,14 @@ return new class extends Migration {
             $table->json('banks')->nullable();
             $table->string('pix')->nullable();
             $table->timestamps();
-
         });
+
+        DB::table('clients')->insert([
+            [
+                'id' => 1,
+                'user_id' => 2,
+                ]
+        ]);
     }
 
     /**
@@ -44,7 +52,8 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('clients');
     }
 };

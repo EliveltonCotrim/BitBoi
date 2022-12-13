@@ -56,12 +56,7 @@ return new class () extends Migration {
             ]
         ]);
 
-        DB::table('clients')->insert([
-            [
-                'id' => 1,
-                'user_id' => 1,
-                ]
-        ]);
+       
     }
 
     /**

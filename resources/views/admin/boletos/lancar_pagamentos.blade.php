@@ -37,18 +37,13 @@
                     <div class='col-md-3'>
                         <div class="card p-2">
                             Valor Total:
-                            @if (!isset($rendimentoTotal))
-                                @money($rendimentoTotal)
-                            @else
-                                @money(0000)
-                            @endif
+                            @money($rendimentoTotal)
                         </div>
                     </div>
                     <div class='col-md-3'>
                         <div class="card p-2">
                             Quantidade de Moedas:
                             {{ $qtd_coin }}
-
                         </div>
                     </div>
                     <div class='col-md-2'>

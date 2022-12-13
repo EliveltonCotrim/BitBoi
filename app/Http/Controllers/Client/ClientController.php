@@ -70,27 +70,40 @@ class ClientController extends Controller
 
 
         $saldo_investimento = $balances->balances($this->user_id, 'investimento');
-        $rendimentoatual = $balances->balances($this->user_id, 'rendimento');
+        $rendimento = $balances->balances($this->user_id, 'rendimento');
+        $investiEncerrado = $balances->balances($this->user_id, 'investimento_encerrado');
+        $disponivelPraSaque = $rendimento['saldo_disponivel'] + $investiEncerrado['saldo_disponivel'];
+        // dd($rendimento, $investiEncerrado,$disponivelPraSaque);
 
-        // dd($saldo_investimento, $rendimentoatual);
+        $rendimentoatual = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
+                        ->where('boletos.user_id', $this->user_id)
+                        ->where('boletos.status', 'confirmado')
+                        ->sum('rendimentos_pagos.valor');
 
+        // $rendimentoatual = BalancesModel::where('coin', 'rendimento')
+        // ->where('user_id', $this->user_id)
+        // ->latest()->first();
 
-        $rendimentoatual = BalancesModel::where('coin', 'rendimento')
-        ->where('user_id', $this->user_id)
-        ->latest()->first();
 
         $lucroPrevisto = 0;
-        foreach ($boletos as $key => $value) {
-            $lucroPrevisto +=  (($value->valor * $value->purchase->percentual_rendimento) / 100) * $value->purchase->time_pri;
+        foreach ($boletos as $key => $boleto) {
+            if ($boleto->purchase->coin_id) {
+                $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+            } else {
+                $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+            }
+
+            $lucroPrevisto +=  (($boleto->valor * $percentualRendimento) / 100) * $boleto->purchase->time_pri;
         }
 
         $coins = Coins::where('status', 'active')->get();
 
         $cotacoes = CotacaoMoeda::orderBy('created_at', 'ASC')->get();
         $this->dados['saldo_moedas'] = $compras->sum('quantity_coin');
-        $this->dados['valorInvestido'] =  $saldo_investimento;
+        $this->dados['valorInvestido'] =  $saldo_investimento['saldo_disponivel'];
         $this->dados['lucroPrevisto'] = $lucroPrevisto;
         $this->dados['rendimentoatual'] = $rendimentoatual;
+        $this->dados['saqueDisponivel'] = $disponivelPraSaque;
         $this->dados['cotacoes'] = $cotacoes;
         $this->dados['coins'] = $coins;
 

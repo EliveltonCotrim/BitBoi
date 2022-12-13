@@ -64,10 +64,11 @@
                     <tr>
                         <th>Cliente</th>
                         <th>Valor</th>
+                        <th>Moeda/Pacote</th>
                         <th>Percentual de Lucro</th>
                         <th>Rendimento</th>
                         <th>Quantidade Moedas</th>
-                        <th>Tempo PRI</th>
+                        <th>Tempo</th>
                         <th>Data de <br> Confirmação da Compra</th>
                     </tr>
                 </thead>
@@ -78,7 +79,16 @@
                     <tr>
                         <td><?php echo $dado->user->name; ?></td>
                         <td>@money($dado->valor)</td>
-                        <td>@money2($dado->purchase->percentual_rendimento) %</td>
+                        @if ($dado->purchase->coin_id)
+                            <td>{{ $dado->purchase->coin->name }}</td>
+                        @else
+                            <td>{{ $dado->purchase->plan->name }}</td>
+                        @endif
+                        @if ($dado->purchase->coin_id)
+                            <td>@money2($dado->purchase->coin->profit_percentage) %</td>
+                        @else
+                            <td>@money2($dado->purchase->plan->coin->profit_percentage) %</td>
+                        @endif
                         <td>@money($dado->rendimento_atual)</td>
                         <td><?php echo $dado->purchase->quantity_coin; ?></td>
                         <td>{{ $dado->purchase->time_pri }} {{ $dado->purchase->time_pri = 1 ? 'mês' : 'meses' }}</td>

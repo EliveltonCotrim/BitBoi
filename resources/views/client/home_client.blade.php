@@ -60,7 +60,7 @@
                     <div class="card-body text-center">
                         <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-money'></i></i>
                         </div>
-                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido['saldo_atual'])</h4>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido)</h4>
                         <p class="mb-0 text-white">Saldo Investimento</p>
                     </div>
                 </div>
@@ -87,13 +87,23 @@
                         <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-line-chart'></i>
                         </div>
                         <h4 class="mb-0 font-weight-bold mt-3 text-white">
-                            @if ($rendimentoatual)
+                            @if (isset($rendimentoatual))
                                 @money($rendimentoatual)
                             @else
                                 @money(0000)
                             @endif
                         </h4>
                         <p class="mb-0 text-white">Rendimento Atual</p>
+                    </div>
+                </div>
+                <div class="card radius-15">
+                    <div class="card-body text-center">
+                        <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-line-chart'></i>
+                        </div>
+                        <h4 class="mb-0 font-weight-bold mt-3 text-white">
+                            @money($saqueDisponivel)
+                        </h4>
+                        <p class="mb-0 text-white">Disponivel para Saque</p>
                     </div>
                 </div>
 

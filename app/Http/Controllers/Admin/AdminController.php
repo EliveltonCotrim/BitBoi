@@ -31,6 +31,7 @@ class AdminController extends Controller
         $dia = date('d');
         $dateAtual = date('Y-m-d');
         $pagadomentoDia = 0;
+        $rendimentosPrevisto = 0;
         $valorTotalPagamentoMes = 0;
 
         $ultimosClients = User::orderBy('name', 'ASC')->limit(5)->get();
@@ -45,6 +46,20 @@ class AdminController extends Controller
         // }
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
+        $boletos = BoletosModel::where('status', 'confirmado')->get();
+
+        foreach ($boletos as $key => $boleto) {
+
+            if ($boleto->purchase->coin_id) {
+                $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+            } else {
+                $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+            }
+
+            $rendimentosPrevisto +=  (($boleto->valor * $percentualRendimento) / 100) * $boleto->purchase->time_pri;
+
+        }
+
         foreach ($boletosDia as $key => $boleto) {
             $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dateAtual);
             $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)
@@ -56,24 +71,20 @@ class AdminController extends Controller
                 $dt_lancadas[$key] = date('Y-m-d', strtotime($historico->created_at));
             }
 
-            if ($totaLancado == $boleto->purchase->time_pri) {
-                BoletosModel::where('id', $boleto->id)->update([
-                    'status' => 'encerrado',
-                    'dt_encerramento' => $dateAtual,
-                ]);
-
-                Purchases::where('id', $boleto->purchase->id)->update([
-                    'status' => 'encerrada',
-                    'dt_encerramento' => $dateAtual,
-                ]);
-            } else {
-                if ($timeInvestment > $totaLancado) {
-                    if (in_array($dateAtual, $dt_lancadas)) {
+            if ($timeInvestment > $totaLancado) {
+                if (in_array($dateAtual, $dt_lancadas)) {
+                } else {
+                    if ($boleto->purchase->coin_id) {
+                        $percentualRendimento = $boleto->purchase->coin->profit_percentage;
                     } else {
-                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                        $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
                     }
+
+                    $pagadomentoDia += ($boleto->valor * $percentualRendimento) / 100;
                 }
             }
+
+
         }
 
         $this->data['pays'] = BoletosModel::where('status', 'confirmado')
@@ -82,6 +93,7 @@ class AdminController extends Controller
 
         $this->data['clients'] = $ultimosClients;
         $this->data['valorPagamentoDia'] = $pagadomentoDia;
+        $this->data['rendimentosPrevisto'] = $rendimentosPrevisto;
 
         return view('admin.home_admin', $this->data);
     }
@@ -273,9 +285,11 @@ class AdminController extends Controller
     public function lancarInvestimentos(Request $request)
     {
         $this->dados['filters'] = $request->all();
-        $rendimentoTotal = [];
+        $rendimentoTotal = 0;
         $hitoricoRendimento = Rendimentos::where('dt_lacamento', $request->dt_lancamento)
         ->count();
+
+
 
         if ($hitoricoRendimento > 0) {
             return redirect()->back()->with('alert', 'Já existe um lançamento para essa data!');
@@ -305,9 +319,17 @@ class AdminController extends Controller
             $totaLancado = $historicoPagamento->count();
 
             if ($timeInvestment > $totaLancado) {
-                $rendimentoTotal = round(($boleto->valor * $boleto->purchase->percentual_rendimento) / 100, 2);
+                if ($boleto->purchase->coin_id) {
+                    $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                } else {
+                    $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                }
+
+                $rendimentoTotal += round(($boleto->valor * $percentualRendimento) / 100, 2);
+                $rendimentoAtual = round(($boleto->valor * $percentualRendimento) / 100, 2);
+
                 $qtd_coin += $boleto->purchase->quantity_coin;
-                $boleto['rendimento_atual'] = $rendimentoTotal;
+                $boleto['rendimento_atual'] = $rendimentoAtual;
                 $pays_day[$key1] = $boleto;
             }
         }
@@ -328,11 +350,9 @@ class AdminController extends Controller
         $rendimentoTotal = 0;
         $rendimento = 0;
 
+        // $data = date('2023-02-13');
 
-        $data = date('2023-01-10');
-
-        $day = date('d', strtotime('2023-01-09'));
-
+        // $day = date('d', strtotime('2023-01-12'));
 
         if ($rendimentosPago != 0) {
             return redirect()->back()->with('erro', 'Já foi lançado os rendimentos para está data!');
@@ -351,11 +371,16 @@ class AdminController extends Controller
                 if ($historicoPagamento == $boleto->purchase->time_pri) {
                 } else {
                     if ($timeInvestment > $historicoPagamento) {
-                        $rendimentoTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                        if ($boleto->purchase->coin_id) {
+                            $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                        } else {
+                            $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                        }
+
+                        $rendimentoTotal += ($boleto->valor * $percentualRendimento) / 100;
                     }
                 }
             }
-
 
             $storeRendimentos = Rendimentos::create([
                 'dt_lacamento' => date('Y-m-d h:i:s'),
@@ -398,7 +423,13 @@ class AdminController extends Controller
                         $balance->credit($boleto->user_id, $rendimentosPagos, 'rendimento', $moeda);
                     } else {
                         if ($timeInvestment > $historicoPagamento) {
-                            $rendimento = ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                            if ($boleto->purchase->coin_id) {
+                                $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                            } else {
+                                $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                            }
+
+                            $rendimento = ($boleto->valor * $percentualRendimento) / 100;
 
                             $dataRendimentoPago = [
                                 'rendimentos_id' => $storeRendimentos->id,
@@ -443,6 +474,7 @@ class AdminController extends Controller
                                 } else {
                                     $moeda = $boleto->purchase->plan->coin->name;
                                 }
+
                                 $balance = new Balance();
 
                                 $balance->credit($boleto->user_id, $boleto->valor, 'investimento_encerrado', $moeda);
@@ -472,9 +504,9 @@ class AdminController extends Controller
         $rendimentoTotal = 0;
         $qtd_coin = 0;
 
-        $dt_atual = date('2023-01-10');
+        // $dt_atual = date('2023-02-13');
 
-        $day = date('d', strtotime('2023-01-09'));
+        // $day = date('d', strtotime('2023-01-12'));
 
         $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
 
@@ -493,9 +525,17 @@ class AdminController extends Controller
             if ($timeInvestment > $totaLancado) {
                 if (in_array($dt_atual, $dt_lancadas)) {
                 } else {
-                    $rendimentoTotal += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                    if ($boleto->purchase->coin_id != null) {
+                        $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                    } else {
+                        $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                    }
+
+                    $rendimentoTotal += ($boleto->valor * $percentualRendimento) / 100;
+                    $rendimentoBoleto = ($boleto->valor * $percentualRendimento) / 100;
+
                     $qtd_coin += $boleto->purchase->quantity_coin;
-                    $boleto['rendimento_atual'] = $rendimentoTotal;
+                    $boleto['rendimento_atual'] = $rendimentoBoleto;
                     $pays_day[$key1] = $boleto;
                 }
             }

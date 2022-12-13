@@ -22,7 +22,6 @@ class CheckDadosClient
         $client = ClientsModel::where('user_id', $user->id)->first();
         // dd($client, $user);
         // dd('name',$user->name == null,  'cpf',$user->cpf == null, 'banks',$client->phone == null, 'phone',$client->phone === null);
-
         if ($user->name == null || $user->cpf == null || $client->phone == null || $client->phone == null) {
             return redirect()->back()->with('alert', 'Você precisa cadastrar seus dados pessoais e bancários para continuar.');
         }

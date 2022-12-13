@@ -33,6 +33,19 @@
                 <div class="card-body">
                     <div class="d-flex mb-2">
                         <div>
+                            <p class="mb-0 font-weight-bold text-white">Rendimento Previsto</p>
+                            <h2 class="mb-0 text-white">@money($rendimentosPrevisto)</h2>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info">
+                <div class="card-body">
+                    <div class="d-flex mb-2">
+                        <div>
                             <p class="mb-0 font-weight-bold text-white">Pagamento do M&es</p>
                             <h2 class="mb-0 text-white">{{ \App\Models\UsersModel::where('type', 'client')->count() }}</h2>
                         </div>

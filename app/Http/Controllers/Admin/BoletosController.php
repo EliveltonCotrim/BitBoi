@@ -65,9 +65,9 @@ class BoletosController extends Controller
             ->latest();
 
         $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
-        // $dateAtual = date('2023-01-10');
+        // $dateAtual = date('2023-02-13');
 
-        // $dia = date('d', strtotime('2023-01-09'));
+        // $dia = date('d', strtotime('2023-01-12'));
 
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
@@ -107,14 +107,27 @@ class BoletosController extends Controller
                 if ($timeInvestment > $totaLancado) {
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+                        if ($boleto->purchase->coin_id) {
+                            $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                        } else {
+                            $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                        }
+
+                        $pagadomentoDia += round(($boleto->valor * $percentualRendimento) / 100, 2);
+
                     }
                 }
             }
         }
 
         foreach ($boletosConfirmados as $key => $boletoConfirmado) {
-            $rendimentoPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $boletoConfirmado->purchase->time_pri;
+            if ($boletoConfirmado->purchase->coin_id) {
+                $percentualRendimento = $boletoConfirmado->purchase->coin->profit_percentage;
+            } else {
+                $percentualRendimento = $boletoConfirmado->purchase->plan->coin->profit_percentage;
+            }
+
+            $rendimentoPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $percentualRendimento;
             $valorTotalInvestido += $boletoConfirmado->valor;
             $qtd_coin += $boletoConfirmado->purchase->quantity_coin;
         }
