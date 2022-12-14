@@ -13,7 +13,7 @@
                     <th>Moeda</th>
                     <th>Valor Total</th>
                     <th>Data Compra</th>
-                    <th>Ações</th>
+                    {{-- <th>Ações</th> --}}
                 </tr>
             </thead>
             @foreach ($compras as $compra)
@@ -32,10 +32,10 @@
                     @endif
                     <td>@money($compra->value_total)</td>
                     <th>{{ date('d-m-Y', strtotime($compra->created_at)) }}</th>
-                    <td>
+                    {{-- <td>
                         <a href="{{ route('show.compra', $compra->id) }}" class="btn btn-primary btn-sm"><i
                                 class='bx bx-detail'></i></a>
-                    </td>
+                    </td> --}}
                 </tr>
             @endforeach
         </table>

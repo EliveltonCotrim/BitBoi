@@ -3,8 +3,8 @@
 
 @section('actions')
     <!-- <a href='<?php echo url('admin/boletos/create'); ?>' class='btn btn-primary'>
-                        Cadastrar
-                    </a> -->
+                                            Cadastrar
+                                        </a> -->
 @endsection
 
 @section('content')
@@ -42,8 +42,7 @@
                             </div> --}}
                             <div class='col-md-2'>
                                 <label>&nbsp;</label>
-                                <a href="{{ route('export.boletos') }}"
-                                    class='form-control btn btn-light' target="_blanck">
+                                <a href="{{ route('export.boletos') }}" class='form-control btn btn-light' target="_blanck">
                                     <span class="bx bxs-file-pdf"></span>
                                     EXCEL
                                 </a>
@@ -101,8 +100,7 @@
                     </a>
                 </div>
             </div>
-
-            <table class='table table-bordered table-hover'>
+            <table class='table table-bordered m-0 table-hover'>
                 <thead>
                     <tr>
                         <th>Cliente</th>
@@ -134,8 +132,9 @@
                     <?php } ?>
                 </tbody>
             </table>
-
             {{ $boletos->appends($filters)->links() }}
+
+
         </div>
     </div>
 

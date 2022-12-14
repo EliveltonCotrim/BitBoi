@@ -77,6 +77,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('rendimentos') }}">
+                        <i class="flaticon-381-calculator"></i>
+                        <span class="nav-text">Rendimentos</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ url('admin/boletos/pendentes') }}">
                         <i class="flaticon-381-calculator"></i>
                         <span class="nav-text">Vendas Pendentes</span>

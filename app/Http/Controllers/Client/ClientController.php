@@ -388,7 +388,7 @@ class ClientController extends Controller
 
     public function depositos()
     {
-        $this->dados['depositos'] = BoletosModel::where('client_id', $this->id_cliente)
+        $this->dados['depositos'] = BoletosModel::where('user_id', $this->user_id)
             ->latest()
             ->get();
         return view('client.deposits.depositos', $this->dados);
@@ -437,6 +437,7 @@ class ClientController extends Controller
         if ($nome == 'pix') {
             BoletosModel::find($deposit_id)->update(['meioPagamento' => 'PIX']);
             return redirect('client/asaas/pix/create/' . $deposit_id_crypt);
+
         } elseif ($nome == 'cartao') {
             BoletosModel::find($deposit_id)->update(['meioPagamento' => 'cartao_credito']);
             return redirect('client/asaas/cartao/pay/' . $deposit_id_crypt);
@@ -766,7 +767,6 @@ class ClientController extends Controller
         $purchases['tempoRestante'] = $tempoRestante;
         $this->dados['purchases'] = $purchases;
 
-        dd($timeInvestment);
         return view('client.compras.show_compra', $this->dados);
     }
 

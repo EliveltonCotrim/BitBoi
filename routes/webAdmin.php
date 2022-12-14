@@ -20,6 +20,7 @@ use App\Http\Controllers\CoinsController;
 use App\Http\Middleware\AuthAdmin;
 use App\Models\BoletosModel;
 use App\Models\DocumentsModel;
+use App\Models\Rendimentos;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -132,6 +133,9 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
         // exportar boletos em excel`
         Route::get('/export/boletos', [AdminController::class, 'exportBoletos'])->name('export.boletos');
+
+        // Rendimentos
+        Route::get('/rendimentos', [AdminController::class, 'rendimentos'])->name('rendimentos');
 
 
         // payment day

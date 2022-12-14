@@ -93,7 +93,7 @@
                                 @money(0000)
                             @endif
                         </h4>
-                        <p class="mb-0 text-white">Rendimento Atual</p>
+                        <p class="mb-0 text-white">Lucro em Valor Investido</p>
                     </div>
                 </div>
                 <div class="card radius-15">

@@ -49,7 +49,6 @@ class AdminController extends Controller
         $boletos = BoletosModel::where('status', 'confirmado')->get();
 
         foreach ($boletos as $key => $boleto) {
-
             if ($boleto->purchase->coin_id) {
                 $percentualRendimento = $boleto->purchase->coin->profit_percentage;
             } else {
@@ -57,7 +56,6 @@ class AdminController extends Controller
             }
 
             $rendimentosPrevisto +=  (($boleto->valor * $percentualRendimento) / 100) * $boleto->purchase->time_pri;
-
         }
 
         foreach ($boletosDia as $key => $boleto) {
@@ -83,8 +81,6 @@ class AdminController extends Controller
                     $pagadomentoDia += ($boleto->valor * $percentualRendimento) / 100;
                 }
             }
-
-
         }
 
         $this->data['pays'] = BoletosModel::where('status', 'confirmado')
@@ -608,5 +604,27 @@ class AdminController extends Controller
     public function exportBoletos()
     {
         return Excel::download(new ExportBoletos(), 'boletos_confirmados.xlsx');
+    }
+
+
+    public function rendimentos(Request $request, RendimentosPagos $rendimentos)
+    {
+        $this->dados['filters'] = $request->except('_token');
+
+        $this->dados['rendimentos'] = $rendimentos->whereHas('boleto', function ($query) use ($request) {
+            if ($request->name) {
+                $query->whereHas('user', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', "%{$request->name}%");
+                });
+            }
+        })->wherehas('rendimentos', function ($query) use ($request) {
+            if ($request->data) {
+                $query->where('dt_lacamento', $request->data);
+            }
+        })->paginate(10);
+
+
+
+        return view('admin.rendimentos.rendimentos_list', $this->dados);
     }
 }
