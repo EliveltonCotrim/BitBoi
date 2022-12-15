@@ -29,6 +29,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use LaravelLegends\PtBrValidator\Rules\Cpf;
+use LaravelLegends\PtBrValidator\Rules\FormatoCpf;
 
 use function GuzzleHttp\Promise\all;
 
@@ -201,16 +203,15 @@ class ClientController extends Controller
 
     public function banks_store(Request $request, SaquesModel $saquesModel)
     {
-        // dd($request->all());
-        // $roles = [
-        //     'pix' => 'required_unless:conta,null',
-        //     'cpf' => 'required|cpfValida',
-        //     'banco' => 'required_unless:pix,null',
-        //     'agencia' => 'required_unless:pix,null',
-        //     'conta' => 'required_unless:pix,null',
-        // ];
+        $roles = [
+            'pix' => ['required_unless:conta,null'],
+            'cpf' => ['required', new Cpf],
+            'banco' => ['required_without_all:pix'],
+            'agencia' => ['required_without_all:pix'],
+            'conta' => ['required_without_all:pix'],
+        ];
 
-        // $request->validate($roles);
+        $request->validate($roles);
 
         $id_cliente = ClientsModel::where('user_id', $this->user_id)->first();
 

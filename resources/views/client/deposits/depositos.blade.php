@@ -1,6 +1,7 @@
 @extends('client.index_client')
 
-@section('title','Depósitos R$')
+{{-- @section('title','Depósitos R$') --}}
+@section('title','Compras')
 @section('menu_depositos','active')
 
 @section('actions')

@@ -304,7 +304,6 @@ class AdminController extends Controller
         ->count();
 
 
-
         if ($hitoricoRendimento > 0) {
             return redirect()->back()->with('alert', 'Já existe um lançamento para essa data!');
         }

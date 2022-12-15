@@ -286,73 +286,73 @@ $(function () {
     // 	}
     // });
     // // chart 9
-    // new Chart(document.getElementById("chart9"), {
-    // 	type: 'bar',
-    // 	data: {
-    // 		labels: ["1900", "1950", "1999", "2050"],
-    // 		datasets: [{
-    // 			label: "Europe",
-    // 			type: "line",
-    // 			borderColor: "#fff",
-    // 			data: [408, 547, 675, 734],
-    // 			fill: false
-    // 		}, {
-    // 			label: "Africa",
-    // 			type: "line",
-    // 			borderColor: "#fff",
-    // 			data: [133, 221, 783, 2478],
-    // 			fill: false
-    // 		}, {
-    // 			label: "Europe",
-    // 			type: "bar",
-    // 			backgroundColor: "rgba(255, 255, 255, 0.54)",
-    // 			data: [408, 547, 675, 734],
-    // 		}, {
-    // 			label: "Africa",
-    // 			type: "bar",
-    // 			backgroundColor: "rgba(255, 255, 255, 0.24)",
-    // 			backgroundColorHover: "#3e95cd",
-    // 			data: [133, 221, 783, 2478]
-    // 		}]
-    // 	},
-    // 	options: {
-    // 		maintainAspectRatio: false,
-    // 		title: {
-    // 			display: true,
-    // 			text: 'Population growth (millions): Europe & Africa'
-    // 		},
-    // 		legend: {
-    // 			 position :"top",
-    // 			 display: true,
-    // 			    labels: {
-    // 				  fontColor: '#fff',
-    // 				  boxWidth:15
-    // 			   }
-    // 			},
-    // 		scales: {
-    // 			xAxes: [{
-    // 				ticks: {
-    // 					beginAtZero: true,
-    // 					fontColor: '#fff'
-    // 				},
-    // 				gridLines: {
-    // 					display: true,
-    // 					color: "rgba(255, 255, 255, 0.24)"
-    // 				},
-    // 			}],
-    // 			yAxes: [{
-    // 				ticks: {
-    // 					beginAtZero: true,
-    // 					fontColor: 'rgba(255, 255, 255, 0.64)'
-    // 				},
-    // 				gridLines: {
-    // 					display: true,
-    // 					color: "rgba(255, 255, 255, 0.24)"
-    // 				},
-    // 			}]
-    // 		}
-    // 	}
-    // });
+    new Chart(document.getElementById("chart9"), {
+        type: 'bar',
+        data: {
+            labels: ["1900", "1950", "1999", "2050"],
+            datasets: [{
+                label: "Europe",
+                type: "line",
+                borderColor: "#fff",
+                data: [408, 547, 675, 734],
+                fill: false
+            }, {
+                label: "Africa",
+                type: "line",
+                borderColor: "#fff",
+                data: [133, 221, 783, 2478],
+                fill: false
+            }, {
+                label: "Europe",
+                type: "bar",
+                backgroundColor: "rgba(255, 255, 255, 0.54)",
+                data: [408, 547, 675, 734],
+            }, {
+                label: "Africa",
+                type: "bar",
+                backgroundColor: "rgba(255, 255, 255, 0.24)",
+                backgroundColorHover: "#3e95cd",
+                data: [133, 221, 783, 2478]
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Population growth (millions): Europe & Africa'
+            },
+            legend: {
+                position: "top",
+                display: true,
+                labels: {
+                    fontColor: '#fff',
+                    boxWidth: 15
+                }
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor: '#fff'
+                    },
+                    gridLines: {
+                        display: true,
+                        color: "rgba(255, 255, 255, 0.24)"
+                    },
+                }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor: 'rgba(255, 255, 255, 0.64)'
+                    },
+                    gridLines: {
+                        display: true,
+                        color: "rgba(255, 255, 255, 0.24)"
+                    },
+                }]
+            }
+        }
+    });
     // // chart 10
     // new Chart(document.getElementById("chart10"), {
     // 	type: 'bubble',

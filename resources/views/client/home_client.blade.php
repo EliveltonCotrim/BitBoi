@@ -213,19 +213,17 @@
                     maintainAspectRatio: false,
                     legend: {
                         display: true,
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: -25,
                         labels: {
                             fontColor: '#fff',
-                            boxWidth: 40
+                            boxWidth: 15
                         }
                     },
 
-                    legend: {
-                        position: 'top',
-                        horizontalAlign: 'left',
-                        offsetX: -25
-                    },
                     tooltips: {
-                        enabled: false
+                        enabled: true
                     },
                     scales: {
                         xAxes: [{
@@ -294,7 +292,7 @@
                         label: moeda,
                         data: values,
                         borderColor: "rgba(255, 255, 255, 0.70)",
-                        pointRadius: "0",
+                        pointRadius: "2",
                         borderWidth: 3,
                         tension: 0.1,
                     }]
@@ -324,19 +322,18 @@
                     maintainAspectRatio: false,
                     legend: {
                         display: true,
+                        position: 'top',
+                        horizontalAlign: 'left',
+                        offsetX: -25,
+
                         labels: {
                             fontColor: '#fff',
-                            boxWidth: 40
+                            boxWidth: 15
                         }
                     },
 
-                    legend: {
-                        position: 'top',
-                        horizontalAlign: 'left',
-                        offsetX: -25
-                    },
                     tooltips: {
-                        enabled: false
+                        enabled: true
                     },
                     scales: {
                         xAxes: [{
@@ -363,6 +360,8 @@
                 }
 
             });
+
+
             $.ajax({
                 url: "{{ route('ajax.cotacoes') }}",
                 type: "get",
@@ -389,7 +388,7 @@
                         label: moeda,
                         data: values,
                         borderColor: "rgba(255, 255, 255, 0.70)",
-                        pointRadius: "0",
+                        pointRadius: "2",
                         borderWidth: 3,
                         tension: 0.1,
                     }]

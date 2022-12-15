@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>CEP</label>
-                        <input type="text" name="cep" value="{{ $client->client->cep ?? '' }}" class="form-control">
+                        <input type="text" name="cep" id="cep" value="{{ $client->client->cep ?? '' }}" class="form-control">
                     </div>
                 </div>
 
@@ -91,3 +91,4 @@
 
 
 @endsection
+

@@ -232,6 +232,7 @@
             reverse: true
         });
         $('.data').mask("00/00/0000");
+        $('#cep').mask("00000-000");
         $('.fone').mask("(99) 9 9999-9999", {
             clearIfNotMatch: true
         });

@@ -41,7 +41,7 @@
 
         <div class='row'>
             <div class='col-md-12'>
-                <a href="{{ url('client/meu_plano') }}" class="btn btn-light btn-lg">
+                <a href="{{ url('client/plan/select') }}" class="btn btn-light btn-lg">
                     Voltar
                 </a>
             </div>
