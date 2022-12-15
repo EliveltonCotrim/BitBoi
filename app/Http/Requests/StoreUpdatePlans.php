@@ -30,7 +30,7 @@ use Illuminate\Validation\Rule;
                 'name' => ['required', 'max:255'],
                 'quantity' => ['required'],
                 'value' => ['required'],
-                'percentual_rendimento' => ['required'],
+                // 'percentual_rendimento' => ['required'],
                 'coin' => ['required'],
                 'details' => ['max:350'],
                 'time_pri' => ['required'],

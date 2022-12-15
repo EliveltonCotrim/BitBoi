@@ -177,7 +177,16 @@ class AdminController extends Controller
                 if ($timeInvestment > $totaLancado) {
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+
+                        if ($boleto->purchase->coin_id) {
+
+                            $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                        } else {
+                            $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                        }
+
+
+                        $pagadomentoDia += ($boleto->valor * $percentualRendimento) / 100;
                     }
                 }
             }
@@ -233,7 +242,16 @@ class AdminController extends Controller
                 if ($timeInvestment > $totaLancado) {
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-                        $pagadomentoDia += ($boleto->valor * $boleto->purchase->percentual_rendimento) / 100;
+
+
+                        if ($boleto->purchase->coin_id) {
+
+                            $percentualRendimento = $boleto->purchase->coin->profit_percentage;
+                        } else {
+                            $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
+                        }
+
+                        $pagadomentoDia += ($boleto->valor * $percentualRendimento) / 100;
                     }
                 }
             }

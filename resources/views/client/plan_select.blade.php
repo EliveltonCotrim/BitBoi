@@ -52,7 +52,7 @@
                         <p class="mb-0">Valor</p>
                         <p>R$ @money2($pacote->value)</p>
                         <span class="card-title mb-0">Rendimento</span>
-                        <p class="mb-2"> {{ $pacote->percentual_rendimento }}%</p>
+                        <p class="mb-2"> {{ $pacote->coin->profit_percentage }}%</p>
                         <span class="card-title mb-0">Tempo</span>
                         <p class="mb-0">{{ $pacote->time_pri }} (mês)</p>
                         <hr />

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('valor_recebido')->nullable();
             $table->unsignedBigInteger('plan_id')->nullable();
             $table->unsignedBigInteger('coin_id')->nullable();
-            $table->double('percentual_rendimento');
+            $table->double('percentual_rendimento')->nullable();
             $table->integer('time_pri');
             $table->date('dt_purchase')->nullable();
             $table->date('dt_encerramento')->nullable();

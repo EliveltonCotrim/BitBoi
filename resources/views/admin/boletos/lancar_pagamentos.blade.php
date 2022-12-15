@@ -70,7 +70,11 @@
                         <tr>
                             <td><?php echo $dado->user->name; ?></td>
                             <td>@money($dado->valor)</td>
-                            <td>@money2($dado->purchase->percentual_rendimento) %</td>
+                            @if ($dado->purchase->coin_id)
+                                <td>@money2($dado->purchase->coin->profit_percentage) %</td>
+                            @else
+                                <td>@money2($dado->purchase->plan->coin->profit_percentage) %</td>
+                            @endif
                             <td>@money($dado->rendimento_atual)</td>
                             <td>{{ date('d-m-Y', strtotime($dado->dataConfirmacao)) }}</td>
                         </tr>

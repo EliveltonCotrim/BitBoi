@@ -31,11 +31,11 @@
         <label>Valor</label>
         <input type='text' name='value' value='{{ old('value') ?? $plan->value }}' class='form-control'>
     </div>
-    <div class='col-md-3'>
+    {{-- <div class='col-md-3'>
         <label>Percentual de Lucro(%)</label>
         <input type='text' name='percentual_rendimento'
             value='{{ old('percentual_rendimento') ?? $plan->percentual_rendimento }}' class='form-control moeda'>
-    </div>
+    </div> --}}
 
 </div>
 <div class="form-row">

@@ -127,7 +127,7 @@ class BoletosController extends Controller
                 $percentualRendimento = $boletoConfirmado->purchase->plan->coin->profit_percentage;
             }
 
-            $rendimentoPrevisto +=  (($boletoConfirmado->valor * $boletoConfirmado->purchase->percentual_rendimento) / 100) * $percentualRendimento;
+            $rendimentoPrevisto +=  (($boletoConfirmado->valor * $percentualRendimento) / 100) * $percentualRendimento;
             $valorTotalInvestido += $boletoConfirmado->valor;
             $qtd_coin += $boletoConfirmado->purchase->quantity_coin;
         }
