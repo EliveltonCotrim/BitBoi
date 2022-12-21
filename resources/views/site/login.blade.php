@@ -17,8 +17,8 @@
             <form method="POST" action="{{ url('login') }}">
                 @csrf
                 <div class="form-group mt-4">
-                    <label>User</label>
-                    <input type="text" autofocus name="user" required class="form-control" placeholder="Digite seu Usuário">
+                    <label>Login</label>
+                    <input type="text" autofocus name="login" required class="form-control" placeholder="Digite seu Usuário ou e-mail">
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
