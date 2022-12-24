@@ -70,12 +70,10 @@ class ClientController extends Controller
 
         $boletos = BoletosModel::where('user_id', $this->user_id)->where('status', 'confirmado')->get();
 
-
         $saldo_investimento = $balances->balances($this->user_id, 'investimento');
         $rendimento = $balances->balances($this->user_id, 'rendimento');
         $investiEncerrado = $balances->balances($this->user_id, 'investimento_encerrado');
         $disponivelPraSaque = $rendimento['saldo_disponivel'] + $investiEncerrado['saldo_disponivel'];
-        // dd($rendimento, $investiEncerrado,$disponivelPraSaque);
 
         $rendimentoatual = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
                         ->where('boletos.user_id', $this->user_id)
@@ -85,7 +83,6 @@ class ClientController extends Controller
         // $rendimentoatual = BalancesModel::where('coin', 'rendimento')
         // ->where('user_id', $this->user_id)
         // ->latest()->first();
-
 
         $lucroPrevisto = 0;
         foreach ($boletos as $key => $boleto) {
@@ -466,8 +463,8 @@ class ClientController extends Controller
 
     public function plan_select()
     {
-        $this->dados['pacotes'] = PlansModel::with('coin')->where('status', 'active')->get();
-        $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->get();
+        $this->dados['pacotes'] = PlansModel::with('coin')->where('status', 'active')->orderBy('name')->get();
+        $this->dados['coins'] = Coins::with('latestCotacao')->where('status', 'active')->orderBy('name')->get();
 
         return view('client.plan_select', $this->dados);
     }

@@ -177,9 +177,7 @@ class AdminController extends Controller
                 if ($timeInvestment > $totaLancado) {
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-
                         if ($boleto->purchase->coin_id) {
-
                             $percentualRendimento = $boleto->purchase->coin->profit_percentage;
                         } else {
                             $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
@@ -242,10 +240,7 @@ class AdminController extends Controller
                 if ($timeInvestment > $totaLancado) {
                     if (in_array($dateAtual, $dt_lancadas)) {
                     } else {
-
-
                         if ($boleto->purchase->coin_id) {
-
                             $percentualRendimento = $boleto->purchase->coin->profit_percentage;
                         } else {
                             $percentualRendimento = $boleto->purchase->plan->coin->profit_percentage;
@@ -517,14 +512,15 @@ class AdminController extends Controller
         $rendimentoTotal = 0;
         $qtd_coin = 0;
 
-        // $dt_atual = date('2023-02-13');
+        $dt_atual = date('2023-01-13');
 
-        // $day = date('d', strtotime('2023-01-12'));
+        $day = date('d', strtotime('2023-01-12'));
 
         $boletos = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $day)->get();
 
         foreach ($boletos as $key1 => $boleto) {
             $timeInvestment = Carbon::parse($boleto->dataConfirmacao)->DiffInMonths($dt_atual);
+
             $historicoPagamento = RendimentosPagos::where('rendimentos_pagos.boleto_id', $boleto->id)
                     ->get();
 
@@ -536,8 +532,7 @@ class AdminController extends Controller
             }
 
             if ($timeInvestment > $totaLancado) {
-                if (in_array($dt_atual, $dt_lancadas)) {
-                } else {
+                if (!in_array($dt_atual, $dt_lancadas)) {
                     if ($boleto->purchase->coin_id != null) {
                         $percentualRendimento = $boleto->purchase->coin->profit_percentage;
                     } else {

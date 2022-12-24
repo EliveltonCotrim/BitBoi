@@ -47,8 +47,13 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label>Percentual de Rendimento</label>
-                            <input type="text" name="p_rendimento" value="@money2($purchases->percentual_rendimento)%" class="form-control"
-                                readonly>
+                            @if ($purchases->coin_id)
+                                <input type="text" name="p_rendimento" value="@money2($purchases->coin->profit_percentage)%" class="form-control"
+                                    readonly>
+                            @else
+                                <input type="text" name="p_rendimento" value="@money2($purchases->plan->coin->profit_percentage)%" class="form-control"
+                                    readonly>
+                            @endif
                         </div>
                         <div class="form-group col-md-2">
                             <label>Tempo (mês)</label>

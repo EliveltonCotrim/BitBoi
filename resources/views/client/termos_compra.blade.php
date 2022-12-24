@@ -15,7 +15,7 @@
                                 @csrf
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <h3>Termos</h3>
+                                        {{-- <h3>Termos</h3> --}}
                                         {{-- <textarea name="termos" id="editor" cols="10" readonly>{{}}</textarea> --}}
                                         <p> {!! $param->termo_compra !!}</p>
                                     </div>
