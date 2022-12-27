@@ -61,7 +61,7 @@
                         <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-money'></i></i>
                         </div>
                         <h4 class="mb-0 font-weight-bold mt-3 text-white">@money($valorInvestido)</h4>
-                        <p class="mb-0 text-white">Saldo Investimento</p>
+                        <p class="mb-0 text-white">Saldo Investido</p>
                     </div>
                 </div>
                 <div class="card radius-15">
@@ -93,7 +93,7 @@
                                 @money(0000)
                             @endif
                         </h4>
-                        <p class="mb-0 text-white">Lucro em Valor Investido</p>
+                        <p class="mb-0 text-white">Lucratividade</p>
                     </div>
                 </div>
                 <div class="card radius-15">
