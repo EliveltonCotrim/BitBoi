@@ -60,6 +60,7 @@ class ClientController extends Controller
 
     public function index(BoletosModel $boletos, Balance $balances)
     {
+        $rpTotal = 0;
         $saldo_tokens = $boletos
             ->where('user_id', $this->user_id)
             ->where('status', 'confirmado')
@@ -75,10 +76,10 @@ class ClientController extends Controller
         $investiEncerrado = $balances->balances($this->user_id, 'investimento_encerrado');
         $disponivelPraSaque = $rendimento['saldo_disponivel'] + $investiEncerrado['saldo_disponivel'];
 
-        $rendimentoatual = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
-                        ->where('boletos.user_id', $this->user_id)
-                        ->where('boletos.status', 'confirmado')
-                        ->sum('rendimentos_pagos.valor');
+        // $rendimentoatual = RendimentosPagos::join('boletos', 'rendimentos_pagos.boleto_id', 'boletos.id')
+        //                 ->where('boletos.user_id', $this->user_id)
+        //                 ->where('boletos.status', 'confirmado')
+        //                 ->sum('rendimentos_pagos.valor');
 
         // $rendimentoatual = BalancesModel::where('coin', 'rendimento')
         // ->where('user_id', $this->user_id)
@@ -94,6 +95,14 @@ class ClientController extends Controller
 
             $lucroPrevisto +=  (($boleto->valor * $percentualRendimento) / 100) * $boleto->purchase->time_pri;
         }
+        
+        foreach ($compras as $key => $compra) {
+            if ($compra->coin_id) {
+                $rpTotal += $compra->coin->profit_percentage;
+            } else {
+                $rpTotal += $compra->plan->coin->profit_percentage;
+            }
+        }
 
         $coins = Coins::where('status', 'active')->get();
 
@@ -101,7 +110,8 @@ class ClientController extends Controller
         $this->dados['saldo_moedas'] = $compras->sum('quantity_coin');
         $this->dados['valorInvestido'] =  $saldo_investimento['saldo_disponivel'];
         $this->dados['lucroPrevisto'] = $lucroPrevisto;
-        $this->dados['rendimentoatual'] = $rendimentoatual;
+        $this->dados['rpTotal'] = $rpTotal;
+        // $this->dados['rendimentoatual'] = $rendimentoatual;
         $this->dados['saqueDisponivel'] = $disponivelPraSaque;
         $this->dados['cotacoes'] = $cotacoes;
         $this->dados['coins'] = $coins;
@@ -202,7 +212,7 @@ class ClientController extends Controller
     {
         $roles = [
             'pix' => ['required_unless:conta,null'],
-            'cpf' => ['required', new Cpf],
+            'cpf' => ['required', new Cpf()],
             'banco' => ['required_without_all:pix'],
             'agencia' => ['required_without_all:pix'],
             'conta' => ['required_without_all:pix'],
@@ -435,7 +445,6 @@ class ClientController extends Controller
         if ($nome == 'pix') {
             BoletosModel::find($deposit_id)->update(['meioPagamento' => 'PIX']);
             return redirect('client/asaas/pix/create/' . $deposit_id_crypt);
-
         } elseif ($nome == 'cartao') {
             BoletosModel::find($deposit_id)->update(['meioPagamento' => 'cartao_credito']);
             return redirect('client/asaas/cartao/pay/' . $deposit_id_crypt);

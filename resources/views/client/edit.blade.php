@@ -18,15 +18,16 @@
                     <div class="form-group col-md-6">
 
                         <label>Nome Completo</label>
-                        <input type="text" name="name" value="{{ $client->name ?? '' }}" class="form-control">
+                        <input type="text" name="name" value="{{ $client->name ?? old('name') }}" class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>RG</label>
-                        <input type="text" name="rg" value="{{ $client->client->rg ?? '' }}" class="form-control">
+                        <input type="text" name="rg" value="{{ $client->client->rg ?? old('rg') }}"
+                            class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>Telefone</label>
-                        <input type="text" name="phone" value="{{ $client->client->phone ?? '' }}"
+                        <input type="text" name="phone" value="{{ $client->client->phone ?? old('phone') }}"
                             class="form-control fone">
                     </div>
                 </div>
@@ -37,31 +38,33 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Estado</label>
-                        <input type="text" name="uf" value="{{ $client->client->uf ?? '' }}" class="form-control">
+                        <input type="text" name="uf" value="{{ $client->client->uf ?? old('uf') }}"
+                            class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>Cidade</label>
-                        <input type="text" name="city" value="{{ $client->client->city ?? '' }}"
+                        <input type="text" name="city" value="{{ $client->client->city ?? old('city') }}"
                             class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>Logradouro</label>
-                        <input type="text" name="logradouro" value="{{ $client->client->logradouro ?? '' }}"
-                            class="form-control">
+                        <input type="text" name="logradouro"
+                            value="{{ $client->client->logradouro ?? old('logradouro') }}" class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>Número</label>
-                        <input type="text" name="number" value="{{ $client->client->number ?? '' }}"
+                        <input type="text" name="number" value="{{ $client->client->number ?? old('number') }}"
                             class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>Bairro</label>
-                        <input type="text" name="bairro" value="{{ $client->client->bairro ?? '' }}"
+                        <input type="text" name="bairro" value="{{ $client->client->bairro ?? old('bairro') }}"
                             class="form-control">
                     </div>
                     <div class="form-group col-md-6">
                         <label>CEP</label>
-                        <input type="text" name="cep" id="cep" value="{{ $client->client->cep ?? '' }}" class="form-control">
+                        <input type="text" name="cep" id="cep" value="{{ $client->client->cep ?? old('cep') }}"
+                            class="form-control">
                     </div>
                 </div>
 
@@ -91,4 +94,3 @@
 
 
 @endsection
-

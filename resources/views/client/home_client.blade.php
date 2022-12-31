@@ -87,10 +87,10 @@
                         <div class="widgets-icons mx-auto rounded-circle"><i class='bx bx-line-chart'></i>
                         </div>
                         <h4 class="mb-0 font-weight-bold mt-3 text-white">
-                            @if (isset($rendimentoatual))
-                                @money($rendimentoatual)
+                            @if (isset($rpTotal))
+                                {{ $rpTotal }}%
                             @else
-                                @money(0000)
+                                {{ $rpTotal }}%
                             @endif
                         </h4>
                         <p class="mb-0 text-white">Lucratividade</p>
