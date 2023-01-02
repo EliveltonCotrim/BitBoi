@@ -12,7 +12,7 @@ class Coins extends Model
     protected $table = 'coins';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'description', 'profit_percentage', 'status', 'time_pri'];
+    protected $fillable = ['name', 'description', 'profit_percentage', 'status', 'time_pri', 'qtd_boi'];
     protected $date = ['created_at', 'updated_at'];
 
     public function cotacoes()

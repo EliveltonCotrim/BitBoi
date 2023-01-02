@@ -39,6 +39,7 @@ class BoletosController extends Controller
         $dateAtual = date('Y-m-d');
 
         $filters = $request->except('_token');
+
         if (!isset($filters['start'])) {
             $filters['start'] = date('Y-m-') . '01';
         }
@@ -59,16 +60,14 @@ class BoletosController extends Controller
                     $query->where('status', 'confirmado');
                 }
 
+
                 $query->whereDate('dataConfirmacao', '>=', $filters['start']);
                 $query->whereDate('dataConfirmacao', '<=', $filters['end']);
-            })
-            ->latest();
+            })->latest();
 
-        $boletosConfirmados = BoletosModel::where('status', 'confirmado')->get();
+        $boletosConfirmados = BoletosModel::where('status', 'confirmado')->paginate(8);
         // $dateAtual = date('2023-02-13');
-
         // $dia = date('d', strtotime('2023-01-12'));
-
 
         $boletosDia = BoletosModel::where('status', 'confirmado')->whereDay('dataConfirmacao', $dia)->get();
 
@@ -114,7 +113,6 @@ class BoletosController extends Controller
                         }
 
                         $pagadomentoDia += round(($boleto->valor * $percentualRendimento) / 100, 2);
-
                     }
                 }
             }
@@ -129,14 +127,14 @@ class BoletosController extends Controller
 
             $rendimentoPrevisto +=  (($boletoConfirmado->valor * $percentualRendimento) / 100) * $percentualRendimento;
             $valorTotalInvestido += $boletoConfirmado->valor;
-            $qtd_coin += $boletoConfirmado->purchase->quantity_coin;
+            $qtd_coin += $boletoConfirmado->purchase->quantity_boi;
         }
 
         $this->dados['filters'] = $filters;
         $this->dados['rendimentoPrevisto'] = $rendimentoPrevisto;
         $this->dados['pagamentoDia'] = $pagadomentoDia;
         $this->dados['valorTotalInvestido'] = $valorTotalInvestido;
-        $this->dados['boletos'] = $boletos->paginate(20);
+        $this->dados['boletos'] = $boletos->paginate(3);
         $this->dados['boletosConfirmados'] = $boletosConfirmados;
 
         return view('admin.boletos.boletos_list', $this->dados);

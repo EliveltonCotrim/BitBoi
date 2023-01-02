@@ -23,6 +23,7 @@ class Purchases extends Model
         'valor_recebido',
         'percentual_rendimento',
         'dt_purchase',
+        'quantity_boi',
         'status',
         'time_pri',
         'dt_encerramento'

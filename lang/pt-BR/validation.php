@@ -215,6 +215,8 @@ return [
         'coin' => 'moeda',
         'new' => 'nova senha',
         'again' => 'confirmação ',
+        'time_pri' => 'Tempo para retorno de investimento ',
+        'qtd_boi' => 'Qunatidade de Boi',
     ],
 
 ];

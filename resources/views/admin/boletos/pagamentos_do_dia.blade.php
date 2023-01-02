@@ -90,7 +90,7 @@
                             <td>@money2($dado->purchase->plan->coin->profit_percentage) %</td>
                         @endif
                         <td>@money($dado->rendimento_atual)</td>
-                        <td><?php echo $dado->purchase->quantity_coin; ?></td>
+                        <td><?php echo $dado->purchase->quantity_boi; ?></td>
                         <td>{{ $dado->purchase->time_pri }} {{ $dado->purchase->time_pri = 1 ? 'mês' : 'meses' }}</td>
 
                         <td><?php echo $dado->dataConfirmacao; ?></td>

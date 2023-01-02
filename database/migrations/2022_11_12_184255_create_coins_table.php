@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->double('profit_percentage');
             $table->integer('time_pri');
+            $table->integer('qtd_boi');
             $table->string('status');
             $table->timestamps();
         });

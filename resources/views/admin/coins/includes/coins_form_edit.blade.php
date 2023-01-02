@@ -26,7 +26,13 @@
 <div class='form-row'>
     <div class='col-md-3'>
         <label>Tempo para retorno de investimento</label>
-        <input type='number' name='time_pri' min="0"  value='{{ $coin->time_pri ?? old('time_pri') }}' class='form-control'>
+        <input type='number' name='time_pri' min="0" value='{{ $coin->time_pri ?? old('time_pri') }}'
+            class='form-control'>
+    </div>
+    <div class='col-md-2'>
+        <label>Qunatidade de Boi</label>
+        <input type='number' name='qtd_boi' min="0" value='{{ $coin->qtd_boi ?? old('qtd_boi') }}'
+            class='form-control'>
     </div>
 </div>
 <div class='form-row mt-3'>

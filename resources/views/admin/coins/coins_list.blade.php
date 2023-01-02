@@ -38,6 +38,7 @@
                         <th>Descrição</th>
                         <th>Percentual de Lucro(%)</th>
                         <th>Tempo PRI</th>
+                        <th>Qunatidade de Boi</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -50,6 +51,7 @@
                             <td>{{ $coin->description }}</td>
                             <td>{{ $coin->profit_percentage }}</td>
                             <td>{{ $coin->time_pri }}</td>
+                            <td>{{ $coin->qtd_boi }}</td>
                             <td>{{ $coin->status }}</td>
                             <td>
                                 <a href='{{ route('coin.edit', $coin->id) }}' class='btn btn-primary btn-sm'>

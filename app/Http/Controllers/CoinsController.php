@@ -51,9 +51,9 @@ class CoinsController extends Controller
             'profit_percentage' => Utils::moeda($request->profit_percentage),
             'status' => 'active',
             'time_pri' => $request->time_pri,
+            'qtd_boi' => $request->qtd_boi,
         ];
 
-        // dd($dataCoin);
         $coin = Coins::create($dataCoin);
 
         if ($coin) {
@@ -84,6 +84,7 @@ class CoinsController extends Controller
             'profit_percentage' => Utils::moeda($request->profit_percentage),
             'time_pri' => $request->time_pri,
             'status' => $request->status,
+            'qtd_boi' => $request->qtd_boi,
         ];
 
         $coin = Coins::where('id', $coins->id)->update($dataCoin);
@@ -108,5 +109,5 @@ class CoinsController extends Controller
         }
     }
 
-    
+
 }

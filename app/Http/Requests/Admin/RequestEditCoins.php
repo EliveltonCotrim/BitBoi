@@ -27,9 +27,10 @@ class RequestEditCoins extends FormRequest
     {
         return [
             'name' => ['required', 'max:255', Rule::unique('coins', 'name')->ignore($this->coins) ],
-            // 'nova_cotacao' => ['string'],
+            'nova_cotacao' => ['string', 'nullable'],
             'profit_percentage' => ['required'],
             'time_pri' => ['required'],
+            'qtd_boi' => ['required', 'numeric', 'min:1'],
 
         ];
     }

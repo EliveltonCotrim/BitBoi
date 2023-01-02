@@ -15,12 +15,22 @@
                     <div class="card-body text-center">
                         <h4 class="card-title mb-0">{{ $coin->name }}</h4>
                         <hr />
-                        <p class="mb-0">Valor</p>
-                        <p>R$ @money2($coin->latestCotacao->value)</p>
-                        <span class="card-title mb-0">RP</span>
-                        <p>{{ $coin->profit_percentage }}%</p>
-                        <span class="card-title">Tempo</span>
-                        <p class="mb-0">{{ $coin->time_pri }} (mês)</p>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Valor</p>
+                            <span class="mb-0">R$ @money2($coin->latestCotacao->value)</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">RP</p>
+                            <span class="mb-0">{{ $coin->profit_percentage }}%</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Tempo</p>
+                            <span class="mb-0">{{ $coin->time_pri }} (mês)</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Quantidade de Animais</p>
+                            <span class="mb-0">{{ $coin->qtd_boi }}</span>
+                        </div>
                         <hr />
                         <form action="{{ route('coin_select_store') }}" method="post">
                             @csrf
@@ -44,12 +54,22 @@
                     <div class="card-body text-center">
                         <h4 class="card-title mb-0">{{ $pacote->name }}</h4>
                         <hr />
-                        <p class="mb-0">Valor</p>
-                        <p>R$ @money2($pacote->value)</p>
-                        <span class="card-title mb-0">RP</span>
-                        <p class="mb-2"> {{ $pacote->coin->profit_percentage }}%</p>
-                        <span class="card-title mb-0">Tempo</span>
-                        <p class="mb-0">{{ $pacote->time_pri }} (mês)</p>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Valor</p>
+                            <span class="mb-0">R$ @money2($pacote->value)</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">RP</p>
+                            <span class="mb-0">{{ $pacote->coin->profit_percentage }}%</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Tempo</p>
+                            <span class="mb-0">{{ $pacote->time_pri }} (mês)</span>
+                        </div>
+                        <div class="col-12 m-2">
+                            <p class="card-title mb-0">Quantidade de Animais</p>
+                            <span class="mb-0">{{ $pacote->quantity }}</span>
+                        </div>
                         <hr />
                         <form action="" method="post">
                             @csrf

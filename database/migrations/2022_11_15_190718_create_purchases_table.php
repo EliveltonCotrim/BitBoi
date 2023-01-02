@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_user_id')->constrained('users');
             $table->integer('quantity_coin');
+            $table->integer('quantity_boi');
             $table->double('value_coin');
             $table->double('value_total');
             $table->double('valor_multa')->nullable();

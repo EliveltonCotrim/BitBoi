@@ -281,23 +281,22 @@ class AdminController extends Controller
             $timeInvestment = Carbon::parse($dt_confirmacao)->DiffInMonths($dt_atual);
             dd($timeInvestment);
             if ($timeInvestment >= $parametrizacao->investiment_cycle) {
-                $this->dados['boletos'][$key] = $boleto;
+                $this->data['boletos'][$key] = $boleto;
                 $valor_total  +=  $boleto->valor;
             }
         }
 
-        $this->dados['valor_total'] = $valor_total;
+        $this->data['valor_total'] = $valor_total;
 
-        return view('admin.boletos.lancar_investimentos', $this->dados);
+        return view('admin.boletos.lancar_investimentos', $this->data);
     }
 
     public function lancarInvestimentos(Request $request)
     {
-        $this->dados['filters'] = $request->all();
+        $this->data['filters'] = $request->all();
         $rendimentoTotal = 0;
         $hitoricoRendimento = Rendimentos::where('dt_lacamento', $request->dt_lancamento)
         ->count();
-
 
         if ($hitoricoRendimento > 0) {
             return redirect()->back()->with('alert', 'Já existe um lançamento para essa data!');
@@ -336,18 +335,18 @@ class AdminController extends Controller
                 $rendimentoTotal += round(($boleto->valor * $percentualRendimento) / 100, 2);
                 $rendimentoAtual = round(($boleto->valor * $percentualRendimento) / 100, 2);
 
-                $qtd_coin += $boleto->purchase->quantity_coin;
+                $qtd_coin += $boleto->purchase->quantity_boi;
                 $boleto['rendimento_atual'] = $rendimentoAtual;
                 $pays_day[$key1] = $boleto;
             }
         }
 
-        $this->dados['rendimentoTotal'] = $rendimentoTotal;
-        $this->dados['qtd_coin'] = $qtd_coin;
-        $this->dados['pays_day'] = $pays_day;
+        $this->data['rendimentoTotal'] = $rendimentoTotal;
+        $this->data['qtd_coin'] = $qtd_coin;
+        $this->data['pays_day'] = $pays_day;
 
 
-        return view('admin.boletos.lancar_pagamentos', $this->dados);
+        return view('admin.boletos.lancar_pagamentos', $this->data);
     }
 
     public function lancar(Request $request, Balance $balance)
@@ -542,19 +541,19 @@ class AdminController extends Controller
                     $rendimentoTotal += ($boleto->valor * $percentualRendimento) / 100;
                     $rendimentoBoleto = ($boleto->valor * $percentualRendimento) / 100;
 
-                    $qtd_coin += $boleto->purchase->quantity_coin;
+                    $qtd_coin += $boleto->purchase->quantity_boi;
                     $boleto['rendimento_atual'] = $rendimentoBoleto;
                     $pays_day[$key1] = $boleto;
                 }
             }
         }
 
-        $this->dados['rendimentoTotal'] = $rendimentoTotal;
-        $this->dados['qtd_coin'] = $qtd_coin;
-        $this->dados['dt_atual'] = $dt_atual;
-        $this->dados['pays_day'] = $pays_day;
+        $this->data['rendimentoTotal'] = $rendimentoTotal;
+        $this->data['qtd_coin'] = $qtd_coin;
+        $this->data['dt_atual'] = $dt_atual;
+        $this->data['pays_day'] = $pays_day;
 
-        return view('admin.boletos.pagamentos_do_dia', $this->dados);
+        return view('admin.boletos.pagamentos_do_dia', $this->data);
     }
 
     // public function termosIndex()
@@ -571,31 +570,31 @@ class AdminController extends Controller
 
     public function sacsPendentes(Request $request, SaquesModel $saques)
     {
-        $this->dados['filters'] = $request->except('_token');
+        $this->data['filters'] = $request->except('_token');
 
 
-        $this->dados['saques'] = $saques->whereHas('client', function ($query) use ($request) {
+        $this->data['saques'] = $saques->whereHas('client', function ($query) use ($request) {
             if ($request->name) {
                 $query->where('name', 'LIKE', "%{$request->name}%");
             }
         })->where('status', 'pendente')->paginate(10);
 
 
-        return view('admin.saques.saques_pendentes', $this->dados);
+        return view('admin.saques.saques_pendentes', $this->data);
     }
 
     public function sacsConfirmados(Request $request, SaquesModel $saques)
     {
-        $this->dados['filters'] = $request->except('_token');
+        $this->data['filters'] = $request->except('_token');
 
 
-        $this->dados['saques'] = $saques->whereHas('client', function ($query) use ($request) {
+        $this->data['saques'] = $saques->whereHas('client', function ($query) use ($request) {
             if ($request->name) {
                 $query->where('name', 'LIKE', "%{$request->name}%");
             }
         })->where('status', 'pago')->paginate(10);
 
-        return view('admin.saques.saques_confirmados', $this->dados);
+        return view('admin.saques.saques_confirmados', $this->data);
     }
 
     public function ajaxValueCoin(Request $request)
@@ -621,9 +620,9 @@ class AdminController extends Controller
 
     public function rendimentos(Request $request, RendimentosPagos $rendimentos)
     {
-        $this->dados['filters'] = $request->except('_token');
+        $this->data['filters'] = $request->except('_token');
 
-        $this->dados['rendimentos'] = $rendimentos->whereHas('boleto', function ($query) use ($request) {
+        $this->data['rendimentos'] = $rendimentos->whereHas('boleto', function ($query) use ($request) {
             if ($request->name) {
                 $query->whereHas('user', function ($query) use ($request) {
                     $query->where('name', 'LIKE', "%{$request->name}%");
@@ -637,6 +636,6 @@ class AdminController extends Controller
 
 
 
-        return view('admin.rendimentos.rendimentos_list', $this->dados);
+        return view('admin.rendimentos.rendimentos_list', $this->data);
     }
 }

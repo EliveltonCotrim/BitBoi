@@ -3,8 +3,8 @@
 
 @section('actions')
     <!-- <a href='<?php echo url('admin/boletos/create'); ?>' class='btn btn-primary'>
-                                            Cadastrar
-                                        </a> -->
+                                                        Cadastrar
+                                                    </a> -->
 @endsection
 
 @section('content')
@@ -65,7 +65,7 @@
                     <div class="card radius-15">
                         <div class="card-body">
                             <h6 class="card-title text-white">Total de Vendas</h6>
-                            <h6 class="card-subtitle mb-2 text-white"> {{ $boletos->total() }}</h6>
+                            <h6 class="card-subtitle mb-2 text-white"> {{ $boletosConfirmados->count() }}</h6>
                             {{-- <a href="#" class="card-link text-white">Another link</a> --}}
                         </div>
                     </div>
@@ -132,10 +132,9 @@
                     <?php } ?>
                 </tbody>
             </table>
-            {{ $boletos->appends($filters)->links() }}
-
-
+            <div class="rcol-md-12 mt-3">
+                {{ $boletos->appends($filters)->links() }}
+            </div>
         </div>
     </div>
-
 @endsection

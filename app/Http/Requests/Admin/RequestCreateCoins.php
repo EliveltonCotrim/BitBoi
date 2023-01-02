@@ -29,6 +29,7 @@ class RequestCreateCoins extends FormRequest
             'value' => ['required'],
             'profit_percentage' => ['required'],
             'time_pri' => ['required'],
+            'qtd_boi' => ['required', 'numeric', 'min:1'],
         ];
     }
 }

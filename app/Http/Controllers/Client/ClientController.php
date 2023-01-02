@@ -95,7 +95,7 @@ class ClientController extends Controller
 
             $lucroPrevisto +=  (($boleto->valor * $percentualRendimento) / 100) * $boleto->purchase->time_pri;
         }
-        
+
         foreach ($compras as $key => $compra) {
             if ($compra->coin_id) {
                 $rpTotal += $compra->coin->profit_percentage;
@@ -107,7 +107,7 @@ class ClientController extends Controller
         $coins = Coins::where('status', 'active')->get();
 
         $cotacoes = CotacaoMoeda::orderBy('created_at', 'ASC')->get();
-        $this->dados['saldo_moedas'] = $compras->sum('quantity_coin');
+        $this->dados['saldo_moedas'] = $compras->sum('quantity_boi');
         $this->dados['valorInvestido'] =  $saldo_investimento['saldo_disponivel'];
         $this->dados['lucroPrevisto'] = $lucroPrevisto;
         $this->dados['rpTotal'] = $rpTotal;
@@ -493,6 +493,7 @@ class ClientController extends Controller
             'client_user_id' => $this->user_id,
             'plan_id' => $pacote_id,
             'quantity_coin' => $plan->quantity,
+            'quantity_boi' => $plan->quantity,
             'value_coin' => $plan->coin->latestCotacao->value,
             'value_total' => $plan->value,
             // 'percentual_rendimento' => $plan->percentual_rendimento,
@@ -509,7 +510,7 @@ class ClientController extends Controller
                 'user_id' => $this->user_id,
                 'tipo' => 'pagamento',
                 'valor' => $plan->value,
-                'quantity' => $plan->quantity,
+                'quantity' => $storePurchese->quantity_boi,
                 'created_at' => Carbon::now(),
                 'status' => 'pendente',
             ];
@@ -524,7 +525,7 @@ class ClientController extends Controller
     {
         $roles = [
             'coin' => ['required'],
-            'quantity_coin' => ['required', 'min:1'],
+            'quantity_coin' => ['required', 'min:1', 'numeric'],
         ];
 
         $request->validate($roles);
@@ -533,11 +534,12 @@ class ClientController extends Controller
         $coin = Coins::find($coin_id);
 
         $value_total = $coin->latestCotacao->value * $request->quantity_coin;
-
+        $qtd_boi = $coin->qtd_boi * $request->quantity_coin;
         $dataPurchase = [
             'client_user_id' => $this->user_id,
             'coin_id' => $coin_id,
             'quantity_coin' => $request->quantity_coin,
+            'quantity_boi' => $qtd_boi,
             'value_coin' => $coin->latestCotacao->value,
             'value_total' => $value_total,
             // 'percentual_rendimento' => $coin->profit_percentage,
@@ -554,7 +556,7 @@ class ClientController extends Controller
                 'user_id' => $this->user_id,
                 'tipo' => 'pagamento',
                 'valor' => $storePurchese->value_total,
-                'quantity' => $storePurchese->quantity_coin,
+                'quantity' => $storePurchese->quantity_boi,
                 'created_at' => Carbon::now(),
                 'status' => 'pendente',
             ];
