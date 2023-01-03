@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdmController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\DocClientController;
 use App\Http\Controllers\Payments\AsaasController;

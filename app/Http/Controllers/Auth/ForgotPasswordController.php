@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\ClientesModel;
 use App\Models\ClientsModel;
+use App\Models\UsersModel;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 // use App\Models\User;
@@ -13,13 +14,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-class ForgotPasswordController extends Controller {
+class ForgotPasswordController extends Controller
+{
     /**
      * Write code on Method
      *
      * @return response()
      */
-    public function showForgetPasswordForm() {
+    public function showForgetPasswordForm()
+    {
         return view('auth.forgetPassword');
     }
 
@@ -28,9 +31,10 @@ class ForgotPasswordController extends Controller {
      *
      * @return response()
      */
-    public function submitForgetPasswordForm(Request $request) {
+    public function submitForgetPasswordForm(Request $request)
+    {
         $request->validate([
-            'email' => 'required|email|exists:clients',
+            'email' => 'required|email|exists:users',
         ]);
 
         $token = Str::random(64);
@@ -41,9 +45,9 @@ class ForgotPasswordController extends Controller {
             'created_at' => Carbon::now()
         ]);
 
-        // dd($request->email);
+        $user_name = UsersModel::where('email', $request->email)->first();
 
-        Mail::send('mails.forgetPassword', ['token' => $token], function ($message) use ($request) {
+        Mail::send('auth.emailForgetPassword', ['token' => $token, 'user_name' => $user_name], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject('Recuperar Senha');
         });
@@ -55,7 +59,8 @@ class ForgotPasswordController extends Controller {
      *
      * @return response()
      */
-    public function showResetPasswordForm($token) {
+    public function showResetPasswordForm($token)
+    {
         return view('auth.forgetPasswordLink', ['token' => $token]);
     }
 
@@ -64,17 +69,18 @@ class ForgotPasswordController extends Controller {
      *
      * @return response()
      */
-    public function submitResetPasswordForm(Request $request) {
+    public function submitResetPasswordForm(Request $request)
+    {
         $request->validate([
-            'email' => 'required|email|exists:clients',
+            'email' => 'required|email|exists:users',
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required'
         ]);
 
         $updatePassword = DB::table('password_resets')
-            ->where([
-                'email' => $request->email,
-                'token' => $request->token
+        ->where([
+            'email' => $request->email,
+            'token' => $request->token
             ])
             ->first();
 
@@ -82,7 +88,7 @@ class ForgotPasswordController extends Controller {
             return back()->withInput()->with('alert', 'Invalid token!');
         }
 
-        ClientsModel::where('email', $request->email)
+        UsersModel::where('email', $request->email)
             ->update(['password' => Hash::make($request->password)]);
 
         DB::table('password_resets')->where(['email' => $request->email])->delete();

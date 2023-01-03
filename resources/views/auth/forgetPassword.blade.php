@@ -1,57 +1,42 @@
 @extends('site.index_site')
 
 @section('content')
-<section class="form_bg">
-    <div class="container">
-        <div class="form_container">
-            <div class="form_header">
-                <a href="" class="registration_logo">
-                    @if(env('APP_NAME') == 'green')
-                    <img src="{{ asset('assets') }}/img/logo_green.png" alt="Spovest Logo" id="logo" style="width: 300px;">
-                    @else
-                    <img src="{{ asset('assets') }}/img/logo.png" alt="Spovest Logo" id="logo">
-                    @endif
-                </a>
-            </div>
+    <div class="row container p-0 no-gutters">
+        <div class="col-lg-6">
+            <div class="card-body p-md-5">
+                <div class="text-center">
+                    <img src="{{ asset('assets') }}/img/logo2.png" width="200" alt="">
+                </div>
+                <div class="login-separater text-center">
+                    @include('commons.alerts')
+                    <hr>
+                </div>
+                <p class="form_title text-center" style="color: white; font-size: 15px; margin-top: 40px;">
+                    Esqueceu sua senha? Sem problemas. Basta nos informar seu endereço de e-mail e enviaremos um e-mail
+                    com um link de redefinição de senha que permitirá que você escolha uma nova.
+                </p>
 
-            <h1 class="form_title text-center" style="color: black; font-size: 30px; margin-top: 40px;">
-                Recuperar Senha <br> Enviar Link para Resetar Senha
-            </h1>
-            <hr>
-            @if (Session::has('message'))
-            <div class="alert alert-success text-black" role="alert">
-                {{ Session::get('message') }}
-            </div>
-            @endif
-            <form action="{{ route('forget.password.post') }}" method="POST" class="mt-50">
-                @csrf
-                <div class="form-row mb-3">
-                    <div class="col-md-8">
-                        <label for="email_address" class="">E-Mail</label>
-                        <input type="text" id="email_address" class="form-control" name="email" required autofocus>
-                        @if ($errors->has('email'))
-                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                        @endif
+                <form method="POST" action="{{ route('forget.password.post') }}">
+                    @csrf
+                    <div class="form-group mt-4">
+                        <label>E-mail</label>
+                        <input type="email" autofocus name="email" required class="form-control"
+                            placeholder="Digite seu e-mail">
                     </div>
-                    <div class="col-md-4">
-                        <label for="&nbsp;"></label>
-                        <button type="submit" class="btn btn-primary form-control text-white" style="margin-top: 8px;">
-                            Enviar
+
+                    <div class="btn-group mt-3 w-100">
+                        <button type="submit" class="btn btn-light btn-block">Enviar</button>
+                        <button type="submit" class="btn btn-light"><i class="lni lni-arrow-right"></i>
                         </button>
                     </div>
-                </div>
-                <a href="{{ url('/') }}">Voltar</a>
-            </form>
-
+                    <div class="btn-group mt-3 w-100">
+                        <a href="{{ url('/') }}">Voltar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="{{ asset('assets') }}/img/login.png" class="card-img login-img h-100" alt="...">
         </div>
     </div>
-</section>
-
-<style>
-    .form_bg {
-        background-image: url('{{ asset("assets/img/fundo.png") }}') !important;
-    }
-</style>
-
-
 @endsection

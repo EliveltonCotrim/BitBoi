@@ -23,3 +23,9 @@
         {{ session('success') }}
     </div>
 @endif
+@if (Session::has('message'))
+    <div class="alert alert-success text-black" role="alert">
+        {{ Session::get('message') }}
+    </div>
+@endif
+
