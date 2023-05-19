@@ -211,11 +211,12 @@ class ClientController extends Controller
     public function banks_store(Request $request, SaquesModel $saquesModel)
     {
         $roles = [
-            'pix' => ['required_unless:conta,null'],
+            'pix' => ['required_without_all:conta,metamesk', 'max:255'],
+            'metamesk' => ['required_without_all:pix,conta', 'string', 'nullable', 'max:255'],
             'cpf' => ['required', new Cpf()],
-            'banco' => ['required_without_all:pix'],
-            'agencia' => ['required_without_all:pix'],
-            'conta' => ['required_without_all:pix'],
+            'banco' => ['required_without_all:pix,metamesk'],
+            'agencia' => ['required_without_all:pix,metamesk'],
+            'conta' => ['required_without_all:pix,metamesk'],
         ];
 
         $request->validate($roles);

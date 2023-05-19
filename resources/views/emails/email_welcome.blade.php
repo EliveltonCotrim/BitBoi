@@ -381,9 +381,10 @@
                                         <div>
                                             <p
                                                 style="margin: 0px; font-size: 25px; font-weight: 600; font-family: Arial, Helvetica, sans-serif;">
-                                                Olá, {{ $user_name->name }}</p>
-                                            <p style="font-size: 15px">Viemos te ajudar, para redefinir sua senha,
-                                                clique no endereço abaixo:</p>
+                                                Olá, {{ $user_name }}</p>
+                                            <h4>Seja bem vindo</h4>
+                                            <h5 style="font-size: 15px">Agora você pode!!!</h5>
+                                            <p>Seja um pecuarista sem ter um palmo de terra</p>
                                         </div>
 
                                     </td>
@@ -418,7 +419,7 @@
                                                         <td align="center" height="50" style="height:50px;">
                                                 <![endif]-->
 
-                                                    <a href="{{ route('reset.password.get', $token) }}"
+                                                    <a href="#"
                                                         target="_blank"
                                                         style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color: white;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>
                                                             redefinir senha</span></a>

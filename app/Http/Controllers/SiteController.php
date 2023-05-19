@@ -8,6 +8,7 @@ use App\Src\Plans\PlanClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SiteController extends Controller
 {
@@ -35,7 +36,6 @@ class SiteController extends Controller
         $user = $request->input('login');
 
         if (Auth::attempt(['user' => $user, 'password' => $password]) || Auth::attempt(['email' => $user, 'password' => $password])) {
-
             $user = UsersModel::where('user', $user)->orWhere('email', $user)->first();
 
             if ($user->type != 'client') {
@@ -93,6 +93,11 @@ class SiteController extends Controller
 
         $clients->create($insertClient);
 
+        Mail::send('emails.email_welcome', ['user_name' => $user->name], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Bitboi - Bem Vindo ao Sistema');
+        });
+
         return redirect('/')->with('alert', 'Cadastro Concluído com Sucesso');
     }
 
@@ -104,5 +109,11 @@ class SiteController extends Controller
     public function cliente_painel()
     {
         return view('site.cliente_painel');
+    }
+
+
+    public function welcome()
+    {
+        return view('emails.welcome_message');
     }
 }

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 Route::get('/', [SiteController::class, 'login']);
 
 Route::get('cadastro', [SiteController::class, 'cadastro']);
+Route::get('welcome', [SiteController::class, 'welcome']);
 
 Route::get('cadastrar', [SiteController::class, 'cadastrar']);
 Route::post('cadastrar', [SiteController::class, 'create_store']);

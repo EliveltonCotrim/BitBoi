@@ -50,7 +50,6 @@
                     </div>
                     <div class="btn-group mt-3 w-100">
                         <button type="submit" class="btn btn-light btn-block"> Alterar Senha</button>
-
                     </div>
 
                 </form>

@@ -132,18 +132,31 @@
 
                                                                 <div class='row'>
                                                                     <div class="col-md-6">
-                                                                        <h6 class="mb-0">Pix: {{ $bank['pix'] }}
-                                                                        </h6>
-                                                                        <h6 class="mb-0">Banco:
-                                                                            {{ $bank['banco'] }}</h6>
-                                                                        <h6 class="mb-0">Agência:
-                                                                            {{ $bank['agencia'] }}</h6>
+                                                                        <ul style="list-style: none" class="p-0">
+                                                                            <li class="mb-1"><strong>Pix:
+                                                                                </strong>{{ $bank['pix'] }}
+                                                                            </li>
+                                                                            <li class="mb-1"><strong>Carteira Metamesk:
+                                                                                </strong>{{ $bank['metamesk'] }}
+                                                                            </li>
+                                                                            <li><strong>CPF:
+                                                                                </strong>{{ $bank['cpf'] }}
+                                                                            </li>
+                                                                        </ul>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <h6 class="mb-0">Nº Conta:
-                                                                            {{ $bank['conta'] }}</h6>
-                                                                        <h6 class="mb-0">CPF: {{ $bank['cpf'] }}
-                                                                        </h6>
+                                                                        <ul style="list-style: none" class="p-0">
+                                                                            <li class="mb-1"><strong>Nº Conta:
+                                                                                </strong>{{ $bank['conta'] }}
+                                                                            </li>
+                                                                            <li class="mb-1"><strong>Banco:
+                                                                                </strong>{{ $bank['banco'] }}
+                                                                            </li>
+                                                                            <li><strong>Agência:
+                                                                                </strong>{{ $bank['agencia'] }}
+                                                                            </li>
+                                                                        </ul>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -164,27 +177,39 @@
                                     <div class="form-row">
                                         <div class="col-md-10">
                                             <label>PIX</label>
-                                            <input name="pix" type="text" value="" class="form-control">
+                                            <input name="pix" type="text" value="{{ old('pix') ?? '' }}"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-10">
+                                            <label>Carteira Metamesk</label>
+                                            <input name="metamesk" type="text" value="{{ old('metamesk') ?? '' }}"
+                                                placeholder="Chave Pública" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-md-5">
                                             <label>Banco</label>
-                                            <input name="banco" type="text" value="" class="form-control">
+                                            <input name="banco" type="text" value="{{ old('banco') ?? '' }}"
+                                                class="form-control">
                                         </div>
                                         <div class="col-md-5">
                                             <label>Agência</label>
-                                            <input name="agencia" type="text" value="" class="form-control">
+                                            <input name="agencia" type="text" value="{{ old('agencia') ?? '' }}"
+                                                class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-md-5">
                                             <label>Nº Conta</label>
-                                            <input name="conta" type="text" value="" class="form-control">
+                                            <input name="conta" type="text" value="{{ old('conta') ?? '' }}"
+                                                class="form-control">
                                         </div>
                                         <div class="col-md-5">
                                             <label>CPF Titular</label>
-                                            <input name="cpf" type="text" value="" class="form-control cpf">
+                                            <input name="cpf" type="text" value="{{ old('cpf') ?? '' }}"
+                                                class="form-control cpf">
                                         </div>
                                     </div>
 
@@ -212,8 +237,8 @@
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <label>Nome</label>
-                                            <input value="{{ $client->parent_nome }}" readonly name="parent_nome" required
-                                                type="text" value="" class="form-control">
+                                            <input value="{{ $client->parent_nome }}" readonly name="parent_nome"
+                                                required type="text" value="" class="form-control">
                                         </div>
                                         <div class="col-md-6">
                                             <label>CPF</label>
